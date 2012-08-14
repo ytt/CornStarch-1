@@ -28,7 +28,7 @@ void CChannelHolder::setChannels(const vector<CChannelData*>& channels)
 {
     m_isLoaded = true;
     // チャンネル一覧を空にする
-    deleteChannels();
+    //deleteChannels();
 
     size_t size = channels.size();
     for (size_t i = 0; i < size; i++){

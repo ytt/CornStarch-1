@@ -78,7 +78,7 @@ void CPaneCn::displayChannels(const map<int, CChatServiceBase*>& connections)
             }
             //　背景を色を返る。
             if ((*cit)->getUnreadCount() != 0){
-                this->SetItemBackgroundColour(channel, *wxLIGHT_GREY);
+                this->SetItemBackgroundColour(childId, *wxLIGHT_GREY);
             }
         }
 

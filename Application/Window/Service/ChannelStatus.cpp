@@ -58,7 +58,15 @@ void CChannelStatus::pushMessage(const CMessageData& message)
 
 // メンバーを追加する
 void CChannelStatus::pushMember(const CMemberData& member)
-{
+{ // チャンネルが存在しない
+    CMemberVec::iterator it = m_members->begin();
+    while (it != m_members->end()){
+        if((*it)->m_name == member.m_name)
+        {
+            return;
+        }
+        it++;
+    }
     m_members->push(member);
 }
 
@@ -66,9 +74,9 @@ void CChannelStatus::pushMember(const CMemberData& member)
 void CChannelStatus::setMessages(const vector<CMessageData*>& messages)
 {
     m_messages->setMessages(messages);
-    int size = m_messages->size() -1;
+    int size = m_messages->size() - 1;
     for (int i = 0; i < m_unreadCount; i++){
-        (*m_messages)[size - i ]->m_isReaded = false;
+        (*m_messages)[size - i]->m_isReaded = false;
     }
 }
 
