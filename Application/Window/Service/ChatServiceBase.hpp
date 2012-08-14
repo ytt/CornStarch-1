@@ -4,9 +4,11 @@
 #include "IUser.hpp"
 #include "IConnection.hpp"
 #include "../../DataStruct/SubscribeData.hpp"
+#include "ICommandInvoker.hpp"
 
 namespace CornStarch
-{;
+{
+;
 
 // 通信のModelコンテンツを扱うクラス
 class CChatServiceBase
@@ -19,14 +21,13 @@ public:
     };
     enum CONNECTION_STATE
     {
-        CONNECTED = 0,
-        CONNECTING = 1,
-        DISCONNECT = 2
+        CONNECTED = 0, CONNECTING = 1, DISCONNECT = 2
     };
 protected:
     // イベントハンドラ
     wxEvtHandler* m_handler;
-
+    // コマンドからの命令実行者
+    ICommandInvoker* m_commandInvoker;
     // StarChatのデータ部
     IConnection* m_connect; // 通信を司るクラス
     CChannelHolder* m_channel; // チャンネル情報を保持
@@ -64,22 +65,18 @@ public:
     // 接続されているかを取得
     bool IsConnected() const
     {
-        return  m_state == CChatServiceBase::CONNECTED;
+        return m_state == CChatServiceBase::CONNECTED;
     }
 
     // 雪族されているかを設定
     void setConnected(bool isConnected)
     {
-        if(isConnected)
-        {
-            m_state =CChatServiceBase::CONNECTED;
-        }
-        else
-        {
-        m_state =CChatServiceBase::DISCONNECT;
+        if (isConnected){
+            m_state = CChatServiceBase::CONNECTED;
+        } else{
+            m_state = CChatServiceBase::DISCONNECT;
         }
     }
-
 
     // 保存されていたチャンネルを設定します。
     void setSavedChannels(vector<wxString> savedChannels)
@@ -103,23 +100,27 @@ public:
     {
         return m_connect->getHost();
     }
-
+    // コマンドインヴォーカーの取得。
+    ICommandInvoker* getCommandInvoker() const
+    {
+        return m_commandInvoker;
+    }
     // ホストを設定
     void setHost(wxString value)
     {
         m_connect->setHost(value);
     }
     // ホストを取得
-      int getPort() const
-      {
-          return m_connect->getPort();
-      }
+    int getPort() const
+    {
+        return m_connect->getPort();
+    }
 
-      // ホストを設定
-      void setPort(int value)
-      {
-          m_connect->setPort(value);
-      }
+    // ホストを設定
+    void setPort(int value)
+    {
+        m_connect->setPort(value);
+    }
     // チャットの種類を取得
     CHAT_TYPE getChatType(void) const
     {
@@ -146,7 +147,8 @@ public:
     void registerUser(const wxString& userName, const wxString& pass);
 
     // ユーザ登録を行った際のデータ更新
-    void registerUserBasiscEncoded(const wxString& userName, const wxString& pass);
+    void registerUserBasiscEncoded(const wxString& userName,
+            const wxString& pass);
 
     // チャンネルに参加を行う際
     void joinChannel(const wxString& channel);
@@ -230,10 +232,11 @@ public:
     virtual void onAuthSucceeed(void);
 
     // メッセージ一覧を取得した場合
-    void onGetMessages(const wxString channleName,const std::vector<CMessageData*>& messages);
+    void onGetMessages(const wxString channleName,
+            const std::vector<CMessageData*>& messages);
 
     // メンバー一覧を取得した場合
-    void onGetMembers(const std::vector<CMemberData*>& members);
+    void onGetMembers(const wxString& channel, const std::vector<CMemberData*>& members);
 
     // チャンネル一覧を取得した場合
     void onGetChannels(const std::vector<CChannelData*>& channels);
@@ -261,6 +264,8 @@ public:
 
     // ユーザ情報更新ストリームの受信
     void onGetUserStream(const CMemberData& member);
-};
+}
+
+;
 
 }

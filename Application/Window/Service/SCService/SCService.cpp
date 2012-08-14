@@ -1,5 +1,5 @@
 ﻿#include "SCService.hpp"
-
+#include "../BasicCommandInvoker.hpp"
 namespace CornStarch
 {
 ;
@@ -11,6 +11,7 @@ CSCService::CSCService()
 {
     m_connect = new CSCConnection();
     m_user = new CSCUser();
+    m_commandInvoker = new CBasicCommandInvoker(this);
 }
 
 CSCService::~CSCService()

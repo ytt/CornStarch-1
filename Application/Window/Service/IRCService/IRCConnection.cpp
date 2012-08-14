@@ -85,9 +85,9 @@ void CIRCConnection::startGetMessageTask(const IUser* user,
 void CIRCConnection::startGetMemberTask(const IUser* user,
         const wxString& channel)
 {
-    if (channel != ""){
-        m_client->getNamesAsync(channel);
-    }
+//    if (channel != ""){
+//        m_client->getNamesAsync(channel);
+//    }
 }
 
 // ユーザの所属するチャンネル一覧を取得するタスク(別スレッド)を開始する
@@ -112,7 +112,7 @@ void CIRCConnection::startGetChannelTask(const IUser* user)
         startGetMessageTask(user, m_channels[i]->m_name);
     }
 }
-wxString CIRCConnection::getValidateChannelName(const wxString& channel)
+wxString CIRCConnection::getValidatedChannelName(const wxString& channel)
 {
     //先頭が#か&でなければ追加。
     wxString validateChannelName = channel;
@@ -135,7 +135,7 @@ void CIRCConnection::invokeEvent(CConnectionEventBase* event)
 // チャンネルから離脱するタスク(別スレッド)を開始する
 void CIRCConnection::startPartTask(const IUser* user, const wxString& channel)
 {
-    wxString validateChannelName = getValidateChannelName(channel);
+    wxString validateChannelName = getValidatedChannelName(channel);
     m_client->partAsync(validateChannelName);
 
     vector<CChannelData*>::iterator it = m_channels.begin();
@@ -158,10 +158,10 @@ void CIRCConnection::startPartTask(const IUser* user, const wxString& channel)
 // チャンネルに参加するタスク(別スレッド)を開始する
 void CIRCConnection::startJoinTask(const IUser* user, const wxString& channel)
 {
-    wxString validateChannelName = getValidateChannelName(channel);
+    wxString validateChannelName = getValidatedChannelName(channel);
     m_client->joinAsync(validateChannelName);
     m_client->getTopicAsync(validateChannelName);
-
+    m_client->getNamesAsync(validateChannelName);
     // イベントを通知
     CChannelData *channelData = new CChannelData();
     channelData->m_name = validateChannelName;
@@ -171,7 +171,7 @@ void CIRCConnection::startJoinTask(const IUser* user, const wxString& channel)
 
     CJoinEvent* event = new CJoinEvent();
     event->SetEventType(myEVT_THREAD_PUT_JOIN); // イベントの種類をセット
-    event->SetString(channel); // 新チャンネル名
+    event->SetString(validateChannelName); // 新チャンネル名
     invokeEvent(event);
 }
 

@@ -18,6 +18,7 @@ CChatServiceBase::~CChatServiceBase(void)
     delete m_channel;
     delete m_user;
     delete m_nickTable;
+    delete m_commandInvoker;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -266,9 +267,9 @@ void CChatServiceBase::onGetMessages(const wxString channleName, const vector<CM
 }
 
 // メンバー一覧を取得した場合
-void CChatServiceBase::onGetMembers(const vector<CMemberData*>& members)
+void CChatServiceBase::onGetMembers(const wxString& channel, const vector<CMemberData*>& members)
 {
-    m_channel->setMembers(m_user->getChannelString(), members);
+    m_channel->setMembers(channel, members);
     m_nickTable->addTableFromMembers(members);
 }
 

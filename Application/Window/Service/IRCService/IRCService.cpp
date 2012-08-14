@@ -1,4 +1,5 @@
 #include "IRCService.hpp"
+#include "../BasicCommandInvoker.hpp"
 
 namespace CornStarch
 {
@@ -10,6 +11,7 @@ CIRCService::CIRCService()
 {
     m_connect = new CIRCConnection();
     m_user = new CIRCUser();
+    m_commandInvoker = new CBasicCommandInvoker(this);
 }
 
 CIRCService::~CIRCService()

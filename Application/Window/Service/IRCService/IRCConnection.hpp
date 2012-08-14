@@ -27,7 +27,7 @@ class CIRCConnection: public IConnection
     // イベントファクトリー
     CIRCEventFactory m_eventFactory;
     // チャンネル名の検証
-    wxString getValidateChannelName(const wxString& channel);
+    wxString getValidatedChannelName(const wxString& channel);
     // IRCクライアント
 	CIRCClient *m_client;
 	// イベントハンドラ

@@ -278,36 +278,33 @@ void CMainWindow::onChangeTopic(wxCommandEvent& event)
 // 投稿ペインでEnterキーを押下
 void CMainWindow::onEnter(wxCommandEvent& event)
 {
-    CChatServiceBase* contents = getService(m_currentServiceId);
+    CChatServiceBase* service = getService(m_currentServiceId);
 
-    if (contents == NULL || contents->getCurrentChannel() == ""
-            || contents->IsConnected() == false){
-        return;
-    }
-
-    // 何も文がないとき
     wxString body = event.GetString();
-    if (body == ""){
+    if (service == NULL || body == ""){
         return;
     }
-
-    // 未ログインの時
-    if (!contents->isUserLogin()){
+    bool isCommand = service->getCommandInvoker()->invoke(body);
+    if (isCommand){
+        // 表示の更新
         m_view->clearPostPaneText();
+        return;
+    }
+    if (service->getCurrentChannel() == "" || service->IsConnected() == false){
         return;
     }
 
     // コンテンツの更新
-    CMessageData message = contents->generateMessage(body);
-    contents->postMessage(message);
-    m_logHolder->pushMessageLog(message, contents->getName(),
-            contents->getNickName());
+    CMessageData message = service->generateMessage(body);
+    service->postMessage(message);
+    m_logHolder->pushMessageLog(message, service->getName(),
+            service->getNickName());
 
     // 表示の更新
     m_view->clearPostPaneText();
     m_view->displayLogs(m_logHolder->getLogs());
 
-    m_view->addMessage(&message, contents->getNickTable());
+    m_view->addMessage(&message, service->getNickTable());
 }
 
 // メンバーがダブルクリック
@@ -346,7 +343,6 @@ void CMainWindow::onChannelSelected(CChannelSelectEvent& event)
     displayTitle(channel, service->getTopic(channel), event.getServerId());
     updateMessageView(m_currentServiceId, service->getCurrentChannel());
     updateMemberView(m_currentServiceId, service->getCurrentChannel());
-
 
 }
 
@@ -474,7 +470,7 @@ void CMainWindow::onGetMembers(CGetMemberEvent& event)
     CChatServiceBase* contents = getService(event.getConnectionId());
     if (contents != NULL){
         // メンバーの追加
-        contents->onGetMembers(event.getMembers());
+        contents->onGetMembers(event.getChannel(),event.getMembers());
         if (m_currentServiceId == event.getConnectionId()
                 && contents->getCurrentChannel() == event.getChannel()){
             // 表示の更新

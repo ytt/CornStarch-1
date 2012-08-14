@@ -27,7 +27,7 @@ wxThread::ExitCode CIRCSendTask::Entry(void)
         if (buffer != ""){
             m_client->sendCommand(buffer);
         }
-        wxUsleep(100);
+
     }
 
     // 成功時
