@@ -594,22 +594,23 @@ void CMainWindow::onMsgStream(CMsgStreamEvent& event)
     CChatServiceBase* service = getService(event.getConnectionId());
     CMessageData data = event.getMessage();
     data.m_serviceId = event.getConnectionId();
-
-    if (event.getConnectionId() == m_currentServiceId
-            && service->getCurrentChannel() == data.m_channel){
-        // メッセージを表示
-        data.m_isReaded = true;
-        m_view->addMessage(&data, service->getNickTable());
-    } else{
-        // 未読追加。
-        CChannelStatus* channelStatus = service->getChannel(data.m_channel);
-        channelStatus->addUnreadCount();
-        data.m_isReaded = false;
-        m_view->addUnreadMessage(&data);
-    }
     bool myPost = service->isPostedThisClient(data);
     service->onGetMessageStream(data);
     if (!myPost){
+        if (event.getConnectionId() == m_currentServiceId
+                && service->getCurrentChannel() == data.m_channel){
+            // メッセージを表示
+            data.m_isReaded = true;
+            m_view->addMessage(&data, service->getNickTable());
+
+        } else{
+            // 未読追加。
+            CChannelStatus* channelStatus = service->getChannel(data.m_channel);
+            channelStatus->addUnreadCount();
+            data.m_isReaded = false;
+            m_view->addUnreadMessage(&data);
+        }
+
         m_logHolder->pushMessageLog(data, service->getName(),
                 service->getMemberNick(data.m_username));
     }
