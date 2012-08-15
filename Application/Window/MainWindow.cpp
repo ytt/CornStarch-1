@@ -117,7 +117,7 @@ void CMainWindow::updateChannelView(int connectionId, const wxString& channel)
     displayTitle(channel, service->getTopic(channel), connectionId);
     m_view->displayChannels(m_services);
     if (connectionId == m_currentServiceId){
-       m_view->setSelectedChannel(connectionId, service->getCurrentChannel());
+        m_view->setSelectedChannel(connectionId, service->getCurrentChannel());
     }
 }
 
@@ -254,6 +254,59 @@ void CMainWindow::updateService(int serviceId)
         }
     }
 }
+
+// 次の未読チャンネルを選択。
+void CMainWindow::onMoveToUnread(wxCommandEvent& event)
+{
+    map<int, CChatServiceBase*>::iterator it = m_services.begin();
+    bool isFoundCurrentNode = false;
+    while (it != m_services.end()){
+        CChatServiceBase* service = (*it).second;
+        vector<CChannelStatus*> channels = service->getChannels();
+        vector<CChannelStatus*>::iterator channel = channels.begin();
+        while (channel != channels.end()){
+            if ((*channel)->getUnreadCount() != 0 && isFoundCurrentNode){
+                // 未読ノードを見つける
+                m_view->setSelectedChannel(service->getId(),
+                        (*channel)->getChannelName());
+                return;
+            }
+            // 現在選択しているノードにたどり着く。
+            if (service->getId() == m_currentServiceId
+                    && (*channel)->getChannelName()
+                            == service->getCurrentChannel()){
+                isFoundCurrentNode = true;
+            }
+            channel++;
+        }
+        it++;
+    }
+    // 以降で見つからない。先頭のを探す。
+    it = m_services.begin();
+    while (it != m_services.end()){
+        CChatServiceBase* service = (*it).second;
+
+        vector<CChannelStatus*> channels = service->getChannels();
+        vector<CChannelStatus*>::iterator channel = channels.begin();
+        while (channel != channels.end()){
+            if ((*channel)->getUnreadCount() != 0){
+                // 未読ノードを見つける
+                m_view->setSelectedChannel(service->getId(),
+                        (*channel)->getChannelName());
+                return;
+            }
+            // 現在選択しているノードにたどり着く。
+            if (service->getId() == m_currentServiceId
+                    && (*channel)->getChannelName()
+                            == service->getCurrentChannel()){
+                return;
+            }
+            channel++;
+        }
+        it++;
+    }
+}
+
 // サービスを切断する
 void CMainWindow::disconnect(int serviceId)
 {

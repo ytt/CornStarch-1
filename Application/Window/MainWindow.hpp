@@ -5,6 +5,7 @@
 #include "Service/IRCService/IRCService.hpp"
 #include "Serializer/ServiceSerializer.hpp"
 #include "Serializer/ServiceSerializerWin.hpp"
+#include "Service/ServiceHolder.hpp"
 
 namespace CornStarch
 {;
@@ -26,6 +27,8 @@ private:
 	map<int, CChatServiceBase*> m_services;
 	// 新規サービスを追加
 	void addNewService(CChatServiceBase* service);
+
+	CServiceHolder* m_serviceHolder;
 
     // サービスのシリアライズ
     CServiceSerializer* m_serialize;
@@ -85,9 +88,6 @@ private:
 	// IDからサービスを取得する
 	CChatServiceBase* getService(int serviceId);
 
-	//
-	 void selectNextUnreadChannel();
-
 private:
 	// メニュー系
 
@@ -115,6 +115,8 @@ private:
 	// トピック変更
 	void onChangeTopic(wxCommandEvent& event);
 
+    // トピック変更
+    void onMoveToUnread(wxCommandEvent& event);
 private:
 	// 画面系
 
