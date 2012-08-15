@@ -44,7 +44,7 @@ public:
     void setLogin(bool login);
 
     // 現在見ているチャンネルをセット
-    void setChannel(const wxString& channel);
+    void setChannelName(const wxString& channel);
 
     // ユーザ名をゲット
     wxString getUserName(void) const;
@@ -62,7 +62,7 @@ public:
     bool isLogin(void) const;
 
     // 現在見ているチャンネル名を取得する
-    wxString getChannelString(void) const;
+    wxString getChannelName(void) const;
 
     // メッセージ中にキーワードが含まれているか
     bool isCalled(const wxString& message) const;

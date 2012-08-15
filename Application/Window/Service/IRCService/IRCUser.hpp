@@ -55,7 +55,7 @@ public:
 	void setLogin(bool login);
 
 	// 現在見ているチャンネルをセット
-	void setChannel(const wxString& channelName);
+	void setChannelName(const wxString& channelName);
 
 	// ユーザ名をゲット
 	wxString getUserName(void) const;
@@ -76,7 +76,7 @@ public:
 	wxString getChannelwxString(void) const;
 
 	// 現在見ているチャンネル名を取得する
-	wxString getChannelString(void) const;
+	wxString getChannelName(void) const;
 
 	// 永続化されたユーザ情報を読み込む
 	void loadPersistentInfo(void);

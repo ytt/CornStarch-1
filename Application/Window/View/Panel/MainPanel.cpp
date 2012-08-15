@@ -130,9 +130,9 @@ void CMainPanel::clearPostPaneText(void)
 }
 
 // 選択済みチャンネルを決める
-void CMainPanel::setSelectedChannel(const wxString& channel)
+void CMainPanel::selectedChannel(int serviceId, const wxString& channel)
 {
-	//m_cnBox->setStringSelection(channel);
+    m_cnBox->selectChannel(serviceId,channel);
 }
 
 // 投稿ペインのIDを取得する

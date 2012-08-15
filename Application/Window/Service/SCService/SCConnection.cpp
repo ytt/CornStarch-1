@@ -146,7 +146,7 @@ void CSCConnection::startChangeTopicTask(const IUser* user,
     CSCTopicChangeTask* changeTopicTask = new CSCTopicChangeTask();
     changeTopicTask->init(this, user->getBasic());
     changeTopicTask->setTopic(topic);
-    changeTopicTask->setChannel(user->getChannelString());
+    changeTopicTask->setChannel(user->getChannelName());
     // 別スレッドでの開始
     startThread(changeTopicTask);
 }

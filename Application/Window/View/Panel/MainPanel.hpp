@@ -64,7 +64,7 @@ public:
     void clearPostPaneText(void);
 
     // 選択済みチャンネルを決める
-    void setSelectedChannel(const wxString& channel);
+    void selectedChannel(int serviceId, const wxString& channel);
 
     // 投稿ペインのIDを取得する
     wxWindowID getPostPaneID(void) const;

@@ -31,7 +31,7 @@ public:
     virtual void setLogin(bool login) = 0;
 
     // 現在見ているチャンネルをセット
-    virtual void setChannel(const wxString& channelName) = 0;
+    virtual void setChannelName(const wxString& channelName) = 0;
 
     // ユーザ名をゲット
     virtual wxString getUserName(void) const = 0;
@@ -49,7 +49,7 @@ public:
     virtual  bool isLogin(void) const = 0;
 
     // 現在見ているチャンネル名を取得する
-    virtual wxString getChannelString(void) const = 0;
+    virtual wxString getChannelName(void) const = 0;
 
     // メッセージ中にキーワードが含まれているか
     virtual bool isCalled(const wxString& message) const =0;

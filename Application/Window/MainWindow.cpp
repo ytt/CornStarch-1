@@ -116,7 +116,9 @@ void CMainWindow::updateChannelView(int connectionId, const wxString& channel)
     // チャンネルを表示
     displayTitle(channel, service->getTopic(channel), connectionId);
     m_view->displayChannels(m_services);
-    m_view->setSelectedChannel(service->getCurrentChannel());
+    if (connectionId == m_currentServiceId){
+       m_view->setSelectedChannel(connectionId, service->getCurrentChannel());
+    }
 }
 
 // タイトルバーにタイトルを表示する
@@ -472,7 +474,7 @@ void CMainWindow::onGetMembers(CGetMemberEvent& event)
     CChatServiceBase* contents = getService(event.getConnectionId());
     if (contents != NULL){
         // メンバーの追加
-        contents->onGetMembers(event.getChannel(),event.getMembers());
+        contents->onGetMembers(event.getChannel(), event.getMembers());
         if (m_currentServiceId == event.getConnectionId()
                 && contents->getCurrentChannel() == event.getChannel()){
             // 表示の更新

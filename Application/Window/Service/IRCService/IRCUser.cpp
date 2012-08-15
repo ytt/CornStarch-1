@@ -47,7 +47,7 @@ void CIRCUser::setLogin(bool login)
 }
 
 // 現在見ているチャンネルをセット
-void CIRCUser::setChannel(const wxString& channelName)
+void CIRCUser::setChannelName(const wxString& channelName)
 {
 	m_currentCn = channelName;
 }
@@ -89,7 +89,7 @@ wxString CIRCUser::getChannelwxString(void) const
 }
 
 // 現在見ているチャンネル名を取得する
-wxString CIRCUser::getChannelString(void) const
+wxString CIRCUser::getChannelName(void) const
 {
 	return m_currentCn;
 }

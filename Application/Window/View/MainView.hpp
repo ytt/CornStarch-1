@@ -39,7 +39,7 @@ public:
     wxWindowID getMemPaneID(void) const;
 
     // 指定したチャンネルを選択済み項目にする
-    void setSelectedChannel(const wxString& channelName);
+    void setSelectedChannel(int serviceId,const wxString& channelName);
 
     // 投稿ペインにフォーカスを与える。
     void setFocusPostPane(void);

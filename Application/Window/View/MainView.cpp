@@ -73,9 +73,9 @@ wxWindowID CMainView::getMemPaneID(void) const
 }
 
 // 指定したチャンネルを選択済み項目にする
-void CMainView::setSelectedChannel(const wxString& channelName)
+void CMainView::setSelectedChannel(int serviceId,const wxString& channelName)
 {
-    m_panel->setSelectedChannel(channelName);
+    m_panel->selectedChannel(serviceId,channelName);
 }
 
 // メッセージ一覧を表示する

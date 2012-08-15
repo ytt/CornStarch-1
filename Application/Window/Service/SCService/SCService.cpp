@@ -27,7 +27,7 @@ void CSCService::init(wxEvtHandler* handler)
 
     // スターチャットのユーザー
     m_user->init();
-    m_user->setChannel("");
+    m_user->setChannelName("");
 
     // チャットのタイプ
     m_type = CChatServiceBase::STAR_CHAT;

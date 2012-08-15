@@ -54,7 +54,7 @@ void CSCUser::setLogin(bool login)
 }
 
 // 現在見ているチャンネルをセット
-void CSCUser::setChannel(const wxString& channel)
+void CSCUser::setChannelName(const wxString& channel)
 {
     m_currentCn = channel;
 }
@@ -90,7 +90,7 @@ bool CSCUser::isLogin(void) const
 }
 
 // 現在見ているチャンネル名を取得する
-wxString CSCUser::getChannelString(void) const
+wxString CSCUser::getChannelName(void) const
 {
     return m_currentCn;
 }

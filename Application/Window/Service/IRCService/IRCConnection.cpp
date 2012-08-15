@@ -151,7 +151,7 @@ void CIRCConnection::startPartTask(const IUser* user, const wxString& channel)
     // イベントを通知
     CPartEvent* event = new CPartEvent();
     event->SetEventType(myEVT_THREAD_DELETE_PART); // イベントの種類をセット
-    event->SetString(channel);
+    event->SetString(validateChannelName);
     invokeEvent(event);
 }
 
@@ -232,7 +232,7 @@ void CIRCConnection::startNickChangeTask(const IUser* user,
 void CIRCConnection::startChangeTopicTask(const IUser* user,
         const wxString& topic)
 {
-    m_client->changeTopicAsync(user->getChannelString(), topic);
+    m_client->changeTopicAsync(user->getChannelName(), topic);
 }
 
 // メッセージ取得
