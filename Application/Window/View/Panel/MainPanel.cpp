@@ -132,7 +132,7 @@ void CMainPanel::clearPostPaneText(void)
 // 選択済みチャンネルを決める
 void CMainPanel::setSelectedChannel(const wxString& channel)
 {
-	m_cnBox->setStringSelection(channel);
+	//m_cnBox->setStringSelection(channel);
 }
 
 // 投稿ペインのIDを取得する
@@ -141,6 +141,11 @@ wxWindowID CMainPanel::getPostPaneID(void) const
 	return m_postPane->GetId();
 }
 
+// 投稿ペインにフォーカスを与える。
+void CMainPanel::setFocusPostPane(void)
+{
+    m_postPane->SetFocus();
+}
 // チャンネルペインのIDを取得する
 wxWindowID CMainPanel::getCnPaneID(void) const
 {

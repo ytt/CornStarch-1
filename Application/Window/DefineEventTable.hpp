@@ -81,7 +81,7 @@ wxDEFINE_EVENT(myEVT_THREAD_KICK, CKickEvent);
 BEGIN_EVENT_TABLE(CMainWindow, wxFrame)
 
     // メニューバー
-    EVT_MENU(CMenuPart::MENU_FILE_QUIT, CMainWindow::onQuit) // 終了
+    EVT_MENU(wxID_EXIT, CMainWindow::onQuit) // 終了
     EVT_MENU(CMenuPart::MENU_SERVER_ADD, CMainWindow::onServiceRegister) // サーバの登録
     EVT_MENU(CMenuPart::MENU_SERVER_DELETE, CMainWindow::onDeleteService) // サーバの削除
     EVT_MENU(CMenuPart::MENU_SERVER_NICK_CHANGE, CMainWindow::onNickChange) // ニックネーム変更

@@ -41,12 +41,17 @@ public:
     // 指定したチャンネルを選択済み項目にする
     void setSelectedChannel(const wxString& channelName);
 
+    // 投稿ペインにフォーカスを与える。
+    void setFocusPostPane(void);
+
     // メッセージ一覧を表示する
     void displayMessages(const std::vector<CMessageData*>& messages,
             const std::map<wxString, wxString>& nickTable);
+
     // メッセージ一覧を表示する
     void addMessage(const CMessageData* message,
             const std::map<wxString, wxString>& nickTable);
+
     // 読み込んでないメッセージを通知する。
     void addUnreadMessage(const CMessageData* message);
 

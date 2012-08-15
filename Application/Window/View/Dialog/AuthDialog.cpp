@@ -7,6 +7,12 @@ using namespace std;
 namespace CornStarch
 {
 ;
+BEGIN_EVENT_TABLE(CAuthDialog, wxEvtHandler) // Event宣言
+EVT_CHOICE(CHOICE_ID, CAuthDialog::onChoiceChanged)
+EVT_BUTTON( wxID_OK,CAuthDialog::onOKCancel)
+EVT_BUTTON( wxID_CANCEL,CAuthDialog::onClickCancel)
+EVT_CLOSE( CAuthDialog::onClose)
+END_EVENT_TABLE()
 
 CAuthDialog::CAuthDialog(void)
 {
@@ -51,7 +57,7 @@ void CAuthDialog::init(wxWindow* parent, const wxString& title)
 
     wxString m_choiceTypeChoices[] = { wxT("StarChat"), wxT("IRC") };
     int m_choiceTypeNChoices = sizeof(m_choiceTypeChoices) / sizeof(wxString);
-    m_choiceType = new wxChoice(this, wxID_ANY, wxDefaultPosition,
+    m_choiceType = new wxChoice(this, CHOICE_ID, wxDefaultPosition,
             wxDefaultSize, m_choiceTypeNChoices, m_choiceTypeChoices, 0);
     m_choiceType->SetSelection(0);
     bSizer12->Add(m_choiceType, 0, wxALIGN_CENTER, 5);
@@ -82,6 +88,8 @@ void CAuthDialog::init(wxWindow* parent, const wxString& title)
 
     m_spinCtrlPort = new wxSpinCtrl(this, wxID_ANY, wxEmptyString,
             wxDefaultPosition, wxSize(100, -1), wxSP_ARROW_KEYS, 0, 99999, 0);
+
+    m_spinCtrlPort->SetValue(80);
     bSizer14->Add(m_spinCtrlPort, 0, wxALIGN_CENTER_VERTICAL, 5);
 
     bSizer9->Add(bSizer14, 1, wxEXPAND, 5);
@@ -129,19 +137,43 @@ void CAuthDialog::init(wxWindow* parent, const wxString& title)
 
     bSizer9->Add(bSizer17, 1, wxEXPAND, 5);
 
-    this->SetSizer(bSizer9);
-    this->Layout();
-
-    this->Centre(wxBOTH);
-
     // タイトルバーで消した時の挙動
     SetEscapeId(wxID_CANCEL);
     // 基本ボタン
     wxSizer* buttonSizer = wxDialog::CreateButtonSizer(wxOK | wxCANCEL);
     bSizer9->Add(buttonSizer, 0, wxALIGN_RIGHT, 0);
 
+    this->SetSizer(bSizer9);
+    this->Layout();
+
+    this->Centre(wxBOTH);
 }
 
+// チョイスが変更されたときのイベントです。
+void CAuthDialog::onChoiceChanged(wxCommandEvent &event)
+{
+    if (getServiceTypeName() == "IRC"){
+        m_spinCtrlPort->SetValue(6667);
+    } else{
+        m_spinCtrlPort->SetValue(80);
+    }
+}
+
+// ダイアログが閉じられたときのイベントです。
+void CAuthDialog::onClose(wxCloseEvent& event)
+{
+    wxDialog::EndModal( wxID_CANCEL );
+}
+// Cancelボタンが押された時のイベントです。
+void CAuthDialog::onClickCancel(wxCommandEvent& event)
+{
+    wxDialog::EndModal(wxID_CANCEL);
+}
+// OKボタンが押された時のイベントです。
+void CAuthDialog::onOKCancel(wxCommandEvent& event)
+{
+    wxDialog::EndModal(wxID_OK);
+}
 // ユーザ名を取得する
 wxString CAuthDialog::getName(void) const
 {
@@ -202,6 +234,10 @@ CChatServiceBase* CAuthDialog::getNewService(void) const
 }
 bool CAuthDialog::validateRegisterDialogResult() const
 {
+    if (getName() == ""){
+        wxMessageBox("名前を入力してください");
+        return false;
+    }
     if (getHostName() == ""){
         wxMessageBox("ホスト名を入力してください");
         return false;

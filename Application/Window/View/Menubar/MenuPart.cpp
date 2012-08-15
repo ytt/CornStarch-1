@@ -32,12 +32,6 @@ void CMenuPart::append(int itemid, const wxString& text, const wxString& help, w
     this->Append(itemid, text, help, kind);
 }
 
-// メニュー項目をセパレータで区切る
-void CMenuPart::separate(void)
-{
-    this->AppendSeparator();
-}
-
 // タイトルをセットする
 void CMenuPart::setTitle(const wxString& title)
 {

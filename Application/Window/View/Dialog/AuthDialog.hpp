@@ -8,12 +8,33 @@
 #include "../../Service/ChatServiceBase.hpp"
 
 namespace CornStarch
-{;
+{
+;
 
 // ユーザ名登録用ダイアログ
-class CAuthDialog : public wxDialog
+class CAuthDialog: public wxDialog
 {
+
+DECLARE_EVENT_TABLE()
+    enum
+    {
+        CHOICE_ID = 500
+    };
+    // 入力された値を検証します。
     bool validateRegisterDialogResult() const;
+
+    // チョイスが変更されたときのイベントです。
+    void onChoiceChanged(wxCommandEvent &event);
+
+    // ダイアログが閉じられたときのイベントです。
+    void onClose(wxCloseEvent& event);
+
+    // Cancelボタンが押された時のイベントです。
+    void onClickCancel(wxCommandEvent& event);
+
+    // OKボタンが押された時のイベントです。
+    void onOKCancel(wxCommandEvent& event);
+
 protected:
 
     wxStaticText* m_staticText1;

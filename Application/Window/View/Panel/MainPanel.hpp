@@ -8,9 +8,10 @@
 #include <wx/sizer.h>
 
 namespace CornStarch
-{;
+{
+;
 
-class CMainPanel : public CSplitPanel
+class CMainPanel: public CSplitPanel
 {
 private:
 
@@ -29,19 +30,22 @@ public:
 
     // メッセージペインにメッセージを表示
     void displayMessages(const std::vector<CMessageData*>& messages,
-        const std::map<wxString, wxString>& nickTable);
+            const std::map<wxString, wxString>& nickTable);
     // メッセージペインにメッセージを表示
-     void addMessage(const CMessageData* message,
-         const std::map<wxString, wxString>& nickTable);
+    void addMessage(const CMessageData* message,
+            const std::map<wxString, wxString>& nickTable);
 
-     // 選択してないチャンネルにMessageが追加された時に呼ばれます。
-     void addUnreadMessage(const CMessageData* message);
+    // 選択してないチャンネルにMessageが追加された時に呼ばれます。
+    void addUnreadMessage(const CMessageData* message);
+
+    // 投稿ペインにフォーカスを与える。
+    void setFocusPostPane(void);
 
     // メンバーペインにメンバーを表示
     void displayMembers(const std::vector<CMemberData*>& members);
 
     // チャンネルペインにチャンネルを表示
-    void displayChannels(const std::map<int,CChatServiceBase*>& services);
+    void displayChannels(const std::map<int, CChatServiceBase*>& services);
 
     // ログ一覧ペインにログを表示
     void displayLogs(const std::vector<CChatLog*>& logs);
@@ -54,7 +58,6 @@ public:
 
     // チャンネルペインをクリアする
     void clearChannels(void);
-
 
 public:
     // 投稿ペインの文字列をクリアする
@@ -76,7 +79,6 @@ private:
 
     // 画面分割を行う
     void split(void);
-
 
 };
 

@@ -20,7 +20,7 @@ void CMenuFile::init(void)
 {
     setTitle(wxT("ファイル(&F)"));
     append(
-        MENU_FILE_QUIT,
+            wxID_EXIT,
         wxT("終了(&X)\tAlt-X"));
 }
 

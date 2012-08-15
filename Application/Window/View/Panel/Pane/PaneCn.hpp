@@ -27,7 +27,7 @@ public:
     void init(wxWindow* parent);
 
     // 選択済み項目を決める
-    void setStringSelection(const wxString& channel);
+    void selectChannel(int serviceId, const wxString& channel);
 
     // 所属チャンネル一覧を表示
     void displayChannels(const std::map<int, CChatServiceBase*>& services);
@@ -35,7 +35,7 @@ public:
     // 選択してないチャンネルにMessageが追加された時に呼ばれます。
     void addUnreadMessage(const CMessageData* message);
 private:
-    
+    wxTreeItemId findChannelNode(int serviceId, const wxString& channleName);
     // チャンネルが選択された際のイベント処理
     void onChannelSelected(wxTreeEvent& event);
 
@@ -44,7 +44,6 @@ private:
 
     // チャンネルを選択したというイベントを返す
     CChannelSelectEvent* newSelectEvent(const wxTreeItemId& id);
-
 
     // アクティベートされた
     void onActivated(wxTreeEvent& event);

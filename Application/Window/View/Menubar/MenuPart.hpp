@@ -14,6 +14,7 @@ public:
         MENU_SERVER_ADD,
         MENU_SERVER_DELETE,
         MENU_SERVER_NICK_CHANGE,
+        MENU_SERVER_MOVETO_UNREAD,
         MENU_UPDATE,
         MENU_CHANNEL_JOIN,
         MENU_CHANNEL_PART,
@@ -35,9 +36,6 @@ protected:
     // メニュー項目に要素を追加する
     void append(int itemid, const wxString& text = wxEmptyString,
         const wxString& help = wxEmptyString, wxItemKind kind = wxITEM_NORMAL);
-
-    // メニューバーにセパレータ
-    void separate(void);
 
     // タイトルをセットする
     void setTitle(const wxString& title);

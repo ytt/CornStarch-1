@@ -344,6 +344,8 @@ void CMainWindow::onChannelSelected(CChannelSelectEvent& event)
     updateMessageView(m_currentServiceId, service->getCurrentChannel());
     updateMemberView(m_currentServiceId, service->getCurrentChannel());
 
+    // 投稿ペインにフォーカス
+    m_view->setFocusPostPane();
 }
 
 // チャンネルペインを右クリック時

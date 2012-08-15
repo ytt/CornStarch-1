@@ -61,6 +61,11 @@ wxWindowID CMainView::getCnPaneID(void) const
     return m_panel->getCnPaneID();
 }
 
+// 投稿ペインにフォーカスを与える。
+void CMainView::setFocusPostPane(void)
+{
+    m_panel->setFocusPostPane();
+}
 // メンバーペインのIDを取得する
 wxWindowID CMainView::getMemPaneID(void) const
 {

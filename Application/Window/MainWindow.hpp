@@ -17,11 +17,14 @@ private:
 	// CornStarch全般
 	CMainView* m_view; // ビューの挙動を管理
 	CMainLogHolder* m_logHolder; // チャットのログを保持
+	// 最後に割り振った一意なサービスID
 	int m_uniqueServiceId;
+	// 現在選択しているさービスID
 	int m_currentServiceId;
 
 	// 通信要素
-	map<int, CChatServiceBase*> m_services; // スターチャットのコンテンツを管理
+	map<int, CChatServiceBase*> m_services;
+	// 新規サービスを追加
 	void addNewService(CChatServiceBase* service);
 
     // サービスのシリアライズ
@@ -81,6 +84,9 @@ private:
 	void disconnect(int serviceId);
 	// IDからサービスを取得する
 	CChatServiceBase* getService(int serviceId);
+
+	//
+	 void selectNextUnreadChannel();
 
 private:
 	// メニュー系
