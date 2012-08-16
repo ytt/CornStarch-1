@@ -452,8 +452,7 @@ void CMainWindow::onGetAuth(CAuthEvent& event)
         wxMessageBox("接続に失敗しました");
 
         // サービスの削除
-        m_serviceHolder->getServices().erase(event.getConnectionId());
-        delete service;
+        m_serviceHolder->deleteService(event.getConnectionId());
 
         // 表示の更新
         m_view->displayChannels(m_serviceHolder->getServices());
