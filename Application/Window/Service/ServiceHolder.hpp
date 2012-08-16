@@ -11,29 +11,23 @@ namespace CornStarch
 
 class CServiceHolder
 {
-    // 最後に割り振った一意なサービスID
     int m_uniqueServiceId;
-    // 現在選択しているさービスID
     int m_currentServiceId;
-    // 通信要素
     map<int, CChatServiceBase*> m_services;
 
 public:
     CServiceHolder();
     virtual ~CServiceHolder();
-
-    // チャンネルを削除する
     void deleteService(int serviceId);
-    // チャンネルを削除する
     void deleteChannel(int serviceId, wxString channel);
-    // 新規サービスを追加
-    void addNewService(CChatServiceBase* service);
-    // サービスを再読み込みする。
-    void updateService(int serviceId);
-    // サービスを切断する
-    void disconnect(int serviceId);
-    // IDからサービスを取得する
+    void addNewService(CChatServiceBase* service, wxEvtHandler* hander);
+
     CChatServiceBase* getService(int serviceId);
+
+    map<int, CChatServiceBase*> getServices() const
+    {
+        return m_services;
+    }
 
     int getCurrentServiceId() const
     {
@@ -54,6 +48,9 @@ public:
     {
         m_uniqueServiceId = uniqueServiceId;
     }
+
+    void load(wxEvtHandler* handler);
+    void save();
 };
 
 } /* namespace CornStarch */

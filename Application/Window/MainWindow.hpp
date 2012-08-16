@@ -18,23 +18,7 @@ private:
 
     CMainView* m_view; // ビューの挙動を管理
     CMainLogHolder* m_logHolder; // チャットのログを保持
-    // 最後に割り振った一意なサービスID
-    int m_uniqueServiceId;
-    // 現在選択しているさービスID
-    int m_currentServiceId;
 
-    // 通信要素
-    map<int, CChatServiceBase*> m_services;
-    // 新規サービスを追加
-    void addNewService(CChatServiceBase* service);
-    // サービスを再読み込みする。
-    void updateService(int serviceId);
-    // サービスを切断する
-    void disconnect(int serviceId);
-    // IDからサービスを取得する
-    CChatServiceBase* getService(int serviceId);
-    // チャンネルを削除する
-    void deleteChannel(int serviceId, wxString channel);
     // サービス一覧の保持
     CServiceHolder* m_serviceHolder;
 
@@ -83,7 +67,10 @@ private:
 
     // ニックネーム変更ダイアログを表示する。
     void showChangeNicknameDialog(int serviceId);
-
+    // サービスを再読み込みする。
+    void updateService(int serviceId);
+    // サービスを切断する
+    void disconnect(int serviceId);
 private:
     // メニュー系
 
