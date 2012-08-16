@@ -10,19 +10,20 @@ namespace CornStarch
 //////////////////////////////////////////////////////////////////////
 
 CMainWindow::CMainWindow(void) :
-        m_view(NULL), m_logHolder(NULL), m_serialize(NULL), m_uniqueServiceId(
-                0), m_currentServiceId(0)
+        m_view(NULL), m_logHolder(NULL), m_uniqueServiceId(0), m_currentServiceId(
+                0)
 {
 }
 
 CMainWindow::~CMainWindow(void)
 {
     // ファイルに保存
-    m_serialize->saveService(m_services);
+    CServiceSerializer serializer;
+    serializer.init();
+    serializer.saveService(m_services);
 
     delete m_view;
     delete m_logHolder;
-    delete m_serialize;
 
     map<int, CChatServiceBase*>::iterator it = m_services.begin();
     while (it != m_services.end()){
@@ -48,10 +49,9 @@ void CMainWindow::init(void)
     initHandle();
 
     // シリアライズされたサービスを読み込み
-    m_serialize = new CServiceSerializer();
-    m_serialize->init();
-    m_serialize->loadService(GetEventHandler(), m_services, m_uniqueServiceId);
-
+    CServiceSerializer serializer;
+    serializer.init();
+    serializer.loadService(GetEventHandler(), m_services, m_uniqueServiceId);
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -594,9 +594,8 @@ void CMainWindow::onMsgStream(CMsgStreamEvent& event)
     CChatServiceBase* service = getService(event.getConnectionId());
     CMessageData data = event.getMessage();
     data.m_serviceId = event.getConnectionId();
-    bool myPost = service->isPostedThisClient(data);
-    service->onGetMessageStream(data);
-    if (!myPost){
+    bool isMyPost = service->isPostedThisClient(data);
+    if (!isMyPost){
         if (event.getConnectionId() == m_currentServiceId
                 && service->getCurrentChannel() == data.m_channel){
             // メッセージを表示
@@ -614,10 +613,11 @@ void CMainWindow::onMsgStream(CMsgStreamEvent& event)
         m_logHolder->pushMessageLog(data, service->getName(),
                 service->getMemberNick(data.m_username));
     }
+    service->onGetMessageStream(data);
     // メッセージをログ一覧に表示
     m_view->displayLogs(m_logHolder->getLogs()); // ログペイン
     // 通知があったとき && 自分以外の人から
-    if (service->isUserCalled(data.m_body) && !myPost){
+    if (service->isUserCalled(data.m_body) && !isMyPost){
         m_view->messageNotify("通知", "呼ばれました");
     }
 }

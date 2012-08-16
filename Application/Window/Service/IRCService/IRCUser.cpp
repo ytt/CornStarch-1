@@ -25,6 +25,8 @@ void CIRCUser::setUserInfo(const wxString& username, const wxString& password)
 {
 	m_username = username;
 	m_password = password;
+
+	m_keywords.push_back(username);
 }
 
 // ニックネームをセット
@@ -32,12 +34,15 @@ void CIRCUser::setNickName(const wxString& nickName)
 {
     m_username = nickName;
 	m_nick = nickName;
+
+    m_keywords.push_back(nickName);
 }
 
 // キーワードをセット
 void CIRCUser::setKeywords(const std::vector<wxString> keywords)
 {
 	m_keywords = keywords;
+    m_keywords.push_back(m_username);
 }
 
 // ログイン状況をセット
