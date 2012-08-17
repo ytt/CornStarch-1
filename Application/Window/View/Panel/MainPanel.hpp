@@ -40,7 +40,10 @@ public:
 
     // 投稿ペインにフォーカスを与える。
     void setFocusPostPane(void);
-
+    // 投稿ペインに文字を設定する。
+    void setTextPostPane(const wxString& value);
+    // 投稿ペインに文字を取得する
+    wxString getTextPostPane() const;
     // メンバーペインにメンバーを表示
     void displayMembers(const std::vector<CMemberData*>& members);
 

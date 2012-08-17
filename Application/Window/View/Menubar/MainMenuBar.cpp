@@ -4,7 +4,7 @@ namespace CornStarch
 {;
 
 CMainMenuBar::CMainMenuBar(void)
-    : m_menuFile(NULL), m_menuServer(NULL), m_menuChannel(NULL), m_menuUpdate(NULL)
+    : m_menuFile(NULL), m_menuEdit(NULL), m_menuServer(NULL), m_menuChannel(NULL), m_menuUpdate(NULL)
 {
 }
 
@@ -23,7 +23,9 @@ void CMainMenuBar::init(void)
     // 【ファイル】
     m_menuFile = new CMenuFile();
     m_menuFile->init();
-
+    // 【ファイル】
+    m_menuEdit = new CMenuEdit();
+    m_menuEdit->init();
     // 【登録】
     m_menuServer = new CMenuServer();
     m_menuServer->init();
@@ -38,6 +40,7 @@ void CMainMenuBar::init(void)
 
     // メニューバーに項目を追加する
     Append(m_menuFile, m_menuFile->getTitle());
+    Append(m_menuEdit, m_menuEdit->getTitle());
     Append(m_menuServer, m_menuServer->getTitle());
     Append(m_menuChannel, m_menuChannel->getTitle());
     Append(m_menuUpdate, m_menuUpdate->getTitle());

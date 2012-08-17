@@ -77,6 +77,14 @@ private:
     // 終了
     void onQuit(wxCommandEvent& event);
 
+    // 検索
+    void onFind(wxCommandEvent& event);
+    // 全てを選択
+    void onSelectAll(wxCommandEvent& event);
+
+    // 入力補助
+    void onAutoComplete(wxCommandEvent& event);
+
     // 　サービス登録
     void onServiceRegister(wxCommandEvent& event);
 
@@ -106,8 +114,15 @@ private:
     // 投稿ペインでEnterキーを押下
     void onEnter(wxCommandEvent& event);
 
+    //　キーを押された時。
+    void onTextUpdated(wxCommandEvent& event);
+    //　キーを押された時。
+    //    void onFocus(wxFocusEvent& event);
+
+
+
     // メンバーがダブルクリック
-    void onMemberSelected(wxCommandEvent& event);
+    void onMemberDoubleClicked(wxCommandEvent& event);
 
     // チャンネル選択時
     void onChannelSelected(CChannelSelectEvent& event);

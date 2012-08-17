@@ -82,6 +82,10 @@ BEGIN_EVENT_TABLE(CMainWindow, wxFrame)
 
     // メニューバー
     EVT_MENU(wxID_EXIT, CMainWindow::onQuit) // 終了
+    EVT_MENU(CMenuPart::MENU_EDIT_AUTOCOMPLETE, CMainWindow::onAutoComplete) // 入力補助
+    EVT_MENU(CMenuPart::MENU_EDIT_SELECT_ALL, CMainWindow::onSelectAll) // 全てを選択
+    EVT_MENU(CMenuPart::MENU_EDIT_FIND, CMainWindow::onFind) // 検索
+
     EVT_MENU(CMenuPart::MENU_SERVER_ADD, CMainWindow::onServiceRegister) // サーバの登録
     EVT_MENU(CMenuPart::MENU_SERVER_DELETE, CMainWindow::onDeleteService) // サーバの削除
     EVT_MENU(CMenuPart::MENU_SERVER_NICK_CHANGE, CMainWindow::onNickChange) // ニックネーム変更

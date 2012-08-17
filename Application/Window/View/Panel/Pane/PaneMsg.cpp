@@ -44,6 +44,7 @@ void CPaneMsg::clearUnreadBackgroundColor()
 void CPaneMsg::addMessage(const CMessageData* message,
         const map<wxString, wxString>& nickTable)
 {
+    this->MoveEnd();
     int index = this->GetLastPosition();
 
     // 時刻

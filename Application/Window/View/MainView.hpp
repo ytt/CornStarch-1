@@ -111,6 +111,12 @@ public:
     // トピック名を取得
     wxString getTopic(void) const;
 
+    // 投稿ペインに文字を設定する。
+    void setTextPostPane(const wxString& value);
+
+    // 投稿ペインに文字を取得する
+    wxString getTextPostPane() const;
+
 public:
     // 通知に関するメソッド
 

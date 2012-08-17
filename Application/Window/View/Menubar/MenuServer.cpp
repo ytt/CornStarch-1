@@ -23,6 +23,7 @@ void CMenuServer::init(void)
 
     AppendSeparator();
     append(MENU_SERVER_MOVETO_UNREAD, wxT("未読チャンネルに移動\tCTRL+Space"));
+
 }
 
 }

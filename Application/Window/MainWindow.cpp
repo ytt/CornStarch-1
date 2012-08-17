@@ -1,6 +1,7 @@
 ﻿#include "DefineEventTable.hpp" // イベントテーブル
 #include "MainWindow.hpp"
 
+
 using namespace std;
 
 namespace CornStarch
@@ -51,11 +52,37 @@ void CMainWindow::initHandle(void)
     this->Connect(m_view->getPostPaneID(), wxEVT_COMMAND_TEXT_ENTER,
             wxCommandEventHandler(CMainWindow::onEnter));
 
+//    // エンターキー押下時
+    this->Connect(m_view->getPostPaneID(), wxEVT_COMMAND_TEXT_UPDATED,
+            wxCommandEventHandler(CMainWindow::onTextUpdated));
+
     // メンバーがダブルクリックされたとき
     this->Connect(m_view->getMemPaneID(), wxEVT_COMMAND_LISTBOX_DOUBLECLICKED,
-            wxCommandEventHandler(CMainWindow::onMemberSelected));
+            wxCommandEventHandler(CMainWindow::onMemberDoubleClicked));
+}
+// 検索
+void CMainWindow::onFind(wxCommandEvent& event)
+{
+
+}
+// 全てを選択
+void CMainWindow::onSelectAll(wxCommandEvent& event)
+{
+
 }
 
+// 入力補助
+void CMainWindow::onAutoComplete(wxCommandEvent& event)
+{
+    CChatServiceBase * service = m_serviceHolder->getService(
+            m_serviceHolder->getCurrentServiceId());
+    ICommandInvoker* invoker = service->getCommandInvoker();
+
+}
+
+void CMainWindow::onTextUpdated(wxCommandEvent& event)
+{
+}
 // Modelがあれば画面を更新する
 void CMainWindow::updateAllView(int connectionId, const wxString& channel)
 {
@@ -216,7 +243,8 @@ void CMainWindow::updateService(int serviceId)
 
         // 表示を更新
         if (serviceId == m_serviceHolder->getCurrentServiceId()){
-            updateAllView(m_serviceHolder->getCurrentServiceId(), service->getCurrentChannel());
+            updateAllView(m_serviceHolder->getCurrentServiceId(),
+                    service->getCurrentChannel());
         } else{
             m_view->displayChannels(m_serviceHolder->getServices());
         }
@@ -333,13 +361,16 @@ void CMainWindow::onEnter(wxCommandEvent& event)
 }
 
 // メンバーがダブルクリック
-void CMainWindow::onMemberSelected(wxCommandEvent& event)
+void CMainWindow::onMemberDoubleClicked(wxCommandEvent& event)
 {
     CChatServiceBase* contents = m_serviceHolder->getService(
             m_serviceHolder->getCurrentServiceId());
 
-    wxString name = contents->getMemberRealName(event.GetString());
-    wxMessageBox("名前：" + name, event.GetString() + "のユーザ情報");
+    wxString content = wxString::Format(wxT("%s%s%s "
+            ),m_view->getTextPostPane(), event.GetString(),":");
+    m_view->setTextPostPane(content);
+    //wxString name = contents->getMemberRealName(event.GetString());
+    //wxMessageBox("名前：" + name, event.GetString() + "のユーザ情報");
 }
 
 // チャンネル選択時
@@ -471,7 +502,8 @@ void CMainWindow::onGetAuth(CAuthEvent& event)
 // 切断情報の受信時
 void CMainWindow::onDisconnect(CDisconnectEvent& event)
 {
-    CChatServiceBase* service = m_serviceHolder->getService(event.getConnectionId());
+    CChatServiceBase* service = m_serviceHolder->getService(
+            event.getConnectionId());
     if (service != NULL){
         disconnect(event.getConnectionId());
         wxMessageBox(
@@ -742,7 +774,6 @@ void CMainWindow::deleteService(int serviceId)
 
         if (dialog.ShowModal() == wxID_OK){
             m_serviceHolder->deleteService(serviceId);
-
 
             // 画面表示の更新
             clearAllView();

@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <wx/wxprec.h>
 #include <wx/wx.h>
+#include "LinkableRichTextCtrl.hpp"
 
 namespace CornStarch
 {;
@@ -14,6 +15,7 @@ public:
 
     // 初期化を行う
     void init(wxWindow* parent);
+
 };
 
 }

@@ -198,7 +198,16 @@ wxString CMainView::getTopic(void) const
 {
     return m_dialog->getTopic();
 }
-
+// 投稿ペインに文字を設定する
+void CMainView::setTextPostPane(const wxString& value)
+{
+    m_panel->setTextPostPane(value);
+}
+//　投稿ペインに文字を追加する
+wxString CMainView::getTextPostPane() const
+{
+    return m_panel->getTextPostPane();
+}
 //////////////////////////////////////////////////////////////////////
 
 // メッセージを通知する

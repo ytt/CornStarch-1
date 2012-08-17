@@ -22,6 +22,10 @@ void CLinkableRichTextCtrl::onNavigate(wxTextUrlEvent& event)
     wxString url = event.GetString();
     wxString command = "open " + url;
     system(command.c_str());
+
+    // キャレットをリンクの場所から移動
+    this->MoveEnd();
+
 }
 void CLinkableRichTextCtrl::writeLinkableText(const wxString& content)
 {
@@ -61,7 +65,6 @@ void CLinkableRichTextCtrl::writeLinkableText(const wxString& content)
         // 残りの文字を表示
         WriteText(content.substr(endIndex));
     } else{
-
         WriteText(content);
     }
 }
