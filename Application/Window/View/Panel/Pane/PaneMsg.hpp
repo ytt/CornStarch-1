@@ -2,6 +2,7 @@
 #include "../../../../DataStruct/MessageData.hpp"
 #include "../../../../DataStruct/MemberData.hpp"
 #include <wx/wxprec.h>
+#include <wx/richtext/richtextctrl.h>
 #include <wx/wx.h>
 #include <vector>
 #include <map>
@@ -10,8 +11,9 @@ namespace CornStarch
 {;
 
 // メッセージ表示用ペイン
-class CPaneMsg : public wxTextCtrl
+class CPaneMsg : public wxRichTextCtrl
 {
+    static const int PANE_MSG_ID;
     static const wxColour COLOR_LIGHT_YELLOW;
 public:
     CPaneMsg(void);
@@ -23,10 +25,15 @@ public:
     // メッセージを再描画する
     void displayMessages(const std::vector<CMessageData*>& messages, 
         const std::map<wxString, wxString>& nickTable);
+
+    // コンテントをリンク加工して表示
+    void addContent(const wxString& content);
     // メッセージを追加する
     void addMessage(const CMessageData* message,
             const std::map<wxString, wxString>& nickTable);
     void clearUnreadBackgroundColor();
+
+    void onNavigate(wxTextUrlEvent& event);
 private:
 
     // ユーザ名に対応するニックネームを取得する

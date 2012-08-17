@@ -10,7 +10,7 @@ using namespace std;
 namespace CornStarch
 {
 ;
-
+const int CPaneMsg::PANE_MSG_ID = 10000;
 const wxColour CPaneMsg::COLOR_LIGHT_YELLOW = wxColour(255, 255, 180);
 CPaneMsg::CPaneMsg(void)
 {
@@ -26,13 +26,23 @@ CPaneMsg::~CPaneMsg(void)
 void CPaneMsg::init(wxWindow* parent)
 {
     // 画面の初期化
-    Create(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize,
+    Create(parent, CPaneMsg::PANE_MSG_ID, wxEmptyString, wxDefaultPosition,
+            wxDefaultSize,
             wxTE_MULTILINE | wxTE_READONLY | wxVSCROLL | wxTE_RICH2/*|wxTE_DONTWRAP*/);
 
     // フォント設定
     this->SetFont(wxFont(10, wxDEFAULT, wxNORMAL, wxNORMAL));
-}
 
+    // リンククリック時
+    this->Connect(CPaneMsg::PANE_MSG_ID, wxEVT_COMMAND_TEXT_URL,
+            wxTextUrlEventHandler(CPaneMsg::onNavigate));
+}
+void CPaneMsg::onNavigate(wxTextUrlEvent& event)
+{
+    wxString url = event.GetString();
+    wxString command = "open " + url;
+    system(command.c_str());
+}
 bool CPaneMsg::containsOver4ByteText(const wxString& content) const
 {
     string body = string(content.c_str());
@@ -49,8 +59,50 @@ bool CPaneMsg::containsOver4ByteText(const wxString& content) const
 void CPaneMsg::clearUnreadBackgroundColor()
 {
     int index = this->GetLastPosition();
-    this->SetStyle(0, index,
-            wxTextAttr(wxNullColour, *wxWHITE));
+    this->SetStyle(0, index, wxTextAttr(wxNullColour, *wxWHITE));
+}
+void CPaneMsg::addContent(const wxString& content)
+{
+    int urlIndex = content.find("http", 0);
+    if (urlIndex != wxString::npos){
+        // リンクが始まるまでの文字を表示
+        if (urlIndex != 0){
+            WriteText(content.substr(0, urlIndex));
+        }
+        int endIndex = 0;
+        while (urlIndex != wxString::npos){
+            endIndex = content.find(" ", urlIndex);
+
+            wxString url;
+            if (endIndex != wxString::npos){
+                url = content.substr(urlIndex, endIndex-urlIndex);
+            } else{
+                url = content.substr(urlIndex);
+            }
+            this->BeginUnderline();
+            this->BeginURL(url);
+            WriteText(url);
+            this->EndURL();
+            this->EndUnderline();
+
+            if (endIndex != wxString::npos){
+                urlIndex = content.find("http", endIndex);
+                // 次のリンクまでの文字を表示
+                if(urlIndex != wxString::npos)
+                {
+                    WriteText(content.substr(endIndex,urlIndex-endIndex));
+                }
+            } else{
+                // 継続文字がなければ終了。
+                return;
+            }
+        }
+        // 残りの文字を表示
+        WriteText(content.substr(endIndex));
+    } else{
+
+        WriteText(content);
+    }
 }
 void CPaneMsg::addMessage(const CMessageData* message,
         const map<wxString, wxString>& nickTable)
@@ -59,7 +111,7 @@ void CPaneMsg::addMessage(const CMessageData* message,
 
     // 時刻
     wxString date = message->getTime("%H:%M");
-    this->AppendText(date);
+    this->WriteText(date);
     this->SetStyle(index, index + date.length(), wxTextAttr(*wxRED));
 
     // 名前
@@ -69,7 +121,7 @@ void CPaneMsg::addMessage(const CMessageData* message,
     if (message->m_tempNick != ""){
         nick += " (" + message->m_tempNick + ") ";
     }
-    this->AppendText(nick);
+    this->WriteText(nick);
     this->SetStyle(nickIndex, nickIndex + nick.size(), wxTextAttr(*wxBLUE));
 
     //本文
@@ -78,21 +130,24 @@ void CPaneMsg::addMessage(const CMessageData* message,
 
     // 4byte文字を非表示にする。
     if (containsOver4ByteText(body) == false){
-        this->AppendText(body);
+        addContent(body);
         this->SetStyle(bodyIndex, bodyIndex + body.Length(),
                 wxTextAttr(*wxBLACK));
+
         // 未読の背景色設定
         if (message->m_isReaded == false){
             this->SetStyle(index, bodyIndex + body.Length(),
                     wxTextAttr(wxNullColour, COLOR_LIGHT_YELLOW));
         }
     }
-    this->AppendText(" \n");
+    this->Newline();
+    this->ShowPosition(this->GetLastPosition());
 }
 // メッセージを表示する
 void CPaneMsg::displayMessages(const vector<CMessageData*>& messages,
         const map<wxString, wxString>& nickTable)
 {
+    this->Freeze();
     this->Clear();
     int size = (int) messages.size();
     for (int i = 0; i < size; i++){
@@ -102,6 +157,8 @@ void CPaneMsg::displayMessages(const vector<CMessageData*>& messages,
                     messages[i + 1]->getTime("%Y/%m/%d(%a)"));
         }
     }
+    this->Thaw();
+    this->ShowPosition(this->GetLastPosition());
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -126,7 +183,10 @@ void CPaneMsg::drawDateLine(const wxString& now, const wxString& next)
         return;
     }
 
-    AppendText("\n------" + next + "--------\n\n");
+    this->Newline();
+    AppendText("------" + next + "--------");
+    this->Newline();
+    this->Newline();
 }
 
 }
