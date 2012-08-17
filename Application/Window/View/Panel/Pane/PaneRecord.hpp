@@ -6,6 +6,7 @@
 #include "../../../LogHolder/TopicLog.hpp"
 #include "../../../LogHolder/InviteLog.hpp"
 #include "../../../LogHolder/KickLog.hpp"
+#include "LinkableRichTextCtrl.hpp"
 #include <wx/wxprec.h>
 #include <wx/wx.h>
 #include <vector>
@@ -14,7 +15,7 @@ namespace CornStarch
 {;
 
 // メッセージ一覧表示用ペイン
-class CPaneRecord : public wxTextCtrl
+class CPaneRecord : public CLinkableRichTextCtrl
 {
 public:
     static const int MAX_LENGTH = 200000; // 最大文字数

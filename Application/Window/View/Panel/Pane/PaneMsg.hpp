@@ -6,12 +6,13 @@
 #include <wx/wx.h>
 #include <vector>
 #include <map>
+#include "LinkableRichTextCtrl.hpp"
 
 namespace CornStarch
 {;
 
 // メッセージ表示用ペイン
-class CPaneMsg : public wxRichTextCtrl
+class CPaneMsg : public CLinkableRichTextCtrl
 {
     static const int PANE_MSG_ID;
     static const wxColour COLOR_LIGHT_YELLOW;
@@ -26,14 +27,10 @@ public:
     void displayMessages(const std::vector<CMessageData*>& messages, 
         const std::map<wxString, wxString>& nickTable);
 
-    // コンテントをリンク加工して表示
-    void addContent(const wxString& content);
     // メッセージを追加する
     void addMessage(const CMessageData* message,
             const std::map<wxString, wxString>& nickTable);
     void clearUnreadBackgroundColor();
-
-    void onNavigate(wxTextUrlEvent& event);
 private:
 
     // ユーザ名に対応するニックネームを取得する
