@@ -1,7 +1,7 @@
 ﻿#include "IRCParser.hpp"
 #include "IRCMessageData.hpp"
 #include "IRCCommand.hpp"
-#include "StringUtility.hpp"
+#include "../StringUtility.hpp"
 namespace CornStarch
 {
 ;

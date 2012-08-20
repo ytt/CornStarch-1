@@ -1,5 +1,4 @@
 ﻿
-
 #ifndef _StringUtility_h
 #define _StringUtility_h
 #include "string"
@@ -13,6 +12,7 @@ namespace CornStarch {
     {
     public:
         static vector<wxString> split(wxString str, wxString delim);
+        static int findAny(wxString str, vector<wxString>& delim,int startIndex =0);
     };
 }
 

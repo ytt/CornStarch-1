@@ -1,7 +1,7 @@
 ﻿#include "IRCReceiveTask.hpp"
 #include "../IRCParser.hpp"
 #include "../IRCCommand.hpp"
-#include  "../StringUtility.hpp"
+#include  "../../StringUtility.hpp"
 #include "../../ConnectionStatusChecker.h"
 
 namespace CornStarch

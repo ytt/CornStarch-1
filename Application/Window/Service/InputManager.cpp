@@ -1,4 +1,5 @@
 #include "InputManager.hpp"
+#include "StringUtility.hpp"
 using namespace std;
 namespace CornStarch
 {
@@ -16,7 +17,10 @@ CInputManager::~CInputManager()
 wxString CInputManager::getAutoCompletionText(const wxString& content,
         const CChatServiceBase* service)
 {
-    if (content.find("/") != 0 && content.find(" ") != wxString::npos){
+    vector<wxString> delimiter;
+    delimiter.push_back(" ");
+    delimiter.push_back("　");
+    if (content.find("/") != 0 && CStringUtility::findAny(content,delimiter) != wxString::npos){
         // コマンドでない＆＆スペースを含む場合は、スペース以降で入力補助
         int index = content.rfind(" ");
         wxString preText = content.substr(0,index);

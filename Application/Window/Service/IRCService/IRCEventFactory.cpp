@@ -16,7 +16,7 @@
 #include "../Event/ConnectionEventBase.hpp"
 #include "IRCCommand.hpp"
 #include <vector>
-#include "StringUtility.hpp"
+#include "../StringUtility.hpp"
 
 namespace CornStarch
 {

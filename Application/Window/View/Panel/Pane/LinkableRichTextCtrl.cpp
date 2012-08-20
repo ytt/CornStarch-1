@@ -1,4 +1,7 @@
 #include "LinkableRichTextCtrl.hpp"
+#include <vector>
+#include "../../../Service/StringUtility.hpp"
+using namespace std;
 
 namespace CornStarch
 {
@@ -29,7 +32,16 @@ void CLinkableRichTextCtrl::onNavigate(wxTextUrlEvent& event)
 }
 void CLinkableRichTextCtrl::writeLinkableText(const wxString& content)
 {
-    int urlIndex = content.find("http", 0);
+    vector<wxString> delimiter;
+    delimiter.push_back("http");
+    delimiter.push_back("//");
+
+
+    vector<wxString> delimiterSpace;
+    delimiterSpace.push_back(" ");
+    delimiterSpace.push_back("　");
+
+    int urlIndex = CStringUtility::findAny(content,delimiter);// content.find("http", 0);
     if (urlIndex != wxString::npos){
         // リンクが始まるまでの文字を表示
         if (urlIndex != 0){
@@ -37,7 +49,7 @@ void CLinkableRichTextCtrl::writeLinkableText(const wxString& content)
         }
         int endIndex = 0;
         while (urlIndex != wxString::npos){
-            endIndex = content.find(" ", urlIndex);
+            endIndex = CStringUtility::findAny(content,delimiterSpace,urlIndex);//content.find(" ", urlIndex);
 
             wxString url;
             if (endIndex != wxString::npos){
@@ -45,6 +57,12 @@ void CLinkableRichTextCtrl::writeLinkableText(const wxString& content)
             } else{
                 url = content.substr(urlIndex);
             }
+#ifndef _WIN32
+            if(url.find("//")==0)
+            {
+                url = "smb:"+ url;
+            }
+#endif
             this->BeginUnderline();
             this->BeginURL(url);
             WriteText(url);
@@ -52,7 +70,7 @@ void CLinkableRichTextCtrl::writeLinkableText(const wxString& content)
             this->EndUnderline();
 
             if (endIndex != wxString::npos){
-                urlIndex = content.find("http", endIndex);
+                urlIndex = CStringUtility::findAny(content,delimiter,endIndex);//content.find("http", endIndex);
                 // 次のリンクまでの文字を表示
                 if (urlIndex != wxString::npos){
                     WriteText(content.substr(endIndex, urlIndex - endIndex));
