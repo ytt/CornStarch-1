@@ -1,7 +1,6 @@
 ﻿#include "DefineEventTable.hpp" // イベントテーブル
 #include "MainWindow.hpp"
 
-
 using namespace std;
 
 namespace CornStarch
@@ -19,6 +18,7 @@ CMainWindow::~CMainWindow(void)
 {
     m_serviceHolder->save();
 
+    delete m_inputManager;
     delete m_view;
     delete m_logHolder;
     delete m_serviceHolder;
@@ -36,7 +36,7 @@ void CMainWindow::init(void)
 
     // ログ保持部の初期化
     m_logHolder = new CMainLogHolder();
-
+    m_inputManager = new CInputManager();
     m_serviceHolder = new CServiceHolder();
     m_serviceHolder->load(GetEventHandler());
     // イベントハンドラの初期化
@@ -52,7 +52,7 @@ void CMainWindow::initHandle(void)
     this->Connect(m_view->getPostPaneID(), wxEVT_COMMAND_TEXT_ENTER,
             wxCommandEventHandler(CMainWindow::onEnter));
 
-//    // エンターキー押下時
+//    // テキスト入力時
     this->Connect(m_view->getPostPaneID(), wxEVT_COMMAND_TEXT_UPDATED,
             wxCommandEventHandler(CMainWindow::onTextUpdated));
 
@@ -76,10 +76,15 @@ void CMainWindow::onAutoComplete(wxCommandEvent& event)
 {
     CChatServiceBase * service = m_serviceHolder->getService(
             m_serviceHolder->getCurrentServiceId());
-    ICommandInvoker* invoker = service->getCommandInvoker();
-
+    m_view->setTextPostPane(
+            m_inputManager->getNextInputCandidate(m_view->getTextPostPane(),
+                    service));
 }
-
+void CMainWindow::onSendHistory(wxCommandEvent& event)
+{
+    m_view->setTextPostPane(
+            m_inputManager->getHistory(m_view->getTextPostPane()));
+}
 void CMainWindow::onTextUpdated(wxCommandEvent& event)
 {
 }
@@ -347,6 +352,7 @@ void CMainWindow::onEnter(wxCommandEvent& event)
         return;
     }
 
+    m_inputManager->addHistory(body);
     // コンテンツの更新
     CMessageData message = service->generateMessage(body);
     service->postMessage(message);
@@ -366,8 +372,8 @@ void CMainWindow::onMemberDoubleClicked(wxCommandEvent& event)
     CChatServiceBase* contents = m_serviceHolder->getService(
             m_serviceHolder->getCurrentServiceId());
 
-    wxString content = wxString::Format(wxT("%s%s%s "
-            ),m_view->getTextPostPane(), event.GetString(),":");
+    wxString content = wxString::Format(wxT("%s %s%s "
+    ), m_view->getTextPostPane(), event.GetString(), ":");
     m_view->setTextPostPane(content);
     //wxString name = contents->getMemberRealName(event.GetString());
     //wxMessageBox("名前：" + name, event.GetString() + "のユーザ情報");

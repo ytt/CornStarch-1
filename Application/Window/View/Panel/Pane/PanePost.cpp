@@ -19,7 +19,7 @@ void CPanePost::init(wxWindow* parent)
 {
     // テキスト領域の作成
     Create(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize,
-            wxTE_PROCESS_ENTER|wxWANTS_CHARS);
+            wxTE_MULTILINE |wxTE_PROCESS_ENTER| wxTE_PROCESS_TAB);
 }
 
 }

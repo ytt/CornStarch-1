@@ -6,6 +6,7 @@
 #include "Serializer/ServiceSerializer.hpp"
 #include "Serializer/ServiceSerializerWin.hpp"
 #include "Service/ServiceHolder.hpp"
+#include "Service/InputManager.hpp"
 
 namespace CornStarch
 {
@@ -18,7 +19,7 @@ private:
 
     CMainView* m_view; // ビューの挙動を管理
     CMainLogHolder* m_logHolder; // チャットのログを保持
-
+    CInputManager* m_inputManager; // 入力補助
     // サービス一覧の保持
     CServiceHolder* m_serviceHolder;
 
@@ -79,8 +80,13 @@ private:
 
     // 検索
     void onFind(wxCommandEvent& event);
+
     // 全てを選択
     void onSelectAll(wxCommandEvent& event);
+
+    // 送信履歴
+    void onSendHistory(wxCommandEvent& event);
+
 
     // 入力補助
     void onAutoComplete(wxCommandEvent& event);
@@ -116,10 +122,6 @@ private:
 
     //　キーを押された時。
     void onTextUpdated(wxCommandEvent& event);
-    //　キーを押された時。
-    //    void onFocus(wxFocusEvent& event);
-
-
 
     // メンバーがダブルクリック
     void onMemberDoubleClicked(wxCommandEvent& event);

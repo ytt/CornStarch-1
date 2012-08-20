@@ -48,6 +48,10 @@ bool CBasicCommandInvoker::invoke(const wxString& text)
 vector<wxString> CBasicCommandInvoker::getCommandList()
 {
     vector<wxString> vector;
+    vector.push_back(CBasicCommandInvoker::JOIN);
+    vector.push_back(CBasicCommandInvoker::PART);
+    vector.push_back(CBasicCommandInvoker::NICK);
+    vector.push_back(CBasicCommandInvoker::TOPIC);
     return vector;
 }
 

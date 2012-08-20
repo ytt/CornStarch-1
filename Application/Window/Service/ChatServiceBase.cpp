@@ -143,7 +143,7 @@ vector<CChannelStatus*> CChatServiceBase::getChannels(void) const
     return m_channel->getChannels();
 }
 // チャンネルを取得
-CChannelStatus* CChatServiceBase::getChannel(const wxString& channelName)
+CChannelStatus* CChatServiceBase::getChannel(const wxString& channelName) const
 {
     return m_channel->getChannel(channelName);
 }

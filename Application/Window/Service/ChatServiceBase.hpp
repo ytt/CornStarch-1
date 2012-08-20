@@ -186,7 +186,7 @@ public:
     std::vector<CChannelStatus*> getChannels(void) const;
 
     // チャンネル一覧を取得
-    CChannelStatus* getChannel(const wxString& channel);
+    CChannelStatus* getChannel(const wxString& channel) const;
     // メッセージ一覧を取得
     std::vector<CMessageData*> getMessages(const wxString& channel) const;
 

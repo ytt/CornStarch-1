@@ -151,6 +151,8 @@ void CMainPanel::setFocusPostPane(void)
 void CMainPanel::setTextPostPane(const wxString& value)
 {
     m_postPane->SetValue(value);
+    setFocusPostPane();
+    m_postPane->SetInsertionPointEnd();
 }
 //　投稿ペインに文字を追加する
 wxString CMainPanel::getTextPostPane() const
