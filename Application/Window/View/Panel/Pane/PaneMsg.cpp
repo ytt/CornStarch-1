@@ -4,15 +4,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
-
+#include <wx/event.h>
 using namespace std;
 
 namespace CornStarch
 {
 ;
+
 const int CPaneMsg::PANE_MSG_ID = 10000;
+// イベントテーブル
+BEGIN_EVENT_TABLE(CPaneMsg, CLinkableRichTextCtrl) //
+EVT_SCROLLWIN( CPaneMsg::OnScroll)
+END_EVENT_TABLE()
+;
+
 const wxColour CPaneMsg::COLOR_LIGHT_YELLOW = wxColour(255, 255, 180);
-CPaneMsg::CPaneMsg(void)
+CPaneMsg::CPaneMsg(void) :
+        m_beforeScroolHeight(0), m_isScrollingBack(false)
 {
 }
 
@@ -34,6 +42,20 @@ void CPaneMsg::init(wxWindow* parent)
     this->SetFont(wxFont(10, wxDEFAULT, wxNORMAL, wxNORMAL));
 
     this->setNavigateHaldler();
+
+}
+void CPaneMsg::OnScroll(wxScrollWinEvent &event)
+{
+    if (event.GetPosition() != 0){
+        m_isScrollingBack = true;
+        // 一番下まですくロールしていれば、スクロール中を終了。
+        if (m_beforeScroolHeight <= event.GetPosition()){
+            m_beforeScroolHeight = event.GetPosition() - 1;
+            m_isScrollingBack = false;
+        } else{
+        }
+    }
+    event.Skip(true);
 }
 
 void CPaneMsg::clearUnreadBackgroundColor()
@@ -44,6 +66,7 @@ void CPaneMsg::clearUnreadBackgroundColor()
 void CPaneMsg::addMessage(const CMessageData* message,
         const map<wxString, wxString>& nickTable)
 {
+    this->Freeze();
     this->MoveEnd();
     int index = this->GetLastPosition();
 
@@ -70,22 +93,25 @@ void CPaneMsg::addMessage(const CMessageData* message,
     // 未読の背景色設定
     if (message->m_isReaded == false){
         this->BeginStyle(wxTextAttr(*wxBLACK, COLOR_LIGHT_YELLOW));
-    }
-    else
-    {
+    } else{
         this->BeginStyle(wxTextAttr(*wxBLACK));
     }
     writeLinkableText(body);
     this->EndStyle();
 
     this->Newline();
-    this->ShowPosition(this->GetLastPosition());
+    this->Thaw();
+    if (m_isScrollingBack == false){
+        this->ShowPosition(this->GetLastPosition());
+    }
     this->EndAllStyles();
 }
 // メッセージを表示する
 void CPaneMsg::displayMessages(const vector<CMessageData*>& messages,
         const map<wxString, wxString>& nickTable)
 {
+    m_isScrollingBack = false;
+    m_beforeScroolHeight = 0;
 
     this->Freeze();
     this->Clear();

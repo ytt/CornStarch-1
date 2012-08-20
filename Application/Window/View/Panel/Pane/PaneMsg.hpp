@@ -16,6 +16,14 @@ class CPaneMsg : public CLinkableRichTextCtrl
 {
     static const int PANE_MSG_ID;
     static const wxColour COLOR_LIGHT_YELLOW;
+
+
+    bool m_isScrollingBack;
+    int m_beforeScroolHeight;
+protected:
+    void OnScroll(wxScrollWinEvent &event);
+    // wxWindowイベントを処理させたいクラスに利用するマクロ
+    DECLARE_EVENT_TABLE();
 public:
     CPaneMsg(void);
     ~CPaneMsg(void);
