@@ -11,16 +11,20 @@ namespace CornStarch
 
 class CInputManager
 {
-    wxString m_currentInput;
+    wxString m_predicateFirstInput;
     vector<wxString> m_inputHistory;
     wxString getNextCandidate(const wxString& currentInput,
-             vector<wxString>& items, const wxString& predicte);
+            vector<wxString>& items, const wxString& predicte);
     wxString getCandidate(const wxString& currentInput,
-             vector<wxString>& items);
+            vector<wxString>& items);
+    wxString getNextInputCandidate(const wxString& currentInput,
+            const CChatServiceBase* service);
 public:
     CInputManager();
     virtual ~CInputManager();
-    wxString getNextInputCandidate(const wxString& currentInput,const CChatServiceBase* service);
+
+    wxString getAutoCompletionText(const wxString& content,
+            const CChatServiceBase* service);
     void addHistory(const wxString& content);
     wxString getHistory(const wxString& currentInput);
 };

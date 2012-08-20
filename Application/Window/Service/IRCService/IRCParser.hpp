@@ -7,7 +7,6 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include "StringUtility.hpp"
 
 #include "IRCMessageData.hpp"
 

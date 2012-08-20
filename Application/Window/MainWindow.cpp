@@ -77,7 +77,7 @@ void CMainWindow::onAutoComplete(wxCommandEvent& event)
     CChatServiceBase * service = m_serviceHolder->getService(
             m_serviceHolder->getCurrentServiceId());
     m_view->setTextPostPane(
-            m_inputManager->getNextInputCandidate(m_view->getTextPostPane(),
+            m_inputManager->getAutoCompletionText(m_view->getTextPostPane(),
                     service));
 }
 void CMainWindow::onSendHistory(wxCommandEvent& event)
