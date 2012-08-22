@@ -79,14 +79,14 @@ bool CChannelHolder::hasReceivedChannel(void) const
 }
 
 // チャンネルを追加する
-void CChannelHolder::setChannel(const CChannelData& channel)
+void CChannelHolder::setChannel(const wxString& channelName,const wxString& topic)
 {
-    wxString name = channel.m_name;
-    wxString topic = channel.m_topic;
+    //wxString name = channelName;
+    //wxString topic = channel.m_topic;
 
     // チャンネルが存在するとき、トピックの更新のみ行う
-    if (m_channels.find(name) != m_channels.end()){
-        m_channels[name]->setTopic(topic);
+    if (m_channels.find(channelName) != m_channels.end()){
+        m_channels[channelName]->setTopic(topic);
         return;
     }
 
@@ -94,8 +94,8 @@ void CChannelHolder::setChannel(const CChannelData& channel)
     CChannelStatus* data = new CChannelStatus();
     data->init();
     data->setTopic(topic);
-    data->setChannelName(name);
-    m_channels[name] = data;
+    data->setChannelName(channelName);
+    m_channels[channelName] = data;
 }
 
 // チャンネルを削除する
@@ -221,11 +221,11 @@ void CChannelHolder::popMember(const wxString& channel,
 }
 
 // メンバー情報を更新する
-void CChannelHolder::updateMember(const CMemberData& member)
+void CChannelHolder::updateMember(const wxString& userName,const wxString& nick)
 {
     map<wxString, CChannelStatus*>::iterator it;
     for (it = m_channels.begin(); it != m_channels.end(); it++){
-        it->second->updateMember(member);
+        it->second->updateMember(userName,nick);
     }
 }
 

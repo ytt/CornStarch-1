@@ -67,39 +67,63 @@ CConnectionEventBase* CSCEventFactory::Create(CSCMessageData message)
         CGetMessageEvent* event = new CGetMessageEvent();
         event->setMessages(message.m_messages); // 値取得
         event->setChannel(message.m_channel); // チャンネル
-       // event->SetEventType(myEVT_THREAD_GET_MESSAGE); // イベントの種類をセット
+        // event->SetEventType(myEVT_THREAD_GET_MESSAGE); // イベントの種類をセット
         return event;
     }
     if (message.m_type == CSCMessageType::MESSAGE){
         CMsgStreamEvent* event = new CMsgStreamEvent();
+        CMessageLog* log = new CMessageLog();
+        log->init(message);
+        log->setChannelName(message.m_channel);
+        log->setUserName(message.m_username);
+        event->setServiceLog(log);
+
 //        event->SetEventType(myEVT_THREAD_STREAM_MSG_ADD);
-        event->setMessage(message);
+        //event->setMessage(message);
         return event;
     }
     if (message.m_type == CSCMessageType::JOIN){
         CJoinStreamEvent* event = new CJoinStreamEvent();
 //        event->SetEventType(myEVT_THREAD_STREAM_CH_JOIN);
-        event->setChannelName(message.m_channel);
-        event->setUserName(message.m_username);
+        CJoinLog* log = new CJoinLog();
+        log->setChannelName(message.m_channel);
+        log->setUserName(message.m_username);
+        event->setServiceLog(log);
+
+//        event->setChannelName(message.m_channel);
+//        event->setUserName(message.m_username);
         return event;
     }
     if (message.m_type == CSCMessageType::PART){
         CPartStreamEvent* event = new CPartStreamEvent();
 //        event->SetEventType(myEVT_THREAD_STREAM_CH_PART);
-        event->setChannelName(message.m_channel);
-        event->setUserName(message.m_username);
+//        event->setChannelName(message.m_channel);
+//        event->setUserName(message.m_username);
+        CPartLog* log = new CPartLog();
+        log->setChannelName(message.m_channel);
+        log->setUserName(message.m_username);
+        event->setServiceLog(log);
         return event;
     }
     if (message.m_type == CSCMessageType::TOPIC){
         CChannelStreamEvent* event = new CChannelStreamEvent();
 //        event->SetEventType(myEVT_THREAD_STREAM_CH_UPDATE);
-        event->setChannel(message.m_channelData);
+//        event->setChannel(message.m_channelData);
+        CTopicLog* log = new CTopicLog();
+        log->setChannelName(message.m_channelData.m_name);
+        log->setTopic(message.m_channelData.m_topic);
+        log->setUserName(message.m_username);
+        event->setServiceLog(log);
         return event;
     }
     if (message.m_type == CSCMessageType::NICK){
         CUserStreamEvent* event = new CUserStreamEvent();
 //        event->SetEventType(myEVT_THREAD_STREAM_USER_UPDATE);
-        event->setMember(message.m_member);
+        CMemberLog* log = new CMemberLog();
+        log->setUserName(message.m_member.m_name);
+        log->setNickName(message.m_member.m_nick);
+        event->setServiceLog(log);
+        //event->setMember(message.m_member);
         return event;
     }
     if (message.m_type == CSCMessageType::JOIN_REPLY){

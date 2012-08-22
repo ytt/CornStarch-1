@@ -60,7 +60,7 @@ public:
     void updateMessageId(const CMessageData& message);
 
     // メンバー情報を更新する
-    void updateMember(const CMemberData& member);
+    void updateMember(const wxString& userName,const wxString& nick);
 
     // メンバー情報を消す
     void popMember(const wxString& userName);

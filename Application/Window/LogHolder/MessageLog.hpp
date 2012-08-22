@@ -9,26 +9,18 @@ class CMessageLog : public CServiceLog
 {
 private:
     CMessageData* m_message;
-    wxString m_nick;
 
 public:
     CMessageLog(void);
     ~CMessageLog(void);
 
     // 初期化を行う
-    void init(const CMessageData& message, const wxString& nick);
+    void init(const CMessageData& message);
 
-    // ログを取得する
-    CMessageData getLog(void) const;
+    // メッセージを取得する
+    CMessageData getMessage(void) const;
 
-    // ニックネームを取得する
-    wxString getNickName(void) const;
 
-    // 本名に対応するニックネームが未知か
-    bool isUnknownNick(const wxString& name) const;
-
-    // ニックネームを更新する
-    void updateNick(const wxString& nick);
 };
 
 }

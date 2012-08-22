@@ -29,7 +29,7 @@ public:
     bool hasReceivedChannel(void) const;
 
     // チャンネルを追加する
-    void setChannel(const CChannelData& channel);
+    void setChannel(const wxString& channelName,const wxString& topic);
 
     // チャンネルを削除する
     void popChannel(const wxString& channel);
@@ -69,7 +69,7 @@ public:
     void popMember(const wxString& channel, const wxString& userName);
 
     // メンバー情報を更新する
-    void updateMember(const CMemberData& member);
+    void updateMember(const wxString& userName,const wxString& nick);
 
     // メッセージIDを更新する
     void onUpdateMessageId(const CMessageData& message);

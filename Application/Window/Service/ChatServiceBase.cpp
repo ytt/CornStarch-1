@@ -318,7 +318,7 @@ void CChatServiceBase::onGetMemberStatus(const CMemberData& member)
         m_user->setKeywords(member.m_keywords);
     }
 
-    m_channel->updateMember(member);
+    m_channel->updateMember(member.m_name,member.m_nick);
     (*m_nickTable)[member.m_name] = member.m_nick;
 }
 
@@ -389,16 +389,18 @@ void CChatServiceBase::onGetPartStream(const wxString& channel,
 }
 
 // チャンネル情報更新ストリームを受信
-void CChatServiceBase::onGetChannelStream(const CChannelData& channel)
+void CChatServiceBase::onGetChannelStream(const wxString& channelName,
+        const wxString& topic)
 {
-    m_channel->setChannel(channel);
+    m_channel->setChannel(channelName, topic);
 }
 
 // ユーザ情報更新ストリームの受信
-void CChatServiceBase::onGetUserStream(const CMemberData& member)
+void CChatServiceBase::onGetUserStream(const wxString& userName,
+        const wxString& nick)
 {
-    m_channel->updateMember(member);
-    (*m_nickTable)[member.m_name] = member.m_nick;
+    m_channel->updateMember(userName, nick);
+    (*m_nickTable)[userName] = nick;
 }
 
 }

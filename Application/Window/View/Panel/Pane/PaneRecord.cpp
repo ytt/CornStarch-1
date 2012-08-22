@@ -43,21 +43,22 @@ void CPaneRecord::displayLogs(const vector<CServiceLog*>& logs)
     size_t size = logs.size();
     for (size_t i = 0; i < size; i++){
         pushLog(*logs[i]);
-        if (typeid(logs[i]) == typeid(CMessageLog*)){
+        if (typeid(*logs[i]) == typeid(CMessageLog)){
             pushLog(*(CMessageLog*) logs[i]);
-        } else if (typeid(logs[i]) == typeid(CJoinLog*)){
+        } else if (typeid(*logs[i]) == typeid(CJoinLog)){
             pushLog(*(CJoinLog*) logs[i]);
-        } else if (typeid(logs[i]) == typeid(CPartLog*)){
+        } else if (typeid(*logs[i]) == typeid(CPartLog)){
             pushLog(*(CPartLog*) logs[i]);
-        } else if (typeid(logs[i]) == typeid(CTopicLog*)){
+        } else if (typeid(*logs[i]) == typeid(CTopicLog)){
             pushLog(*(CTopicLog*) logs[i]);
-        } else if (typeid(logs[i]) == typeid(CMemberLog*)){
+        } else if (typeid(*logs[i]) == typeid(CMemberLog)){
             pushLog(*(CMemberLog*) logs[i]);
-        } else if (typeid(logs[i]) == typeid(CInviteLog*)){
+        } else if (typeid(*logs[i]) == typeid(CInviteLog)){
             pushLog(*(CInviteLog*) logs[i]);
-        } else if (typeid(logs[i]) == typeid(CKickLog*)){
+        } else if (typeid(*logs[i]) == typeid(CKickLog)){
             pushLog(*(CKickLog*) logs[i]);
         }
+        this->Newline();
     }
     this->ShowPosition(this->GetLastPosition());
 }
@@ -84,8 +85,8 @@ void CPaneRecord::pushStringRow(const wxString& str, const wxColour& colour)
 void CPaneRecord::pushLog(const CMessageLog& messageLog)
 {
     // 文字コード変換
-    CMessageData message = messageLog.getLog();
-    wxString name = messageLog.getNickName();
+    CMessageData message = messageLog.getMessage();
+    wxString name = messageLog.getUserName();
     wxString body = message.m_body;
     wxString channel = message.m_channel;
     wxString time = message.getTime("%H:%M");
@@ -95,68 +96,62 @@ void CPaneRecord::pushLog(const CMessageLog& messageLog)
     if (nick != ""){
         body = "(" + nick + ") " + body;
     }
-
+    pushStringRow("<" + channel + ">", COLOR_BLACK);
     pushStringRow(time + " ", COLOR_RED); // 時間を赤で表示
-    pushStringRow("<" + channel + "> (" + name + ") : ", COLOR_BLUE); // 名前を青で表示
+    pushStringRow( "(" + name + ") : ", COLOR_BLUE); // 名前を青で表示
     pushStringRow(body, COLOR_BLACK); // 本文を黒で表示
-    this->Newline();
+
 }
 
 // チャンネル参加ログを表示
 void CPaneRecord::pushLog(const CJoinLog& joinLog)
 {
     pushStringRow(
-            joinLog.getNickName() + "が" + joinLog.getLog().m_channel
+            joinLog.getUserName() + "が" + joinLog.getChannelName()
                     + "に参加しました", COLOR_GREEN);
-    this->Newline();
 
 }
 
 // チャンネル離脱ログを表示
 void CPaneRecord::pushLog(const CPartLog& partLog)
 {
-    if (partLog.getLog().m_channel != ""){
+    if (partLog.getChannelName() != ""){
         pushStringRow(
-                partLog.getNickName() + "が" + partLog.getLog().m_channel
+                partLog.getUserName() + "が" + partLog.getChannelName()
                         + "から離脱しました", COLOR_GREEN);
     } else{
-        pushStringRow(partLog.getNickName() + "が離脱しました", COLOR_GREEN);
+        pushStringRow(partLog.getUserName() + "が離脱しました", COLOR_GREEN);
     }
-    this->Newline();
 }
 
 // メンバー情報更新ログを表示
 void CPaneRecord::pushLog(const CMemberLog& memberLog)
 {
-    CMemberData member = memberLog.getLog();
-    pushStringRow(member.m_name + "がニックネームを" + member.m_nick + "に変更しました",
+    //CMemberData member = memberLog.getLog();
+    pushStringRow(memberLog.getUserName() + "がニックネームを" + memberLog.getNickName() + "に変更しました",
             COLOR_GREEN);
-    this->Newline();
 }
 
 // トピック変更ログを表示
 void CPaneRecord::pushLog(const CTopicLog& topicLog)
 {
-    CChannelData channel = topicLog.getLog();
-    pushStringRow(channel.m_name + "のトピックが" + channel.m_topic + "に変更されました",
+    //CChannelData channel = topicLog.getLog();
+    pushStringRow(topicLog.getChannelName()+ "のトピックが" + topicLog.getTopic()+ "に変更されました",
             COLOR_GREEN);
 
-    this->Newline();
 }
 
 // 招待ログを表示
 void CPaneRecord::pushLog(const CInviteLog& inviteLog)
 {
-    pushStringRow(inviteLog.getChannel() + "に招待されました", COLOR_GREEN);
+    pushStringRow(inviteLog.getChannelName() + "に招待されました", COLOR_GREEN);
 
-    this->Newline();
 }
 // キックログを表示
 void CPaneRecord::pushLog(const CKickLog& kickLog)
 {
     pushStringRow(
-            kickLog.getUsername() + "が" + kickLog.getChannel() + "からキックされました",
+            kickLog.getUserName() + "が" + kickLog.getChannelName() + "からキックされました",
             COLOR_GREEN);
-    this->Newline();
 }
 }

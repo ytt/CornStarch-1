@@ -1,24 +1,37 @@
 ﻿#pragma once
-#include "ServiceEventBase.hpp"
+#include "ConnectionEventBase.hpp"
+#include "../../LogHolder/MessageLog.hpp"
 
 namespace CornStarch
-{;
+{
+;
 
 // メッセージ受信時のイベント
-class CMsgStreamEvent : public CServiceEventBase
+class CMsgStreamEvent: public CConnectionEventBase
 {
-private:
-    CMessageData* m_message;
-
+//private:
+//    CMessageData* m_message;
+    CMessageLog* m_sericeLog;
 public:
     CMsgStreamEvent(void);
     ~CMsgStreamEvent(void);
 
-    // メッセージを取得する
-    CMessageData getMessage(void) const;
+//    // メッセージを取得する
+//    CMessageData getMessage(void) const;
+//
+//    // メッセージをセットする
+//    void setMessage(const CMessageData& message);
+    CMessageLog* getServiceLog() const
+    {
+        return m_sericeLog;
+    }
 
-    // メッセージをセットする
-    void setMessage(const CMessageData& message);
-};
+    void setServiceLog(CMessageLog* serverLog)
+    {
+        m_sericeLog = serverLog;
+    }
+}
+
+;
 
 }

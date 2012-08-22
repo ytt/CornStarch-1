@@ -5,6 +5,7 @@ namespace CornStarch
 
 CServiceLog::CServiceLog(void)
 {
+    m_time = time(NULL);
 }
 
 

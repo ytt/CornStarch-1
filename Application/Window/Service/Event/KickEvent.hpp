@@ -1,34 +1,47 @@
 #ifndef KICKEVENT_HPP_
 #define KICKEVENT_HPP_
-#include "ServiceEventBase.hpp"
+#include "ConnectionEventBase.hpp"
+#include "../../LogHolder/KickLog.hpp"
+
 namespace CornStarch
 {
-class CKickEvent: public CServiceEventBase
+class CKickEvent: public CConnectionEventBase
 {
-    wxString m_channel; // チャンネル名
-    wxString m_user; // ユーザ名
+//    wxString m_channel; // チャンネル名
+//    wxString m_user; // ユーザ名
+    CKickLog* m_serviceLog;
 public:
     CKickEvent();
     virtual ~CKickEvent();
+//
+//    wxString getChannel() const
+//    {
+//        return m_channel;
+//    }
+//
+//    void setChannel(wxString channel)
+//    {
+//        m_channel = channel;
+//    }
+//
+//    wxString getUser() const
+//    {
+//        return m_user;
+//    }
+//
+//    void setUser(wxString user)
+//    {
+//        m_user = user;
+//    }
 
-    wxString getChannel() const
+    CKickLog* getServiceLog() const
     {
-        return m_channel;
+        return m_serviceLog;
     }
 
-    void setChannel(wxString channel)
+    void setServiceLog(CKickLog* serviceLog)
     {
-        m_channel = channel;
-    }
-
-    wxString getUser() const
-    {
-        return m_user;
-    }
-
-    void setUser(wxString user)
-    {
-        m_user = user;
+        m_serviceLog = serviceLog;
     }
 };
 }

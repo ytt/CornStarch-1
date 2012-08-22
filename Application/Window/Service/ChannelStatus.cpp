@@ -116,9 +116,9 @@ void CChannelStatus::updateMessageId(const CMessageData& message)
 }
 
 // メンバー情報を更新する
-void CChannelStatus::updateMember(const CMemberData& member)
+void CChannelStatus::updateMember(const wxString& userName,const wxString& nick)
 {
-    m_members->updateStatus(member);
+    m_members->updateStatus(userName,nick);
 }
 
 // メンバー情報を消す

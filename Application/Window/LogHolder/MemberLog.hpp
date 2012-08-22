@@ -2,23 +2,34 @@
 #include "ServiceLog.hpp"
 
 namespace CornStarch
-{;
+{
+;
 
 // メンバー情報更新ログ
-class CMemberLog : public CServiceLog
+class CMemberLog: public CServiceLog
 {
 private:
-    CMemberData* m_member;
+    wxString m_nickName;
+    //CMemberData* m_member;
 
 public:
     CMemberLog(void);
     ~CMemberLog(void);
 
-    // 初期化を行う
-    void init(const CMemberData& member);
+    wxString getNickName() const
+    {
+        return m_nickName;
+    }
 
-    // ログを取得する
-    CMemberData getLog(void) const;
+    void setNickName(wxString nickName)
+    {
+        m_nickName = nickName;
+    }
+//    // 初期化を行う
+//    void init(const CMemberData& member);
+//
+//    // ログを取得する
+//    CMemberData getLog(void) const;
 };
 
 }

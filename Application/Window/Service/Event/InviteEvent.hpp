@@ -1,37 +1,50 @@
 ﻿#ifndef INVITEEVENT_HPP_
 #define INVITEEVENT_HPP_
-#include "ServiceEventBase.hpp"
+#include "ConnectionEventBase.hpp"
+#include "../../LogHolder/InviteLog.hpp"
 
 namespace CornStarch
 {
 
-class CInviteEvent: public CServiceEventBase
+class CInviteEvent: public CConnectionEventBase
 {
-    wxString m_channel; // チャンネル名
-    wxString m_user; // ユーザ名
+    CInviteLog* m_serviceLog;
+//    wxString m_channel; // チャンネル名
+//    wxString m_user; // ユーザ名
 public:
     CInviteEvent();
     virtual ~CInviteEvent();
-    wxString getChannel() const
+//    wxString getChannel() const
+//    {
+//        return m_channel;
+//    }
+//
+//    void setChannel(wxString channel)
+//    {
+//        m_channel = channel;
+//    }
+//
+//    wxString getUser() const
+//    {
+//        return m_user;
+//    }
+//
+//    void setUser(wxString user)
+//    {
+//        m_user = user;
+//    }
+    CInviteLog* getServiceLog() const
     {
-        return m_channel;
+        return m_serviceLog;
     }
 
-    void setChannel(wxString channel)
+    void setServiceLog(CInviteLog* serviceLog)
     {
-        m_channel = channel;
-    }
-
-    wxString getUser() const
-    {
-        return m_user;
-    }
-
-    void setUser(wxString user)
-    {
-        m_user = user;
+        m_serviceLog = serviceLog;
     }
 }
+
+
 
 ;
 

@@ -260,10 +260,10 @@ public:
     void onGetPartStream(const wxString& channel, const wxString& name);
 
     // チャンネル情報更新ストリームを受信
-    void onGetChannelStream(const CChannelData& channel);
+    void onGetChannelStream(const wxString& channelName,const wxString& topic);
 
     // ユーザ情報更新ストリームの受信
-    void onGetUserStream(const CMemberData& member);
+    void onGetUserStream(const wxString& userName,const wxString& nick);
 }
 
 ;

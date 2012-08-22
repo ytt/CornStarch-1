@@ -37,13 +37,14 @@ bool CMemberVec::hasSetMember(void) const
 }
 
 // メンバー情報を更新する
-void CMemberVec::updateStatus(const CMemberData& member)
+void CMemberVec::updateStatus(const wxString& userName,const wxString& nick)
 {
 	// 同じ名前の人がいたら更新
 	size_t length = size();
 	for (size_t i = 0; i < length; i++){
-		if ((*this)[i]->m_name == member.m_name){
-			*(*this)[i] = member;
+		if ((*this)[i]->m_name == userName){
+		    CMemberData* member = (*this)[i];
+		    member->m_nick = nick;
 			return;
 		}
 	}

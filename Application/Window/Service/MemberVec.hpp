@@ -20,7 +20,7 @@ public:
     bool hasSetMember(void) const;
 
     // メンバー情報を更新する
-    void updateStatus(const CMemberData& member);
+    void updateStatus(const wxString& userName,const wxString& nick);
 
     // メンバーを追加する
     void push(const CMemberData& member);

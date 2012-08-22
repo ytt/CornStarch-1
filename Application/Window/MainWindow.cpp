@@ -1,5 +1,6 @@
 ﻿#include "DefineEventTable.hpp" // イベントテーブル
 #include "MainWindow.hpp"
+#include "LogHolder/TopicLog.hpp"
 
 using namespace std;
 
@@ -78,7 +79,7 @@ void CMainWindow::onAutoComplete(wxCommandEvent& event)
             m_serviceHolder->getCurrentServiceId());
     m_view->setTextPostPane(
             m_inputManager->getAutoCompletionText(m_view->getTextPostPane(),
-                    service,getCommandList()));
+                    service, getCommandList()));
 }
 void CMainWindow::onSendHistory(wxCommandEvent& event)
 {
@@ -381,9 +382,12 @@ void CMainWindow::onEnter(wxCommandEvent& event)
     CMessageData message = service->generateMessage(body);
     service->postMessage(message);
     CMessageLog* log = new CMessageLog();
-    log->init(message,service->getMemberNick(service->getUserName()));
+    log->init(message);
+    log->setUserName(service->getUserName());
+    log->setChannelName(service->getCurrentChannel());
+    //log->init(message, service->getMemberNick(service->getUserName()));
 
-    m_logHolder->pushLog(log,service->getName());
+    m_logHolder->pushLog(log, service->getName());
     m_view->displayLogs(m_logHolder->getLogs());
     m_view->addMessage(&message, service->getNickTable());
 
@@ -635,7 +639,7 @@ void CMainWindow::onMsgStream(CMsgStreamEvent& event)
 {
     CChatServiceBase* service = m_serviceHolder->getService(
             event.getConnectionId());
-    CMessageData data = event.getMessage();
+    CMessageData data = event.getServiceLog()->getMessage();
     data.m_serviceId = event.getConnectionId();
     bool isMyPost = service->isPostedThisClient(data);
     if (!isMyPost){
@@ -653,8 +657,7 @@ void CMainWindow::onMsgStream(CMsgStreamEvent& event)
             m_view->addUnreadMessage(&data);
         }
 
-
-        m_logHolder->pushLog(event.getServiceLog(),service->getName());
+        m_logHolder->pushLog(event.getServiceLog(), service->getName());
     }
     service->onGetMessageStream(data);
     // メッセージをログ一覧に表示
@@ -672,15 +675,16 @@ void CMainWindow::onJoinStream(CJoinStreamEvent& event)
             event.getConnectionId());
 
     // 処理待ちに追加
-    CSubscribeData data(event.getChannelName(), event.getUserName());
-    service->onGetJoinStream(data.m_channel, data.m_username);
+    //CSubscribeData data(event.getChannelName(), event.getUserName());
+    CJoinLog* log = event.getServiceLog();
+    service->onGetJoinStream(log->getChannelName(), log->getUserName());
 
-    m_logHolder->pushLog(event.getServiceLog(),service->getName());
+    m_logHolder->pushLog(event.getServiceLog(), service->getName());
 
     // 表示の更新
     m_view->displayLogs(m_logHolder->getLogs()); // ログペイン
-    if (data.m_channel == service->getCurrentChannel()){
-        updateMemberView(event.getConnectionId(), data.m_channel);
+    if (log->getChannelName() == service->getCurrentChannel()){
+        updateMemberView(event.getConnectionId(), log->getChannelName());
     }
 }
 
@@ -690,14 +694,15 @@ void CMainWindow::onPartStream(CPartStreamEvent& event)
     CChatServiceBase* service = m_serviceHolder->getService(
             event.getConnectionId());
     if (service != NULL){
-        CSubscribeData data(event.getChannelName(), event.getUserName());
-        wxString name = event.getUserName();
-        wxString channel = event.getChannelName();
+
+        CPartLog* partLog = event.getServiceLog();
+        wxString name = partLog->getUserName();
+        wxString channel = partLog->getChannelName();
 
         // データ更新
         service->onGetPartStream(channel, name);
 
-        m_logHolder->pushLog(event.getServiceLog(),service->getName());
+        m_logHolder->pushLog(event.getServiceLog(), service->getName());
 
         // 表示の更新
         m_view->displayLogs(m_logHolder->getLogs()); // ログペイン
@@ -715,17 +720,20 @@ void CMainWindow::onChannelStream(CChannelStreamEvent& event)
             event.getConnectionId());
 
     // データ更新
-    CChannelData channel = event.getChannel();
-    service->onGetChannelStream(channel);
+    CTopicLog* log = event.getServiceLog();
+    wxString channelName = log->getChannelName();
+    wxString topic = log->getTopic();
+    service->onGetChannelStream(channelName, topic);
 
-    m_logHolder->pushLog(event.getServiceLog(),service->getName());
+    m_logHolder->pushLog(event.getServiceLog(), service->getName());
 
     // 表示の更新
     m_view->displayLogs(m_logHolder->getLogs()); // ログペイン
 
     // 現在のチャンネルならばタイトルを更新
-    if (channel.m_name == service->getCurrentChannel()){
-        displayTitle(channel.m_name, channel.m_topic, event.getConnectionId());
+    if (event.getServiceLog()->getChannelName()
+            == service->getCurrentChannel()){
+        displayTitle(channelName, topic, event.getConnectionId());
     }
 }
 
@@ -736,9 +744,10 @@ void CMainWindow::onUserStream(CUserStreamEvent& event)
             event.getConnectionId());
 
     // データ更新
-    CMemberData member = event.getMember();
-    service->onGetUserStream(member);
-    m_logHolder->pushLog(event.getServiceLog(),service->getName());
+    //CMemberData member = event.getMember();
+    CMemberLog* log = event.getServiceLog();
+    service->onGetUserStream(log->getUserName(), log->getNickName());
+    m_logHolder->pushLog(event.getServiceLog(), service->getName());
 
     // 表示の更新
     wxString ch = service->getCurrentChannel();
@@ -747,46 +756,46 @@ void CMainWindow::onUserStream(CUserStreamEvent& event)
     updateMessageView(event.getConnectionId(), service->getCurrentChannel()); // メッセージペイン
     m_view->displayLogs(m_logHolder->getLogs()); // ログペイン
 }
-// チャンネル更新ストリーム受信時
+// 招待ストリーム受信時
 void CMainWindow::onInvite(CInviteEvent& event)
 {
-
     CChatServiceBase* service = m_serviceHolder->getService(
             event.getConnectionId());
     if (service != NULL){
-        m_logHolder->pushLog(event.getServiceLog(),service->getName());
+        CInviteLog* log = event.getServiceLog();
+        m_logHolder->pushLog(event.getServiceLog(), service->getName());
         // 表示の更新
         m_view->displayLogs(m_logHolder->getLogs()); // ログペイン
 
         wxMessageDialog dialog(this,
                 wxString::Format(wxT("%s-チャンネル[%s]に招待されました。参加しますか？"),
-                        service->getName(), event.getChannel()), "確認",
+                        service->getName(), log->getChannelName()), "確認",
                 wxOK | wxCANCEL);
         if (dialog.ShowModal() == wxID_OK){
-            service->joinChannel(event.getChannel());
+            service->joinChannel(log->getChannelName());
         }
     }
-
 }
 
-// ユーザ情報更新ストリーム受信時
+// キックストリーム受信時
 void CMainWindow::onKick(CKickEvent& event)
 {
     CChatServiceBase* service = m_serviceHolder->getService(
             event.getConnectionId());
     if (service != NULL){
-        m_logHolder->pushLog(event.getServiceLog(),service->getName());
-        if (event.getUser() == service->getUserName()){
+        m_logHolder->pushLog(event.getServiceLog(), service->getName());
+        CKickLog* log = event.getServiceLog();
+        if (log->getTarget() == service->getUserName()){
             wxMessageDialog dialog(this,
                     wxString::Format(wxT("%s-チャンネル[%s]からキックされました。"),
-                            service->getName(), event.getChannel()), "確認",
+                            service->getName(), log->getChannelName()), "確認",
                     wxOK);
             if (dialog.ShowModal() == wxID_OK){
-                service->partChannel(event.getChannel());
+                service->partChannel(log->getChannelName());
             }
         } else{
-            service->onGetPartStream(event.getChannel(), event.getUser());
-            updateMemberView(event.getConnectionId(), event.getChannel());
+            service->onGetPartStream(log->getChannelName(), log->getTarget());
+            updateMemberView(event.getConnectionId(), log->getChannelName());
             // 表示の更新
             m_view->displayLogs(m_logHolder->getLogs()); // ログペイン
         }
