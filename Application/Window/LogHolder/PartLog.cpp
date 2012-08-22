@@ -29,7 +29,7 @@ void CPartLog::init(const CSubscribeData& sub, const wxString& nick)
     m_nick = nick;
 
     // タイプの指定
-    m_type = LOG_PART;
+    //m_type = LOG_PART;
 }
 
 // ログを取得する

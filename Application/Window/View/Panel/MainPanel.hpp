@@ -51,7 +51,7 @@ public:
     void displayChannels(const std::map<int, CChatServiceBase*>& services);
 
     // ログ一覧ペインにログを表示
-    void displayLogs(const std::vector<CChatLog*>& logs);
+    void displayLogs(const std::vector<CServiceLog*>& logs);
 
     // メッセージペインをクリアする。
     void clearMessages(void);

@@ -29,7 +29,7 @@ void CJoinLog::init(const CSubscribeData& sub, const wxString& nick)
     m_nick = nick;
 
     // タイプの指定
-    m_type = LOG_JOIN;
+    //m_type = LOG_JOIN;
 }
 
 // ログを取得する

@@ -3,21 +3,22 @@
 using namespace std;
 
 namespace CornStarch
-{;
-
-CChannelStreamEvent::CChannelStreamEvent(void) : m_channelData(NULL)
 {
-}
+;
 
+wxDECLARE_EVENT(myEVT_THREAD_STREAM_CH_UPDATE, CChannelStreamEvent);
+CChannelStreamEvent::CChannelStreamEvent(void) :
+        m_channelData(NULL)
+{
+    this->SetEventType(myEVT_THREAD_STREAM_CH_UPDATE);
+}
 
 CChannelStreamEvent::~CChannelStreamEvent(void)
 {
     delete m_channelData;
 }
 
-
 //////////////////////////////////////////////////////////////////////
-
 
 // チャンネルを取得する
 CChannelData CChannelStreamEvent::getChannel(void) const

@@ -1,11 +1,11 @@
 ﻿#pragma once
-#include "ConnectionEventBase.hpp"
+#include "ServiceEventBase.hpp"
 
 namespace CornStarch
 {;
 
 // チャンネルに誰かが参加した際のイベント
-class CJoinStreamEvent : public CConnectionEventBase
+class CJoinStreamEvent : public CServiceEventBase
 {
 private:
     wxString m_channel; // チャンネル名

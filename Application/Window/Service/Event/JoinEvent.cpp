@@ -2,9 +2,10 @@
 
 namespace CornStarch
 {;
-
+wxDECLARE_EVENT(myEVT_THREAD_PUT_JOIN, CJoinEvent);
 CJoinEvent::CJoinEvent(void) : m_channel(NULL)
 {
+    this->SetEventType(myEVT_THREAD_PUT_JOIN); // イベントの種類をセット
 }
 
 

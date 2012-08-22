@@ -3,8 +3,10 @@
 namespace CornStarch
 {;
 
+wxDECLARE_EVENT(myEVT_THREAD_STREAM_MSG_ADD, CMsgStreamEvent);
 CMsgStreamEvent::CMsgStreamEvent(void) : m_message(NULL)
 {
+   this->SetEventType(myEVT_THREAD_STREAM_MSG_ADD);
 }
 
 

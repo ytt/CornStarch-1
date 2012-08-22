@@ -26,7 +26,7 @@ void CTopicLog::init(const CChannelData& channel)
     *m_channel = channel;
 
     // タイプの指定
-    m_type = LOG_TOPIC;
+    //m_type = LOG_TOPIC;
 }
 
 // ログを取得する

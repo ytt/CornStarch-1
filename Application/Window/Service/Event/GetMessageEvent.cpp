@@ -5,8 +5,10 @@ using namespace std;
 namespace CornStarch
 {;
 
+wxDECLARE_EVENT(myEVT_THREAD_GET_MESSAGE, CGetMessageEvent);
 CGetMessageEvent::CGetMessageEvent(void)
 {
+    this->SetEventType(myEVT_THREAD_GET_MESSAGE); // イベントの種類をセット
 }
 
 

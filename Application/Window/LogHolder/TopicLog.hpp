@@ -1,11 +1,11 @@
 ﻿#pragma once
-#include "ChatLog.hpp"
+#include "ServiceLog.hpp"
 
 namespace CornStarch
 {;
 
 // トピック変更のログ
-class CTopicLog : public CChatLog
+class CTopicLog : public CServiceLog
 {
 private:
     CChannelData* m_channel;

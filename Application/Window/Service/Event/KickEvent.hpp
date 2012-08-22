@@ -1,9 +1,9 @@
 #ifndef KICKEVENT_HPP_
 #define KICKEVENT_HPP_
-#include "ConnectionEventBase.hpp"
+#include "ServiceEventBase.hpp"
 namespace CornStarch
 {
-class CKickEvent: public CConnectionEventBase
+class CKickEvent: public CServiceEventBase
 {
     wxString m_channel; // チャンネル名
     wxString m_user; // ユーザ名

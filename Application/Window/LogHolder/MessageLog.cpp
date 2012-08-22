@@ -29,7 +29,7 @@ void CMessageLog::init(const CMessageData& message, const wxString& nick)
     m_nick = nick;
 
     // タイプの指定
-    m_type = LOG_MESSAGE;
+    //m_type = LOG_MESSAGE;
 }
 
 // ログを取得する

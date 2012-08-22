@@ -1,21 +1,21 @@
 ﻿#include "GetMemberInfoEvent.hpp"
 
 namespace CornStarch
-{;
-
-CGetMemberInfoEvent::CGetMemberInfoEvent(void) : m_member(NULL)
 {
+;
+wxDECLARE_EVENT(myEVT_THREAD_GET_MEMBER_INFO, CGetMemberInfoEvent);
+CGetMemberInfoEvent::CGetMemberInfoEvent(void) :
+        m_member(NULL)
+{
+    this->SetEventType(myEVT_THREAD_GET_MEMBER_INFO); // イベントの種類をセット
 }
-
 
 CGetMemberInfoEvent::~CGetMemberInfoEvent(void)
 {
     delete m_member;
 }
 
-
 //////////////////////////////////////////////////////////////////////
-
 
 // チャンネルをセット
 void CGetMemberInfoEvent::setMember(const CMemberData& member)

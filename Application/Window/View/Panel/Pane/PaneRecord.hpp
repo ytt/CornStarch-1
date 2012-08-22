@@ -34,10 +34,10 @@ public:
     void init(wxWindow* parent);
 
     // ログ一覧を表示
-    void displayLogs(const std::vector<CChatLog*>& logs);
+    void displayLogs(const std::vector<CServiceLog*>& logs);
 
     // メッセージログを表示
-    void pushLog(const CChatLog& messageLog);
+    void pushLog(const CServiceLog& messageLog);
 private:
 
     // 単色で文字列を追加する

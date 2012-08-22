@@ -21,19 +21,19 @@
 namespace CornStarch
 {
 ;
-wxDECLARE_EVENT(myEVT_THREAD_GET_MEMBER, CGetMemberEvent);
-wxDECLARE_EVENT(myEVT_THREAD_GET_MESSAGE, CGetMessageEvent);
-wxDECLARE_EVENT(myEVT_THREAD_GET_PING, CAuthEvent);
-wxDECLARE_EVENT(myEVT_THREAD_STREAM_MSG_ADD, CMsgStreamEvent);
-wxDECLARE_EVENT(myEVT_THREAD_STREAM_CH_JOIN, CJoinStreamEvent);
-wxDECLARE_EVENT(myEVT_THREAD_STREAM_CH_PART, CPartStreamEvent);
-wxDECLARE_EVENT(myEVT_THREAD_STREAM_CH_UPDATE, CChannelStreamEvent);
-wxDECLARE_EVENT(myEVT_THREAD_STREAM_USER_UPDATE, CUserStreamEvent);
-wxDECLARE_EVENT(myEVT_THREAD_DISCONNECT, CDisconnectEvent);
-wxDECLARE_EVENT(myEVT_THREAD_GET_PING, CAuthEvent);
+//wxDECLARE_EVENT(myEVT_THREAD_GET_MEMBER, CGetMemberEvent);
+//wxDECLARE_EVENT(myEVT_THREAD_GET_MESSAGE, CGetMessageEvent);
+//wxDECLARE_EVENT(myEVT_THREAD_GET_PING, CAuthEvent);
+//wxDECLARE_EVENT(myEVT_THREAD_STREAM_MSG_ADD, CMsgStreamEvent);
+//wxDECLARE_EVENT(myEVT_THREAD_STREAM_CH_JOIN, CJoinStreamEvent);
+//wxDECLARE_EVENT(myEVT_THREAD_STREAM_CH_PART, CPartStreamEvent);
+//wxDECLARE_EVENT(myEVT_THREAD_STREAM_CH_UPDATE, CChannelStreamEvent);
+//wxDECLARE_EVENT(myEVT_THREAD_STREAM_USER_UPDATE, CUserStreamEvent);
+//wxDECLARE_EVENT(myEVT_THREAD_DISCONNECT, CDisconnectEvent);
+//wxDECLARE_EVENT(myEVT_THREAD_GET_PING, CAuthEvent);
 
-wxDECLARE_EVENT(myEVT_THREAD_INVITE, CInviteEvent);
-wxDECLARE_EVENT(myEVT_THREAD_KICK, CKickEvent);
+//wxDECLARE_EVENT(myEVT_THREAD_INVITE, CInviteEvent);
+//wxDECLARE_EVENT(myEVT_THREAD_KICK, CKickEvent);
 namespace IRC
 {
 ;
@@ -55,7 +55,6 @@ CConnectionEventBase* CIRCEventFactory::Create(const CIRCMessageData& message)
     if (message.m_statusCode == IRCCommand::QUIT){
         // すべてのチャンネルへのPartEventの作成
         CPartStreamEvent* event = new CPartStreamEvent();
-        event->SetEventType(myEVT_THREAD_STREAM_CH_PART);
         event->setChannelName("");
         event->setUserName(message.m_username);
         return event;
@@ -83,7 +82,6 @@ CConnectionEventBase* CIRCEventFactory::Create(const CIRCMessageData& message)
             //エラー
         CAuthEvent* event = new CAuthEvent();
         event->setAuthResult(false);
-        event->SetEventType(myEVT_THREAD_GET_PING); // イベントの種類をセット
         return event;
     }
     return NULL;
@@ -99,7 +97,6 @@ CConnectionEventBase* CIRCEventFactory::createNickMessageEvent(
     member.m_nick = wxString(message.m_body);
 
     CUserStreamEvent* event = new CUserStreamEvent();
-    event->SetEventType(myEVT_THREAD_STREAM_USER_UPDATE);
     event->setMember(member);
     return event;
 }
@@ -112,7 +109,6 @@ CConnectionEventBase* CIRCEventFactory::createTopicMessageEvent(
     channel.m_topic = wxString(message.m_body);
 
     CChannelStreamEvent* event = new CChannelStreamEvent();
-    event->SetEventType(myEVT_THREAD_STREAM_CH_UPDATE);
     event->setChannel(channel);
     return event;
 }
@@ -121,7 +117,6 @@ CConnectionEventBase* CIRCEventFactory::createJoinMessageEvent(
 {
     // Eventの作成
     CJoinStreamEvent* event = new CJoinStreamEvent();
-    event->SetEventType(myEVT_THREAD_STREAM_CH_JOIN);
     event->setChannelName(message.m_body);
     event->setUserName(message.m_username);
     return event;
@@ -131,7 +126,6 @@ CConnectionEventBase* CIRCEventFactory::createPartMessageEvent(
 {
     // Eventの作成
     CPartStreamEvent* event = new CPartStreamEvent();
-    event->SetEventType(myEVT_THREAD_STREAM_CH_PART);
     event->setChannelName(message.m_channel);
     event->setUserName(message.m_username);
     return event;
@@ -142,8 +136,9 @@ CConnectionEventBase* CIRCEventFactory::createPrivateMessageEvent(
 {
     // Eventの作成
     CMsgStreamEvent* event = new CMsgStreamEvent();
-    event->SetEventType(myEVT_THREAD_STREAM_MSG_ADD);
     event->setMessage(message);
+
+
     return event;
 }
 
@@ -174,7 +169,6 @@ CConnectionEventBase* CIRCEventFactory::createNamesEvent(
     CGetMemberEvent* event = new CGetMemberEvent();
     event->setMembers(result);
     event->setChannel(message.m_target);
-    event->SetEventType(myEVT_THREAD_GET_MEMBER); // イベントの種類をセット
     m_namesBuffer = "";
     return event;
 }
@@ -191,7 +185,6 @@ CConnectionEventBase* CIRCEventFactory::createKickEvent(
     CKickEvent* event = new CKickEvent();
     event->setUser(message.m_target);
     event->setChannel(message.m_channel);
-    event->SetEventType(myEVT_THREAD_KICK); // イベントの種類をセット
     return event;
 
 }
@@ -202,7 +195,6 @@ CConnectionEventBase* CIRCEventFactory::createInviteEvent(
     CInviteEvent* event = new CInviteEvent();
     event->setUser(message.m_username);
     event->setChannel(message.m_body);
-    event->SetEventType(myEVT_THREAD_INVITE); // イベントの種類をセット
     return event;
 }
 }

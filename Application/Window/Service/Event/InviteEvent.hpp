@@ -1,11 +1,11 @@
 ﻿#ifndef INVITEEVENT_HPP_
 #define INVITEEVENT_HPP_
-#include "ConnectionEventBase.hpp"
+#include "ServiceEventBase.hpp"
 
 namespace CornStarch
 {
 
-class CInviteEvent: public CConnectionEventBase
+class CInviteEvent: public CServiceEventBase
 {
     wxString m_channel; // チャンネル名
     wxString m_user; // ユーザ名

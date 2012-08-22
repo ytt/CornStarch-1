@@ -1,11 +1,11 @@
 ﻿#pragma once
-#include "ConnectionEventBase.hpp"
+#include "ServiceEventBase.hpp"
 
 namespace CornStarch
 {;
 
 // ユーザ情報更新時のイベント
-class CUserStreamEvent : public CConnectionEventBase
+class CUserStreamEvent : public CServiceEventBase
 {
 private:
     CMemberData* m_member;

@@ -4,9 +4,10 @@ using namespace std;
 
 namespace CornStarch
 {;
-
+wxDECLARE_EVENT(myEVT_THREAD_GET_CHANNEL, CGetChannelEvent);
 CGetChannelEvent::CGetChannelEvent(void)
 {
+    this->SetEventType(myEVT_THREAD_GET_CHANNEL);
 }
 
 

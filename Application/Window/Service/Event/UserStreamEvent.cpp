@@ -2,9 +2,10 @@
 
 namespace CornStarch
 {;
-
+wxDECLARE_EVENT(myEVT_THREAD_STREAM_USER_UPDATE, CUserStreamEvent);
 CUserStreamEvent::CUserStreamEvent(void) : m_member(NULL)
 {
+    this->SetEventType(myEVT_THREAD_STREAM_USER_UPDATE);
 }
 
 

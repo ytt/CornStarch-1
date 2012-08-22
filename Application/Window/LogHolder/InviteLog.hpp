@@ -2,11 +2,11 @@
 #ifndef INVITELOG_HPP_
 #define INVITELOG_HPP_
 
-#include "ChatLog.hpp"
+#include "ServiceLog.hpp"
 namespace CornStarch
 {;
 
-class CInviteLog: public CChatLog
+class CInviteLog: public CServiceLog
 {
     wxString m_channel; // チャンネル名
     wxString m_username; // ユーザ名

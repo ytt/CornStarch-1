@@ -6,8 +6,10 @@ namespace CornStarch
 {
 ;
 
+wxDECLARE_EVENT(myEVT_THREAD_GET_MEMBER, CGetMemberEvent);
 CGetMemberEvent::CGetMemberEvent(void)
 {
+    this->SetEventType(myEVT_THREAD_GET_MEMBER); // イベントの種類をセット
 }
 
 CGetMemberEvent::~CGetMemberEvent(void)

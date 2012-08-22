@@ -26,7 +26,7 @@ void CPaneRecord::init(wxWindow* parent)
 {
     // テキスト領域の作成
     Create(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize,
-            wxRE_MULTILINE | wxRE_READONLY | wxVSCROLL );
+            wxRE_MULTILINE | wxRE_READONLY | wxVSCROLL);
 
     setNavigateHaldler();
     // フォントの設定(個人的にこれが好き)
@@ -35,7 +35,7 @@ void CPaneRecord::init(wxWindow* parent)
 }
 
 // ログ一覧を表示
-void CPaneRecord::displayLogs(const vector<CChatLog*>& logs)
+void CPaneRecord::displayLogs(const vector<CServiceLog*>& logs)
 {
     Clear();
     GetCaret()->Hide();
@@ -43,28 +43,20 @@ void CPaneRecord::displayLogs(const vector<CChatLog*>& logs)
     size_t size = logs.size();
     for (size_t i = 0; i < size; i++){
         pushLog(*logs[i]);
-        switch (logs[i]->getLogType()) {
-        case CChatLog::LOG_MESSAGE:
+        if (typeid(logs[i]) == typeid(CMessageLog*)){
             pushLog(*(CMessageLog*) logs[i]);
-            break;
-        case CChatLog::LOG_JOIN:
+        } else if (typeid(logs[i]) == typeid(CJoinLog*)){
             pushLog(*(CJoinLog*) logs[i]);
-            break;
-        case CChatLog::LOG_PART:
+        } else if (typeid(logs[i]) == typeid(CPartLog*)){
             pushLog(*(CPartLog*) logs[i]);
-            break;
-        case CChatLog::LOG_TOPIC:
+        } else if (typeid(logs[i]) == typeid(CTopicLog*)){
             pushLog(*(CTopicLog*) logs[i]);
-            break;
-        case CChatLog::LOG_USER:
+        } else if (typeid(logs[i]) == typeid(CMemberLog*)){
             pushLog(*(CMemberLog*) logs[i]);
-            break;
-        case CChatLog::LOG_INVITE:
+        } else if (typeid(logs[i]) == typeid(CInviteLog*)){
             pushLog(*(CInviteLog*) logs[i]);
-            break;
-        case CChatLog::LOG_KICK:
+        } else if (typeid(logs[i]) == typeid(CKickLog*)){
             pushLog(*(CKickLog*) logs[i]);
-            break;
         }
     }
     this->ShowPosition(this->GetLastPosition());
@@ -72,7 +64,7 @@ void CPaneRecord::displayLogs(const vector<CChatLog*>& logs)
 
 //////////////////////////////////////////////////////////////////////
 // メッセージログを表示
-void CPaneRecord::pushLog(const CChatLog& messageLog)
+void CPaneRecord::pushLog(const CServiceLog& messageLog)
 {
     wxString content = wxString::Format(wxT("(%s)"),
             messageLog.getServiceName());

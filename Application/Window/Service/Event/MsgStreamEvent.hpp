@@ -1,11 +1,11 @@
 ﻿#pragma once
-#include "ConnectionEventBase.hpp"
+#include "ServiceEventBase.hpp"
 
 namespace CornStarch
 {;
 
 // メッセージ受信時のイベント
-class CMsgStreamEvent : public CConnectionEventBase
+class CMsgStreamEvent : public CServiceEventBase
 {
 private:
     CMessageData* m_message;

@@ -10,26 +10,31 @@ namespace CornStarch
 ;
 
 // チャットのログを管理
-class CChatLog
+class CServiceLog
 {
-    wxString m_ServiceName;
+    wxString m_serviceName;
+    wxString m_userName;
+    wxString m_channelName;
+    time_t m_time; // UNIX時間
+    int m_serviceId;
+
+//public:
+//    // チャットログのタイプ
+//    enum LOG_TYPE
+//    {
+//        LOG_MESSAGE, LOG_JOIN, LOG_PART, LOG_TOPIC, LOG_USER, LOG_INVITE,
+//        LOG_KICK
+//    };
+
+//protected:
+//    LOG_TYPE m_type; // ログのタイプ
+
 public:
-    // チャットログのタイプ
-    enum LOG_TYPE
-    {
-        LOG_MESSAGE, LOG_JOIN, LOG_PART, LOG_TOPIC, LOG_USER, LOG_INVITE,
-        LOG_KICK
-    };
+    CServiceLog(void);
+    virtual ~CServiceLog(void);
 
-protected:
-    LOG_TYPE m_type; // ログのタイプ
-
-public:
-    CChatLog(void);
-    virtual ~CChatLog(void);
-
-    // ログの種類を取得
-    LOG_TYPE getLogType(void) const;
+//    // ログの種類を取得
+//    LOG_TYPE getLogType(void) const;
 
     // 本名に対応するニックネームが未知か
     virtual bool isUnknownNick(const wxString& name) const;
@@ -39,12 +44,12 @@ public:
 
     wxString getServiceName() const
     {
-        return m_ServiceName;
+        return m_serviceName;
     }
 
     void setServiceName(wxString serviceName)
     {
-        m_ServiceName = serviceName;
+        m_serviceName = serviceName;
     }
 };
 

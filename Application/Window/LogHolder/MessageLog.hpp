@@ -1,11 +1,11 @@
 ﻿#pragma once
-#include "ChatLog.hpp"
+#include "ServiceLog.hpp"
 
 namespace CornStarch
 {;
 
 // メッセージのログ
-class CMessageLog : public CChatLog
+class CMessageLog : public CServiceLog
 {
 private:
     CMessageData* m_message;

@@ -117,7 +117,7 @@ void CMainPanel::clearChannels(void)
 }
 
 // ログ一覧ペインにログを表示
-void CMainPanel::displayLogs(const std::vector<CChatLog*>& logs)
+void CMainPanel::displayLogs(const std::vector<CServiceLog*>& logs)
 {
     m_recordPane->displayLogs(logs);
 }

@@ -1,11 +1,11 @@
 ﻿#pragma once
-#include "ChatLog.hpp"
+#include "ServiceLog.hpp"
 
 namespace CornStarch
 {;
 
 // チャンネル離脱ログ
-class CPartLog : public CChatLog
+class CPartLog : public CServiceLog
 {
 private:
     CSubscribeData* m_sub;

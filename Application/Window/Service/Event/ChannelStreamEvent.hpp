@@ -1,11 +1,11 @@
 ﻿#pragma once
-#include "ConnectionEventBase.hpp"
+#include "ServiceEventBase.hpp"
 
 namespace CornStarch
 {;
 
 // チャンネル情報更新時のイベント
-class CChannelStreamEvent : public CConnectionEventBase
+class CChannelStreamEvent : public CServiceEventBase
 {
 private:
     CChannelData* m_channelData; // チャンネル情報

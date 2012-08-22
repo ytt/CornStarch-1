@@ -26,7 +26,7 @@ void CMemberLog::init(const CMemberData& member)
     *m_member = member;
 
     // タイプの指定
-    m_type = LOG_USER;
+    //m_type = LOG_USER;
 }
 
 // ログを取得する

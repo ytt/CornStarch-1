@@ -1,10 +1,10 @@
 #ifndef KICKLOG_HPP_
 #define KICKLOG_HPP_
-#include "ChatLog.hpp"
+#include "ServiceLog.hpp"
 namespace CornStarch
 {;
 
-class CKickLog:public CChatLog
+class CKickLog:public CServiceLog
 {
     wxString m_channel; // チャンネル名
     wxString m_username; // ユーザ名
