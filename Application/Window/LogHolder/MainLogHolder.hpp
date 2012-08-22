@@ -20,10 +20,10 @@ public:
     std::vector<CServiceLog*> getLogs(void) const;
 
     // ニックネームの更新を行う
-    void onUpdateNickName(const CMemberData& member);
+//    void onUpdateNickName(const CMemberData& member);
 
     // ログを追加する
-    void pushLog(CServiceLog* log,const wxString& serviceName);
+    void pushLog(CServiceLog* log);
 private:
 
 };

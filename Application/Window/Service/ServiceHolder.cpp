@@ -40,9 +40,9 @@ void CServiceHolder::save()
     serializer.saveService(m_services);
 }
 // IDからサービスを取得する
-CChatServiceBase* CServiceHolder::getService(int serviceId)
+CChatServiceBase* CServiceHolder::getService(int serviceId) const
 {
-    map<int, CChatServiceBase*>::iterator it = m_services.find(serviceId);
+    map<int, CChatServiceBase*>::const_iterator it = m_services.find(serviceId);
     if (it != m_services.end()){
         return (*it).second;
     }

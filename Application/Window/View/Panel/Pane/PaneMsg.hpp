@@ -6,13 +6,13 @@
 #include <wx/wx.h>
 #include <vector>
 #include <map>
-#include "LinkableRichTextCtrl.hpp"
+#include "LogTextCtrl.hpp"
 
 namespace CornStarch
 {;
 
 // メッセージ表示用ペイン
-class CPaneMsg : public CLinkableRichTextCtrl
+class CPaneMsg : public CLogTextCtrl
 {
     static const int PANE_MSG_ID;
     static const wxColour COLOR_LIGHT_YELLOW;

@@ -72,9 +72,7 @@ void CPaneMsg::addMessage(const CMessageData* message,
 
     // 時刻
     wxString date = message->getTime("%H:%M");
-
-    this->BeginStyle(wxTextAttr(*wxRED));
-    this->WriteText(date);
+    writeColoredText(date,*wxRED);
 
     // 名前
     int nickIndex = index + date.size();
@@ -83,8 +81,7 @@ void CPaneMsg::addMessage(const CMessageData* message,
     if (message->m_tempNick != ""){
         nick += " (" + message->m_tempNick + ") ";
     }
-    this->BeginStyle(wxTextAttr(*wxBLUE));
-    this->WriteText(nick);
+    writeColoredText(nick,*wxBLUE);
 
     //本文
     wxString body = message->m_body;

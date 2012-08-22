@@ -15,16 +15,16 @@ CServiceLog::~CServiceLog(void)
 
 
 //////////////////////////////////////////////////////////////////////
-
-// 本名に対応するニックネームが未知か
-bool CServiceLog::isUnknownNick(const wxString& name) const
-{
-    return false;
-}
-
-// ニックネームを更新する
-void CServiceLog::updateNick(const wxString& nick)
-{
-}
+//
+//// 本名に対応するニックネームが未知か
+//bool CServiceLog::isUnknownNick(const wxString& name) const
+//{
+//    return false;
+//}
+//
+//// ニックネームを更新する
+//void CServiceLog::updateNick(const wxString& nick)
+//{
+//}
 
 }

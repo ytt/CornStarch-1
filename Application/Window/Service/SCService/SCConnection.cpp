@@ -42,6 +42,7 @@ void CSCConnection::init(int connectionId, wxEvtHandler* handler)
 {
     m_connectionId = connectionId;
     m_handler = handler;
+
 }
 
 // メッセージを投稿するタスク(別スレッド)を開始する
@@ -218,6 +219,7 @@ void CSCConnection::onMessageReceived(CMessageData* message)
 {
     CSCMessageData* scMessage = dynamic_cast<CSCMessageData*>(message);
     CSCEventFactory factory;
+    factory.setConnectionId(m_connectionId);
     CConnectionEventBase* event = factory.Create(*scMessage);
     if (event != NULL){
         invokeEvent(event);

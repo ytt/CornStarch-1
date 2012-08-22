@@ -74,7 +74,7 @@ public:
     void clearPostPaneText(void);
 
     // ログ一覧にログを表示する
-    void displayLogs(const std::vector<CServiceLog*>& logs);
+    void displayLogs(const std::vector<CServiceLog*>& logs,const CServiceHolder* services);
 
 public:
     // メニューバーに関するメソッド

@@ -22,7 +22,7 @@ public:
     void deleteChannel(int serviceId, wxString channel);
     void addNewService(CChatServiceBase* service, wxEvtHandler* hander);
 
-    CChatServiceBase* getService(int serviceId);
+    CChatServiceBase* getService(int serviceId) const;
 
     map<int, CChatServiceBase*> getServices() const
     {

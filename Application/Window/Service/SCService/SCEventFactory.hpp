@@ -8,11 +8,22 @@ namespace StarChat
 {
 class CSCEventFactory
 {
+    int m_connectionId;
 public:
     CSCEventFactory();
     virtual ~CSCEventFactory();
 
     CConnectionEventBase* Create(CSCMessageData message);
+
+    int getConnectionId() const
+    {
+        return m_connectionId;
+    }
+
+    void setConnectionId(int connectionId)
+    {
+        m_connectionId = connectionId;
+    }
 
 };
 }

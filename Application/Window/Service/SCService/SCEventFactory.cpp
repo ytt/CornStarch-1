@@ -56,6 +56,7 @@ CConnectionEventBase* CSCEventFactory::Create(CSCMessageData message)
         CMsgStreamEvent* event = new CMsgStreamEvent();
         CMessageLog* log = new CMessageLog();
         log->init(message);
+        log->setServiceId(m_connectionId);
         log->setChannelName(message.m_channel);
         log->setUserName(message.m_username);
         event->setServiceLog(log);
@@ -65,6 +66,7 @@ CConnectionEventBase* CSCEventFactory::Create(CSCMessageData message)
     if (message.m_type == CSCMessageType::JOIN){
         CJoinStreamEvent* event = new CJoinStreamEvent();
         CJoinLog* log = new CJoinLog();
+        log->setServiceId(m_connectionId);
         log->setChannelName(message.m_channel);
         log->setUserName(message.m_username);
         event->setServiceLog(log);
@@ -74,6 +76,7 @@ CConnectionEventBase* CSCEventFactory::Create(CSCMessageData message)
     if (message.m_type == CSCMessageType::PART){
         CPartStreamEvent* event = new CPartStreamEvent();
         CPartLog* log = new CPartLog();
+        log->setServiceId(m_connectionId);
         log->setChannelName(message.m_channel);
         log->setUserName(message.m_username);
         event->setServiceLog(log);
@@ -82,6 +85,7 @@ CConnectionEventBase* CSCEventFactory::Create(CSCMessageData message)
     if (message.m_type == CSCMessageType::TOPIC){
         CChannelStreamEvent* event = new CChannelStreamEvent();
         CTopicLog* log = new CTopicLog();
+        log->setServiceId(m_connectionId);
         log->setChannelName(message.m_channelData.m_name);
         log->setTopic(message.m_channelData.m_topic);
         log->setUserName(message.m_username);
@@ -91,6 +95,7 @@ CConnectionEventBase* CSCEventFactory::Create(CSCMessageData message)
     if (message.m_type == CSCMessageType::NICK){
         CUserStreamEvent* event = new CUserStreamEvent();
         CMemberLog* log = new CMemberLog();
+        log->setServiceId(m_connectionId);
         log->setUserName(message.m_member.m_name);
         log->setNickName(message.m_member.m_nick);
         event->setServiceLog(log);

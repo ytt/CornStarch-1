@@ -115,9 +115,9 @@ void CMainView::clearPostPaneText(void)
 }
 
 // ログ一覧にログを表示する
-void CMainView::displayLogs(const std::vector<CServiceLog*>& logs)
+void CMainView::displayLogs(const std::vector<CServiceLog*>& logs,const CServiceHolder* services)
 {
-    m_panel->displayLogs(logs);
+    m_panel->displayLogs(logs,services);
 }
 
 // メッセージ一覧をクリアします。

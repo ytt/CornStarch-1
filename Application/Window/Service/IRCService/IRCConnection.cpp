@@ -23,7 +23,6 @@ namespace IRC
 
 CIRCConnection::CIRCConnection()
 {
-
 }
 
 CIRCConnection::~CIRCConnection()
@@ -48,6 +47,8 @@ void CIRCConnection::disconnect()
 void CIRCConnection::init(int connectionId, wxEvtHandler* handler)
 {
     m_connectionId = connectionId;
+    m_eventFactory.setConnectionId(m_connectionId);
+
     m_handler = handler;
     m_client = new CIRCClient();
     m_client->init(this);
@@ -244,6 +245,7 @@ void CIRCConnection::onMessageReceived(CMessageData* message)
     } else{
 
         CConnectionEventBase* event = m_eventFactory.Create(*ircMessage);
+
         if (event != NULL){
             invokeEvent(event);
         }

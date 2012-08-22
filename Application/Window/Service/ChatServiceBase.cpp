@@ -332,9 +332,6 @@ void CChatServiceBase::onGetMessageStream(const CMessageData& message)
         return;
     }
 
-    // データ更新
-    wxString nick = m_nickTable->getNickname(message.m_username);
-
     // ニックネームが未知の場合、メンバー情報取得タスクの開始
     if (!m_nickTable->isExist(message.m_username)){
         m_connect->startGetMemberInfoTask(m_user, message.m_username);
@@ -379,7 +376,6 @@ void CChatServiceBase::onGetPartStream(const wxString& channel,
         const wxString& name)
 {
     // データ更新
-    wxString nick = m_nickTable->getNickname(name);
     m_channel->popMember(channel, name);
 
     // ニックネームが未知の時、メンバー情報取得タスクの開始

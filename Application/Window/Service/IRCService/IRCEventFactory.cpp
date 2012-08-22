@@ -51,6 +51,7 @@ CConnectionEventBase* CIRCEventFactory::Create(const CIRCMessageData& message)
         // すべてのチャンネルへのPartEventの作成
         CPartStreamEvent* event = new CPartStreamEvent();
         CPartLog* log = new CPartLog();
+        log->setServiceId(m_connectionId);
         log->setChannelName("");
         log->setUserName(message.m_username);
         event->setServiceLog(log);
@@ -92,6 +93,7 @@ CConnectionEventBase* CIRCEventFactory::createNickMessageEvent(
 
     CUserStreamEvent* event = new CUserStreamEvent();
     CMemberLog* log = new CMemberLog();
+    log->setServiceId(m_connectionId);
     log->setUserName(message.m_username);
     log->setNickName(message.m_body);
     event->setServiceLog(log);
@@ -104,6 +106,7 @@ CConnectionEventBase* CIRCEventFactory::createTopicMessageEvent(
     // Eventの作成
     CChannelStreamEvent* event = new CChannelStreamEvent();
     CTopicLog* log = new CTopicLog();
+    log->setServiceId(m_connectionId);
     log->setTopic(message.m_body);
     log->setChannelName(message.m_channel);
     log->setUserName(message.m_username);
@@ -116,6 +119,7 @@ CConnectionEventBase* CIRCEventFactory::createJoinMessageEvent(
     // Eventの作成
     CJoinStreamEvent* event = new CJoinStreamEvent();
     CJoinLog* log = new CJoinLog();
+    log->setServiceId(m_connectionId);
     log->setChannelName(message.m_body);
     log->setUserName(message.m_username);
     event->setServiceLog(log);
@@ -128,6 +132,7 @@ CConnectionEventBase* CIRCEventFactory::createPartMessageEvent(
     // Eventの作成
     CPartStreamEvent* event = new CPartStreamEvent();
     CPartLog* log = new CPartLog();
+    log->setServiceId(m_connectionId);
     log->setChannelName(message.m_channel);
     log->setUserName(message.m_username);
     event->setServiceLog(log);
@@ -143,6 +148,7 @@ CConnectionEventBase* CIRCEventFactory::createPrivateMessageEvent(
 
     CMessageLog* log = new CMessageLog();
     log->init(message);
+    log->setServiceId(m_connectionId);
     log->setChannelName(message.m_channel);
     log->setUserName(message.m_username);
     event->setServiceLog(log);
@@ -192,6 +198,7 @@ CConnectionEventBase* CIRCEventFactory::createKickEvent(
 {
     CKickEvent* event = new CKickEvent();
     CKickLog* log = new CKickLog();
+    log->setServiceId(m_connectionId);
     log->setChannelName(message.m_channel);
     log->setUserName(message.m_username);
     log->setTarget(message.m_target);
@@ -205,6 +212,7 @@ CConnectionEventBase* CIRCEventFactory::createInviteEvent(
 {
     CInviteEvent* event = new CInviteEvent();
     CInviteLog* log = new CInviteLog();
+    log->setServiceId(m_connectionId);
     log->setChannelName(message.m_body);
     log->setUserName(message.m_username);
     event->setServiceLog(log);

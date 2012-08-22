@@ -11,6 +11,7 @@ namespace IRC
 ;
 class CIRCEventFactory
 {
+    int m_connectionId;
     // 名前一覧のバッファ
     wxString m_namesBuffer;
     // 名前一覧の名前をバッファに追加します。
@@ -48,6 +49,16 @@ public:
     {
     }
     CConnectionEventBase* Create(const CIRCMessageData& message);
+
+    int getConnectionId() const
+    {
+        return m_connectionId;
+    }
+
+    void setConnectionId(int connectionId)
+    {
+        m_connectionId = connectionId;
+    }
 };
 }
 }

@@ -24,8 +24,8 @@ class CSCConnection: public IConnection
 {
 private:
 
-    CSCAuthTask* m_authTask; // ユーザ認証用タスク
     CSCGetStreamTask* m_getStreamTask; // ストリーム受信タスク
+    CSCAuthTask* m_authTask; // ユーザ認証用タスク
     int m_connectionId;
     wxEvtHandler* m_handler;
     wxString m_host;
