@@ -8,32 +8,10 @@ class CKickLog:public CServiceLog
 {
 
     wxString m_target; // ユーザ名
-//    wxString m_channel; // チャンネル名
 public:
     CKickLog();
     virtual ~CKickLog();
 
-    // 初期化を行う
-//    void init(const wxString& name, const wxString& channel);
-//    wxString getChannel() const
-//    {
-//        return m_channel;
-//    }
-//
-//    void setChannel(wxString channel)
-//    {
-//        m_channel = channel;
-//    }
-//
-//    wxString getUsername() const
-//    {
-//        return m_username;
-//    }
-//
-//    void setUsername(wxString username)
-//    {
-//        m_username = username;
-//    }
 
     wxString getTarget() const
     {

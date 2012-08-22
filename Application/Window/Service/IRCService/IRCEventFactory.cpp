@@ -29,19 +29,6 @@
 namespace CornStarch
 {
 ;
-//wxDECLARE_EVENT(myEVT_THREAD_GET_MEMBER, CGetMemberEvent);
-//wxDECLARE_EVENT(myEVT_THREAD_GET_MESSAGE, CGetMessageEvent);
-//wxDECLARE_EVENT(myEVT_THREAD_GET_PING, CAuthEvent);
-//wxDECLARE_EVENT(myEVT_THREAD_STREAM_MSG_ADD, CMsgStreamEvent);
-//wxDECLARE_EVENT(myEVT_THREAD_STREAM_CH_JOIN, CJoinStreamEvent);
-//wxDECLARE_EVENT(myEVT_THREAD_STREAM_CH_PART, CPartStreamEvent);
-//wxDECLARE_EVENT(myEVT_THREAD_STREAM_CH_UPDATE, CChannelStreamEvent);
-//wxDECLARE_EVENT(myEVT_THREAD_STREAM_USER_UPDATE, CUserStreamEvent);
-//wxDECLARE_EVENT(myEVT_THREAD_DISCONNECT, CDisconnectEvent);
-//wxDECLARE_EVENT(myEVT_THREAD_GET_PING, CAuthEvent);
-
-//wxDECLARE_EVENT(myEVT_THREAD_INVITE, CInviteEvent);
-//wxDECLARE_EVENT(myEVT_THREAD_KICK, CKickEvent);
 namespace IRC
 {
 ;
@@ -102,9 +89,6 @@ CConnectionEventBase* CIRCEventFactory::createNickMessageEvent(
         const CIRCMessageData& message) const
 {
     // Eventの作成
-//    CMemberData member;
-//    member.m_name = wxString(message.m_username);
-//    member.m_nick = wxString(message.m_body);
 
     CUserStreamEvent* event = new CUserStreamEvent();
     CMemberLog* log = new CMemberLog();
@@ -118,10 +102,6 @@ CConnectionEventBase* CIRCEventFactory::createTopicMessageEvent(
         const CIRCMessageData& message) const
 {
     // Eventの作成
-//    CChannelData channel;
-//    channel.m_name = wxString(message.m_channel);
-//    channel.m_topic = wxString(message.m_body);
-//    event->setChannel(channel);
     CChannelStreamEvent* event = new CChannelStreamEvent();
     CTopicLog* log = new CTopicLog();
     log->setTopic(message.m_body);
@@ -151,9 +131,6 @@ CConnectionEventBase* CIRCEventFactory::createPartMessageEvent(
     log->setChannelName(message.m_channel);
     log->setUserName(message.m_username);
     event->setServiceLog(log);
-//
-//    event->setChannelName(message.m_channel);
-//    event->setUserName(message.m_username);
 
     return event;
 
@@ -169,8 +146,6 @@ CConnectionEventBase* CIRCEventFactory::createPrivateMessageEvent(
     log->setChannelName(message.m_channel);
     log->setUserName(message.m_username);
     event->setServiceLog(log);
-
-   // event->setMessage(message);
 
     return event;
 }
@@ -221,8 +196,6 @@ CConnectionEventBase* CIRCEventFactory::createKickEvent(
     log->setUserName(message.m_username);
     log->setTarget(message.m_target);
     event->setServiceLog(log);
-//    event->setUser(message.m_target);
-//    event->setChannel(message.m_channel);
     return event;
 
 }
@@ -235,8 +208,6 @@ CConnectionEventBase* CIRCEventFactory::createInviteEvent(
     log->setChannelName(message.m_body);
     log->setUserName(message.m_username);
     event->setServiceLog(log);
-//    event->setUser(message.m_username);
-//    event->setChannel(message.m_body);
     return event;
 }
 }

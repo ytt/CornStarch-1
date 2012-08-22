@@ -27,8 +27,6 @@ void CMessageLog::init(const CMessageData& message)
     }
     *m_message = message;
 
-    // タイプの指定
-    //m_type = LOG_MESSAGE;
 }
 
 // ログを取得する
