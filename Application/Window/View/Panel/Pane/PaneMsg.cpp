@@ -87,7 +87,6 @@ void CPaneMsg::addMessage(const CMessageData* message,
     this->WriteText(nick);
 
     //本文
-    int bodyIndex = nickIndex += nick.size();
     wxString body = message->m_body;
 
     // 未読の背景色設定

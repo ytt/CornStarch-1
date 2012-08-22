@@ -78,7 +78,7 @@ void CMainWindow::onAutoComplete(wxCommandEvent& event)
             m_serviceHolder->getCurrentServiceId());
     m_view->setTextPostPane(
             m_inputManager->getAutoCompletionText(m_view->getTextPostPane(),
-                    service));
+                    service,getCommandList()));
 }
 void CMainWindow::onSendHistory(wxCommandEvent& event)
 {
@@ -185,17 +185,47 @@ void CMainWindow::onQuit(wxCommandEvent& event)
 // サービス登録
 void CMainWindow::onServiceRegister(wxCommandEvent& event)
 {
-    // 認証ダイアログを表示
+    registerService();
+}
+void CMainWindow::registerService()
+{ // 認証ダイアログを表示
     if (m_view->showModalAuthDlg() != wxID_OK){
         return;
     }
-    // ここでIRCサーバの追加を行う
+    // ここでサーバの追加を行う
     CChatServiceBase* contents = m_view->getNewServiceFromDialog();
     if (contents != NULL){
         m_serviceHolder->addNewService(contents, GetEventHandler());
     }
 }
+bool CMainWindow::invoke(const wxString& text)
+{
+    CChatServiceBase* service = m_serviceHolder->getService(
+            m_serviceHolder->getCurrentServiceId());
 
+    if (text.StartsWith(CClientCommandInvoker::CONNECT)){
+        service->reconnect();
+        return true;
+    } else if (text.StartsWith(CClientCommandInvoker::DELETE)){
+        deleteService(service->getId());
+        return true;
+    } else if (text.StartsWith(CClientCommandInvoker::DISCONNECT)){
+        disconnect(service->getId());
+        return true;
+    } else if (text.StartsWith(CClientCommandInvoker::JUMP)){
+        this->moveToUnread();
+        return true;
+    } else if (text.StartsWith(CClientCommandInvoker::NEW)){
+        registerService();
+        return true;
+    } else if (text.StartsWith(CClientCommandInvoker::QUIT)){
+        Close(true);
+        return true;
+    }
+
+    return service->getCommandInvoker()->invoke(text);
+    //return false;
+}
 // チャンネルに参加メニュー
 void CMainWindow::onJoin(wxCommandEvent& event)
 {
@@ -259,16 +289,30 @@ void CMainWindow::updateService(int serviceId)
 // 次の未読チャンネルを選択。
 void CMainWindow::onMoveToUnread(wxCommandEvent& event)
 {
+    moveToUnread();
+}
+void CMainWindow::moveToUnread()
+{
     map<int, CChatServiceBase*> services = m_serviceHolder->getServices();
     map<int, CChatServiceBase*>::iterator it = services.begin();
     bool isFoundCurrentNode = false;
+    int serviceId = 0;
+    wxString channelName = "";
+
     while (it != services.end()){
         CChatServiceBase* service = (*it).second;
         vector<CChannelStatus*> channels = service->getChannels();
         vector<CChannelStatus*>::iterator channel = channels.begin();
         while (channel != channels.end()){
+            if ((*channel)->getUnreadCount() != 0 && serviceId == 0){
+                // 未読ノードを初めて見つける
+                serviceId = service->getId();
+                channelName = (*channel)->getChannelName();
+                return;
+            }
+
             if ((*channel)->getUnreadCount() != 0 && isFoundCurrentNode){
-                // 未読ノードを見つける
+                // 現在のノード以降に未読ノードを見つける
                 m_view->setSelectedChannel(service->getId(),
                         (*channel)->getChannelName());
                 return;
@@ -283,29 +327,9 @@ void CMainWindow::onMoveToUnread(wxCommandEvent& event)
         }
         it++;
     }
-    // 以降で見つからない。先頭のを探す。
-    it = services.begin();
-    while (it != services.end()){
-        CChatServiceBase* service = (*it).second;
-
-        vector<CChannelStatus*> channels = service->getChannels();
-        vector<CChannelStatus*>::iterator channel = channels.begin();
-        while (channel != channels.end()){
-            if ((*channel)->getUnreadCount() != 0){
-                // 未読ノードを見つける
-                m_view->setSelectedChannel(service->getId(),
-                        (*channel)->getChannelName());
-                return;
-            }
-            // 現在選択しているノードにたどり着く。
-            if (service->getId() == m_serviceHolder->getCurrentServiceId()
-                    && (*channel)->getChannelName()
-                            == service->getCurrentChannel()){
-                return;
-            }
-            channel++;
-        }
-        it++;
+    // 現在のノード以降で見つからなかったら、はじめに見つかった未読ノードを選択。
+    if (serviceId != 0){
+        m_view->setSelectedChannel(serviceId, channelName);
     }
 }
 
@@ -342,7 +366,7 @@ void CMainWindow::onEnter(wxCommandEvent& event)
     if (service == NULL || body == ""){
         return;
     }
-    bool isCommand = service->getCommandInvoker()->invoke(body);
+    bool isCommand = invoke(body);
     if (isCommand){
         // 表示の更新
         m_view->clearPostPaneText();

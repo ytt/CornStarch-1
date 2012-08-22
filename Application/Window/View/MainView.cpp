@@ -43,7 +43,7 @@ void CMainView::init(wxWindow* parent)
     // 通知クラスを初期化
     if (m_notifier == NULL){
         m_notifier = new CMainNotifier();
-        m_notifier->init();
+        m_notifier->init(parent);
     }
 }
 

@@ -18,13 +18,13 @@ class CInputManager
     wxString getCandidate(const wxString& currentInput,
             vector<wxString>& items);
     wxString getNextInputCandidate(const wxString& currentInput,
-            const CChatServiceBase* service);
+            const CChatServiceBase* service,const vector<wxString>& commands);
 public:
     CInputManager();
     virtual ~CInputManager();
 
     wxString getAutoCompletionText(const wxString& content,
-            const CChatServiceBase* service);
+            const CChatServiceBase* service,const vector<wxString>& commands);
     void addHistory(const wxString& content);
     wxString getHistory(const wxString& currentInput);
 };

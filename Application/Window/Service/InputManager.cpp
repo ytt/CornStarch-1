@@ -15,31 +15,37 @@ CInputManager::~CInputManager()
 
 }
 wxString CInputManager::getAutoCompletionText(const wxString& content,
-        const CChatServiceBase* service)
+        const CChatServiceBase* service, const vector<wxString>& commands)
 {
     vector<wxString> delimiter;
     delimiter.push_back(" ");
     delimiter.push_back("　");
-    if (content.find("/") != 0 && CStringUtility::findAny(content,delimiter) != wxString::npos){
+    if (content.find("/") != 0
+            && CStringUtility::findAny(content, delimiter) != wxString::npos){
         // コマンドでない＆＆スペースを含む場合は、スペース以降で入力補助
         int index = content.rfind(" ");
-        wxString preText = content.substr(0,index);
+        wxString preText = content.substr(0, index);
         wxString targetText = content.substr(index + 1);
-        wxString result = getNextInputCandidate(targetText, service);
+        wxString result = getNextInputCandidate(targetText, service, commands);
 
-        return wxString::Format(wxT("%s %s") ,preText, result);
+        return wxString::Format(wxT("%s %s"), preText, result);
     } else{
-        return getNextInputCandidate(content, service);
+        return getNextInputCandidate(content, service, commands);
     }
 }
 // 現在の入力から次の候補を取得
 wxString CInputManager::getNextInputCandidate(const wxString& currentInput,
-        const CChatServiceBase* service)
+        const CChatServiceBase* service, const vector<wxString>& commands)
 {
     vector<wxString> candidates;
     if (currentInput.find("/") == 0){
         // コマンドの取得
         candidates = service->getCommandInvoker()->getCommandList();
+        vector<wxString>::const_iterator it = commands.begin();
+        while (it != commands.end()){
+            candidates.push_back(*it);
+            it++;
+        }
     } else{
         // 参加者の取得
         wxString channelName = service->getCurrentChannel();

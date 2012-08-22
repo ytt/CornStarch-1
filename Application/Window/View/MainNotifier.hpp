@@ -10,14 +10,16 @@ namespace CornStarch
 class CMainNotifier
 {
 private:
+#ifdef _WIN32
     wxTaskBarIcon* m_taskbar; // タスクバー
-
+#endif
+   // wxNotificationMessage* m_message;
 public:
     CMainNotifier(void);
     ~CMainNotifier(void);
 
     // 初期化を行う
-    void init(void);
+    void init(wxWindow* parent);
 
     // 通知を行う
     void messageNotify(const wxString& title, const wxString& message);

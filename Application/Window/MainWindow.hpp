@@ -7,13 +7,14 @@
 #include "Serializer/ServiceSerializerWin.hpp"
 #include "Service/ServiceHolder.hpp"
 #include "Service/InputManager.hpp"
+#include "Service/ClientCommandInvoker.hpp"
 
 namespace CornStarch
 {
 ;
 
 // ビューコントローラとなるウィンドウクラス
-class CMainWindow: public wxFrame
+class CMainWindow: public wxFrame,public CClientCommandInvoker
 {
 private:
 
@@ -32,9 +33,13 @@ public:
 
     // 初期化を行う
     void init(void);
-
+    // コマンドの実行
+    bool invoke(const wxString& text);
 private:
-
+    // 新規サービスの作成
+    void registerService();
+    // 未読に移動
+    void moveToUnread();
     // 画面操作に関するイベントハンドラを設定する
     void initHandle(void);
 

@@ -13,6 +13,7 @@ class CBasicCommandInvoker : public ICommandInvoker
     const static wxString TOPIC;
     const static wxString NICK;
 
+protected:
     CChatServiceBase* m_service;
 public:
     CBasicCommandInvoker(CChatServiceBase* serivce);
