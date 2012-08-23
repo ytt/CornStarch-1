@@ -30,22 +30,27 @@ void CPaneRecord::init(wxWindow* parent)
 }
 
 // ログ一覧を表示
-void CPaneRecord::displayLogs(const vector<CServiceLog*>& logs,const CServiceHolder* services)
+void CPaneRecord::displayLogs(const vector<CServiceLog*>& logs,
+        const CServiceHolder* services)
 {
     Clear();
     GetCaret()->Hide();
 
     size_t size = logs.size();
     for (size_t i = 0; i < size; i++){
-        int serviceId =logs[i]->getServiceId();
+        int serviceId = logs[i]->getServiceId();
         CChatServiceBase* service = services->getService(serviceId);
-        pushServerName(service->getName());
-        wxString nickName = service->getNickTable().getNickname(logs[i]->getUserName());
-        logs[i]->setNick(nickName);
-        if (typeid(*logs[i]) == typeid(CMessageLog)){
-            writeColoredText("<" + logs[i]->getChannelName() + ">", *wxBLACK);
+        if (service != NULL){
+            pushServerName(service->getName());
+            wxString nickName = service->getNickTable().getNickname(
+                    logs[i]->getUserName());
+            logs[i]->setNick(nickName);
+            if (typeid(*logs[i]) == typeid(CMessageLog)){
+                writeColoredText("<" + logs[i]->getChannelName() + ">",
+                        *wxBLACK);
+            }
+            pushLog(logs[i]);
         }
-        pushLog(logs[i]);
     }
     this->ShowPosition(this->GetLastPosition());
 }

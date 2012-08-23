@@ -116,10 +116,12 @@ bool CChannelStatus::hasSameMessage(const CMessageData& message) const
     for (size_t i = 0; i < length; i++){
 
         CMessageLog* log = dynamic_cast<CMessageLog*>(logs[i]);
-        // 未知のIDでかつメッセージが同じだったら
-        if (log->getMessage()->m_id == -1
-                && log->getMessage()->m_body == message.m_body){
-            return true;
+        if (log != NULL){
+            // 未知のIDでかつメッセージが同じだったら
+            if (log->getMessage()->m_id == -1
+                    && log->getMessage()->m_body == message.m_body){
+                return true;
+            }
         }
     }
     return false;
@@ -137,10 +139,12 @@ void CChannelStatus::updateMessageId(const CMessageData& message)
     for (size_t i = 0; i < length; i++){
 
         CMessageLog* log = dynamic_cast<CMessageLog*>(logs[i]);
-        // 未知のIDでかつメッセージが同じだったら
-        if (log->getMessage()->m_id == -1
-                && log->getMessage()->m_body == message.m_body){
-            log->getMessage()->m_id = message.m_id;
+        if (log != NULL){
+            // 未知のIDでかつメッセージが同じだったら
+            if (log->getMessage()->m_id == -1
+                    && log->getMessage()->m_body == message.m_body){
+                log->getMessage()->m_id = message.m_id;
+            }
         }
     }
 }

@@ -20,12 +20,9 @@ CMessageLog::~CMessageLog(void)
 
 
 // 初期化を行う
-void CMessageLog::init(const CMessageData& message)
+void CMessageLog::init(CMessageData* message)
 {
-    if (m_message == NULL){
-        m_message = new CMessageData();
-    }
-    *m_message = message;
+    m_message = message;
 
 }
 

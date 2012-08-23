@@ -141,7 +141,7 @@ CConnectionEventBase* CIRCEventFactory::createPrivateMessageEvent(
     CStreamEvent<CMessageLog>* event = new CStreamEvent<CMessageLog>(myEVT_THREAD_STREAM_MSG_ADD);
 
     CMessageLog* log = new CMessageLog();
-    log->init(message);
+    log->init(new CMessageData(message));
     log->setServiceId(m_connectionId);
     log->setChannelName(message.m_channel);
     log->setUserName(message.m_username);

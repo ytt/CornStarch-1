@@ -156,6 +156,9 @@ public:
     // チャンネルから離脱する際
     void partChannel(const wxString& channel);
 
+    // ログの追加
+    void addLog(CServiceLog* log);
+
     void connect(void);
     // 再接続を行う
     virtual void reconnect(void) = 0;
@@ -171,7 +174,7 @@ public:
     wxString getCurrentChannel(void) const;
 
     // メッセージを生成
-    CMessageData generateMessage(const wxString& body);
+    CMessageData* generateMessage(const wxString& body);
 
     // ニックネームを取得
     wxString getNickName(void) const;

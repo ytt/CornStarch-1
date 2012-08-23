@@ -106,9 +106,9 @@ wxString CChatServiceBase::getCurrentChannel(void) const
 }
 
 // メッセージを生成
-CMessageData CChatServiceBase::generateMessage(const wxString& body)
+CMessageData* CChatServiceBase::generateMessage(const wxString& body)
 {
-    return CMessageData(-1, m_user->getUserName(), body,
+    return new CMessageData(-1, m_user->getUserName(), body,
             m_user->getChannelName(), time(NULL));
 }
 
@@ -146,8 +146,7 @@ CChannelStatus* CChatServiceBase::getChannel(const wxString& channelName) const
     return m_channel->getChannel(channelName);
 }
 // メッセージ一覧を取得
-vector<CServiceLog*> CChatServiceBase::getLogs(
-        const wxString& channel) const
+vector<CServiceLog*> CChatServiceBase::getLogs(const wxString& channel) const
 {
     return m_channel->getLogs(channel);
 }
@@ -270,7 +269,7 @@ void CChatServiceBase::onGetMessages(const wxString channleName,
 
         CMessageLog* log = new CMessageLog();
         log->setServiceId(getId());
-        log->init(*(*it));
+        log->init((*it));
         log->setUserName((*it)->m_username);
         log->setChannelName((*it)->m_channel);
         log->setTime((*it)->m_time);
@@ -347,13 +346,15 @@ void CChatServiceBase::onGetMessageStream(CMessageLog* message)
     if (!m_nickTable->isExist(message->getUserName())){
         m_connect->startGetMemberInfoTask(m_user, message->getUserName());
     }
-
+    addLog(message);
+}
+void CChatServiceBase::addLog(CServiceLog* log)
+{
     // 既に受信を行っていたチャンネルであればデータ追加
-    if (m_channel->hasReceivedMessage(message->getChannelName())){
-        m_channel->pushLog(message->getChannelName(), message);
+    if (m_channel->hasReceivedMessage(log->getChannelName())){
+        m_channel->pushLog(log->getChannelName(), log);
     }
 }
-
 // チャンネル参加ストリームを受信
 void CChatServiceBase::onGetJoinStream(const wxString& channel,
         const wxString& name)
