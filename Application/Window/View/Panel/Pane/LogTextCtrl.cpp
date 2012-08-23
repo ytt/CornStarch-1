@@ -49,21 +49,20 @@ void CLogTextCtrl::pushLog(const CServiceLog* log)
 void CLogTextCtrl::pushLog(const CMessageLog* messageLog)
 {
     // 文字コード変換
-    CMessageData message = messageLog->getMessage();
+    CMessageData* message = messageLog->getMessage();
     wxString name = messageLog->getNick();
-    wxString body = message.m_body;
-    wxString channel = message.m_channel;
-    wxString time = message.getTime("%H:%M");
+    wxString body = message->m_body;
+    wxString channel = message->m_channel;
+    wxString time = message->getTime("%H:%M");
 
     // temporary_nickがあれば、本文の先頭に表示
-    wxString nick = message.m_tempNick;
+    wxString nick = message->m_tempNick;
     if (nick != ""){
         body = "(" + nick + ") " + body;
     }
     writeColoredText(time + " ", COLOR_RED); // 時間を赤で表示
     writeColoredText("(" + name + ") : ", COLOR_BLUE); // 名前を青で表示
     writeColoredText(body, COLOR_BLACK); // 本文を黒で表示
-
 }
 
 // チャンネル参加ログを表示

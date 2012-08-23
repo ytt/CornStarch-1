@@ -18,7 +18,7 @@ public:
     void init(const CMessageData& message);
 
     // メッセージを取得する
-    CMessageData getMessage(void) const;
+    CMessageData* getMessage(void) const;
     void setMessage(CMessageData* message)
     {
         m_message = message;

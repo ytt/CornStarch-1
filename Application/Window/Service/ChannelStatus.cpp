@@ -82,7 +82,7 @@ void CChannelStatus::setMessages(const vector<CServiceLog*>& messages)
                 CMessageLog* message = dynamic_cast<CMessageLog*>(messages[size
                         - i]);
                 if (message != NULL){
-                    message->getMessage().m_isReaded = false;
+                    message->getMessage()->m_isReaded = false;
                 }
             }
         }
@@ -117,8 +117,8 @@ bool CChannelStatus::hasSameMessage(const CMessageData& message) const
 
         CMessageLog* log = dynamic_cast<CMessageLog*>(logs[i]);
         // 未知のIDでかつメッセージが同じだったら
-        if (log->getMessage().m_id == -1
-                && log->getMessage().m_body == message.m_body){
+        if (log->getMessage()->m_id == -1
+                && log->getMessage()->m_body == message.m_body){
             return true;
         }
     }
@@ -138,9 +138,9 @@ void CChannelStatus::updateMessageId(const CMessageData& message)
 
         CMessageLog* log = dynamic_cast<CMessageLog*>(logs[i]);
         // 未知のIDでかつメッセージが同じだったら
-        if (log->getMessage().m_id == -1
-                && log->getMessage().m_body == message.m_body){
-            log->getMessage().m_id = message.m_id;
+        if (log->getMessage()->m_id == -1
+                && log->getMessage()->m_body == message.m_body){
+            log->getMessage()->m_id = message.m_id;
         }
     }
 }
@@ -167,7 +167,7 @@ void CChannelStatus::clearUnreadCount()
         while (it != logs.end()){
             CMessageLog* message = dynamic_cast<CMessageLog*>(*it);
             if (message != NULL){
-                message->getMessage().m_isReaded = true;
+                message->getMessage()->m_isReaded = true;
             }
             it++;
         }

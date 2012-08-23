@@ -20,7 +20,6 @@ bool CMainApplication::OnInit()
         wxSize(WIDTH, HEIGHT));
     m_window->init();
 
-
     // メインウィンドウの表示
     m_window->Show(true);
 

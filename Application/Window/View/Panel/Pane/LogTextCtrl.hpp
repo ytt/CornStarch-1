@@ -16,13 +16,13 @@ namespace CornStarch
 
 class CLogTextCtrl: public CLinkableRichTextCtrl
 {
-private:
+protected:
     static const wxColour COLOR_BLACK;
     static const wxColour COLOR_GREEN;
     static const wxColour COLOR_RED;
     static const wxColour COLOR_BLUE;
     // メッセージログを表示
-    void pushLog(const CMessageLog* messageLog);
+    virtual void pushLog(const CMessageLog* messageLog);
 
     // チャンネル参加ログを表示
     void pushLog(const CJoinLog* joinLog);
@@ -45,7 +45,7 @@ public:
     CLogTextCtrl();
     virtual ~CLogTextCtrl();
 
-    void pushLog(const CServiceLog* log);
+    virtual void pushLog(const CServiceLog* log);
     // 単色で文字列を追加する
     void writeColoredText(const wxString& str, const wxColour& colour);
 

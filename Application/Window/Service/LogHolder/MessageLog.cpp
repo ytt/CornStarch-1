@@ -30,9 +30,9 @@ void CMessageLog::init(const CMessageData& message)
 }
 
 // ログを取得する
-CMessageData CMessageLog::getMessage(void) const
+CMessageData* CMessageLog::getMessage(void) const
 {
-    return *m_message;
+    return m_message;
 }
 
 

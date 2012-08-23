@@ -84,9 +84,9 @@ void CMainView::displayMessages(const vector<CServiceLog*>& messages,
 {
     m_panel->displayMessages(messages, nickTable);
 }
-void CMainView::addMessage(const CServiceLog* message)
+void CMainView::addLog(const CServiceLog* message)
 {
-    m_panel->addMessage(message);
+    m_panel->addLog(message);
 }
 
 void CMainView::addUnreadMessage(const CMessageData* message)

@@ -68,7 +68,7 @@ void CMainPanel::displayMessages(const vector<CServiceLog*>& messages,
     m_msgPane->Show(true);
 
 }
-void CMainPanel::addMessage(const CServiceLog* message)
+void CMainPanel::addLog(const CServiceLog* message)
 {
     m_msgPane->pushLog(message);
     m_msgPane->clearUnreadBackgroundColor();

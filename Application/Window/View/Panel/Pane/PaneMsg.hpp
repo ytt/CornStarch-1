@@ -25,7 +25,11 @@ protected:
     void OnScroll(wxScrollWinEvent &event);
     // wxWindowイベントを処理させたいクラスに利用するマクロ
     DECLARE_EVENT_TABLE();
+
+    void pushLog(const CMessageLog* messageLog);
 public:
+    void pushLog(const CServiceLog* log);
+
     CPaneMsg(void);
     ~CPaneMsg(void);
 

@@ -33,7 +33,7 @@ public:
     void displayMessages(const std::vector<CServiceLog*>& messages,
             const CNickTable& nickTable);
     // メッセージペインにメッセージを表示
-    void addMessage(const CServiceLog* message);
+    void addLog(const CServiceLog* message);
 
     // 選択してないチャンネルにMessageが追加された時に呼ばれます。
     void addUnreadMessage(const CMessageData* message);

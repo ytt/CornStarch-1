@@ -49,7 +49,7 @@ public:
             const CNickTable& nickTable);
 
     // メッセージ一覧を表示する
-    void addMessage(const CServiceLog* message);
+    void addLog(const CServiceLog* message);
 
     // 読み込んでないメッセージを通知する。
     void addUnreadMessage(const CMessageData* message);

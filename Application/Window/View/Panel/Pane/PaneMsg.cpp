@@ -63,6 +63,40 @@ void CPaneMsg::clearUnreadBackgroundColor()
     int index = this->GetLastPosition();
     this->SetStyle(0, index, wxTextAttr(wxNullColour, *wxWHITE));
 }
+void CPaneMsg::pushLog(const CServiceLog* messageLog)
+{
+    this->MoveEnd();
+    CLogTextCtrl::pushLog(messageLog);
+    if (m_isScrollingBack == false){
+        this->ShowPosition(this->GetLastPosition());
+    }
+}
+void CPaneMsg::pushLog(const CMessageLog* messageLog)
+{
+    // 文字コード変換
+    CMessageData* message = messageLog->getMessage();
+    wxString name = messageLog->getNick();
+    wxString body = message->m_body;
+    wxString channel = message->m_channel;
+    wxString time = message->getTime("%H:%M");
+
+    // temporary_nickがあれば、本文の先頭に表示
+    wxString nick = message->m_tempNick;
+    if (nick != ""){
+        body = "(" + nick + ") " + body;
+    }
+    writeColoredText(time + " ", COLOR_RED); // 時間を赤で表示
+    writeColoredText("(" + name + ") : ", COLOR_BLUE); // 名前を青で表示
+    if (message->m_isReaded == false){
+        this->BeginStyle(wxTextAttr(*wxBLACK, COLOR_LIGHT_YELLOW));
+    } else{
+        this->BeginStyle(wxTextAttr(*wxBLACK));
+    }
+    writeLinkableText(body);
+    this->EndAllStyles();
+
+}
+
 //void CPaneMsg::addMessage(const CMessageData* message,
 //        const map<wxString, wxString>& nickTable)
 //{
@@ -114,7 +148,7 @@ void CPaneMsg::displayMessages(const vector<CServiceLog*>& messages,
     GetCaret()->Hide();
     int size = (int) messages.size();
     for (int i = 0; i < size; i++){
-        CServiceLog* log =messages[i];
+        CServiceLog* log = messages[i];
         wxString nickName = nickTable.getNickname(log->getUserName());
         log->setNick(nickName);
         pushLog(log);
@@ -126,21 +160,6 @@ void CPaneMsg::displayMessages(const vector<CServiceLog*>& messages,
     this->Thaw();
     this->ShowPosition(this->GetLastPosition());
 }
-
-//////////////////////////////////////////////////////////////////////
-
-//// ユーザ名に対応するニックネームを取得する
-//wxString CPaneMsg::getNickName(const wxString& userName,
-//        const CNickTable& nickTable)
-//{
-//    // テーブルに存在しない時、本名を返す
-//    if (nickTable.find(userName) == nickTable.end()){
-//        return userName;
-//    }
-//
-//    // ニックネームを返す
-//    return nickTable.find(userName)->second;
-//}
 
 // 必要に応じて日付変更線を描画
 void CPaneMsg::drawDateLine(const wxString& now, const wxString& next)

@@ -209,7 +209,7 @@ public:
     wxString getTopic(const wxString& channel);
 
     // このクライアントから投稿されたメッセージか
-    bool isPostedThisClient(const CMessageData& message);
+    bool isPostedThisClient(const CMessageData* message);
 
     // メッセージ表示を行う際
     void onUpdateMessageView(const wxString& channel);

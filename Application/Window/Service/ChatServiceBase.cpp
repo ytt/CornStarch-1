@@ -121,10 +121,10 @@ wxString CChatServiceBase::getNickName(void) const
 // メッセージを投稿した際
 void CChatServiceBase::postMessage(CMessageLog* log)
 {
-    CMessageData message = log->getMessage();
+    CMessageData* message = log->getMessage();
     // メッセージ投稿タスクの開始
     wxString channel = m_user->getChannelName();
-    m_connect->startPostMessageTask(m_user, message.m_body, channel);
+    m_connect->startPostMessageTask(m_user, message->m_body, channel);
 
     m_channel->pushLog(log->getChannelName(), log);
 }
@@ -189,10 +189,10 @@ wxString CChatServiceBase::getTopic(const wxString& channel)
 }
 
 // このクライアントから投稿されたメッセージか
-bool CChatServiceBase::isPostedThisClient(const CMessageData& message)
+bool CChatServiceBase::isPostedThisClient(const CMessageData* message)
 {
     return m_channel->hasSameMessage(message)
-            && message.m_username == m_user->getUserName();
+            && message->m_username == m_user->getUserName();
 }
 
 // メッセージ表示を行う際
