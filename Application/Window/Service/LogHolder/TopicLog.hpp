@@ -14,8 +14,6 @@ public:
     CTopicLog(void);
     ~CTopicLog(void);
 
-    // 初期化を行う
-    void init(const CChannelData& channel);
 
     wxString getTopic() const
     {

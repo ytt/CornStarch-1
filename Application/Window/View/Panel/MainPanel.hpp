@@ -6,6 +6,7 @@
 #include "Pane/PaneCn.hpp"
 #include "Pane/PaneMember.hpp"
 #include <wx/sizer.h>
+#include "../../Service/NickTable.hpp"
 
 namespace CornStarch
 {
@@ -29,11 +30,10 @@ public:
     void init(wxWindow* parent);
 
     // メッセージペインにメッセージを表示
-    void displayMessages(const std::vector<CMessageData*>& messages,
-            const std::map<wxString, wxString>& nickTable);
+    void displayMessages(const std::vector<CServiceLog*>& messages,
+            const CNickTable& nickTable);
     // メッセージペインにメッセージを表示
-    void addMessage(const CMessageData* message,
-            const std::map<wxString, wxString>& nickTable);
+    void addMessage(const CServiceLog* message);
 
     // 選択してないチャンネルにMessageが追加された時に呼ばれます。
     void addUnreadMessage(const CMessageData* message);

@@ -28,17 +28,16 @@ void CNickTable::addTableFromMembers(const vector<CMemberData*>& members)
 }
 
 // 本名に対応するニックネームを取得する
-wxString CNickTable::getNickname(const wxString& name)
+wxString CNickTable::getNickname(const wxString& name) const
 {
     if (!isExist(name)){
         return "";
     }
-
-    return (*this)[name];
+    return this->find(name)->second;
 }
 
 // ニックネームが登録されているか
-bool CNickTable::isExist(const wxString& name)
+bool CNickTable::isExist(const wxString& name)const
 {
     return find(name) != end();
 }

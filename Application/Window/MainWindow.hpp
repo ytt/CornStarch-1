@@ -1,8 +1,6 @@
 ﻿#pragma once
 #include "View/MainView.hpp"
-#include "LogHolder/MainLogHolder.hpp"
-#include "Service/SCService/SCService.hpp"
-#include "Service/IRCService/IRCService.hpp"
+#include "Service/LogHolder/LogHolder.hpp"
 #include "Serializer/ServiceSerializer.hpp"
 #include "Serializer/ServiceSerializerWin.hpp"
 #include "Service/ServiceHolder.hpp"
@@ -19,7 +17,7 @@ class CMainWindow: public wxFrame,public CClientCommandInvoker
 private:
 
     CMainView* m_view; // ビューの挙動を管理
-    CMainLogHolder* m_logHolder; // チャットのログを保持
+    CLogHolder* m_logHolder; // チャットのログを保持
     CInputManager* m_inputManager; // 入力補助
     // サービス一覧の保持
     CServiceHolder* m_serviceHolder;

@@ -1,6 +1,7 @@
 ﻿#pragma once
-#include "MessageVec.hpp"
+//#include "MessageVec.hpp"
 #include "MemberVec.hpp"
+#include "LogHolder/LogHolder.hpp"
 
 namespace CornStarch
 {
@@ -11,10 +12,12 @@ class CChannelStatus
 {
 private:
     wxString m_topic; // トピック
-    CMessageVec* m_messages; // メッセージ一覧
+    //CMessageVec* m_messages; // メッセージ一覧
     CMemberVec* m_members; // メンバー一覧
     wxString m_channelName;
     int m_unreadCount;
+    CLogHolder* m_logHolder;
+    bool m_isLoaded;
 
 public:
     CChannelStatus(void);
@@ -30,19 +33,19 @@ public:
     wxString getTopic(void) const;
 
     // メッセージ一覧を取得する
-    std::vector<CMessageData*> getMessages(void) const;
+    std::vector<CServiceLog*> getLog(void) const;
 
     // メンバー一覧を取得する
     std::vector<CMemberData*> getMembers(void) const;
 
     // メッセージを追加する
-    void pushMessage(const CMessageData& message);
+    void pushLog( CServiceLog* log);
 
     // メンバーを追加する
     void pushMember(const CMemberData& member);
 
     // メッセージ一覧をセットする
-    void setMessages(const std::vector<CMessageData*>& messages);
+    void setMessages(const std::vector<CServiceLog*>& logs);
 
     // メンバー一覧をセットする
     void setMembers(const std::vector<CMemberData*>& members);

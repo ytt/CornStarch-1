@@ -17,10 +17,10 @@ public:
     void addTableFromMembers(const std::vector<CMemberData*>& members);
 
     // 本名に対応するニックネームを取得する
-    wxString getNickname(const wxString& name);
+    wxString getNickname(const wxString& name) const;
 
     // ニックネームが登録されているか
-    bool isExist(const wxString& name);
+    bool isExist(const wxString& name) const;
 
     // ニックネームから本名を検索する
     wxString getRealName(const wxString& nick);

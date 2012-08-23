@@ -3,8 +3,8 @@
 #include "NickTable.hpp"
 #include "IUser.hpp"
 #include "IConnection.hpp"
-#include "../../DataStruct/SubscribeData.hpp"
 #include "ICommandInvoker.hpp"
+#include "LogHolder/MessageLog.hpp"
 
 namespace CornStarch
 {
@@ -177,7 +177,7 @@ public:
     wxString getNickName(void) const;
 
     // メッセージを投稿した際
-    void postMessage(const CMessageData& message);
+    void postMessage(CMessageLog* message);
 
     // チャンネルを選択した際
     void selectChannel(const wxString& channel);
@@ -188,7 +188,7 @@ public:
     // チャンネル一覧を取得
     CChannelStatus* getChannel(const wxString& channel) const;
     // メッセージ一覧を取得
-    std::vector<CMessageData*> getMessages(const wxString& channel) const;
+    std::vector<CServiceLog*> getMessages(const wxString& channel) const;
 
     // メンバー一覧を取得
     std::vector<CMemberData*> getMembers(const wxString& channel) const;
@@ -251,7 +251,7 @@ public:
     void onGetMemberStatus(const CMemberData& member);
 
     // メッセージストリームを取得した場合
-    void onGetMessageStream(const CMessageData& message);
+    void onGetMessageStream( CMessageLog* message);
 
     // チャンネル参加ストリームを受信
     void onGetJoinStream(const wxString& channel, const wxString& name);

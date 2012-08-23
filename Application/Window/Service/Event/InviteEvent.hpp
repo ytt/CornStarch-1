@@ -1,7 +1,7 @@
 ﻿#ifndef INVITEEVENT_HPP_
 #define INVITEEVENT_HPP_
 #include "ConnectionEventBase.hpp"
-#include "../../LogHolder/InviteLog.hpp"
+#include "../LogHolder/InviteLog.hpp"
 
 namespace CornStarch
 {

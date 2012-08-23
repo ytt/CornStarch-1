@@ -45,12 +45,11 @@ public:
     void setFocusPostPane(void);
 
     // メッセージ一覧を表示する
-    void displayMessages(const std::vector<CMessageData*>& messages,
-            const std::map<wxString, wxString>& nickTable);
+    void displayMessages(const std::vector<CServiceLog*>& messages,
+            const CNickTable& nickTable);
 
     // メッセージ一覧を表示する
-    void addMessage(const CMessageData* message,
-            const std::map<wxString, wxString>& nickTable);
+    void addMessage(const CServiceLog* message);
 
     // 読み込んでないメッセージを通知する。
     void addUnreadMessage(const CMessageData* message);

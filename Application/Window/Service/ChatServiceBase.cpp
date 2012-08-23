@@ -119,16 +119,14 @@ wxString CChatServiceBase::getNickName(void) const
 }
 
 // メッセージを投稿した際
-void CChatServiceBase::postMessage(const CMessageData& message)
+void CChatServiceBase::postMessage(CMessageLog* log)
 {
+    CMessageData message = log->getMessage();
     // メッセージ投稿タスクの開始
     wxString channel = m_user->getChannelName();
     m_connect->startPostMessageTask(m_user, message.m_body, channel);
 
-    // メッセージを保存
-    CMessageData data(-1, m_user->getUserName(), message.m_body, channel,
-            time(NULL));
-    m_channel->pushMessage(data.m_channel, data);
+    m_channel->pushMessage(log->getChannelName(), log);
 }
 
 // チャンネルを選択した際
@@ -148,10 +146,10 @@ CChannelStatus* CChatServiceBase::getChannel(const wxString& channelName) const
     return m_channel->getChannel(channelName);
 }
 // メッセージ一覧を取得
-vector<CMessageData*> CChatServiceBase::getMessages(
+vector<CServiceLog*> CChatServiceBase::getMessages(
         const wxString& channel) const
 {
-    return m_channel->getMessages(channel);
+    return m_channel->getLogs(channel);
 }
 
 // メンバー一覧を取得
@@ -266,7 +264,20 @@ void CChatServiceBase::onAuthSucceeed(void)
 void CChatServiceBase::onGetMessages(const wxString channleName,
         const vector<CMessageData*>& messages)
 {
-    m_channel->setMessages(channleName, messages);
+    vector<CServiceLog*> logs;
+    vector<CMessageData*>::const_iterator it = messages.begin();
+    while (it != messages.end()){
+
+        CMessageLog* log = new CMessageLog();
+        log->setServiceId(getId());
+        log->init(*(*it));
+        log->setUserName((*it)->m_username);
+        log->setChannelName((*it)->m_channel);
+        log->setTime((*it)->m_time);
+        logs.push_back(log);
+        it++;
+    }
+    m_channel->setMessages(channleName, logs);
 }
 
 // メンバー一覧を取得した場合
@@ -318,28 +329,28 @@ void CChatServiceBase::onGetMemberStatus(const CMemberData& member)
         m_user->setKeywords(member.m_keywords);
     }
 
-    m_channel->updateMember(member.m_name,member.m_nick);
+    m_channel->updateMember(member.m_name, member.m_nick);
     (*m_nickTable)[member.m_name] = member.m_nick;
 }
 
 // メッセージストリームを取得した場合
-void CChatServiceBase::onGetMessageStream(const CMessageData& message)
+void CChatServiceBase::onGetMessageStream(CMessageLog* message)
 {
     // 別クライアントからのメッセージだったら、データ更新のみ
-    if (m_channel->hasSameMessage(message)
-            && message.m_username == m_user->getUserName()){
-        m_channel->onUpdateMessageId(message);
+    if (m_channel->hasSameMessage(message->getMessage())
+            && message->getUserName() == m_user->getUserName()){
+        m_channel->onUpdateMessageId(message->getMessage());
         return;
     }
 
     // ニックネームが未知の場合、メンバー情報取得タスクの開始
-    if (!m_nickTable->isExist(message.m_username)){
-        m_connect->startGetMemberInfoTask(m_user, message.m_username);
+    if (!m_nickTable->isExist(message->getUserName())){
+        m_connect->startGetMemberInfoTask(m_user, message->getUserName());
     }
 
     // 既に受信を行っていたチャンネルであればデータ追加
-    if (m_channel->hasReceivedMessage(message.m_channel)){
-        m_channel->pushMessage(message.m_channel, message);
+    if (m_channel->hasReceivedMessage(message->getChannelName())){
+        m_channel->pushMessage(message->getChannelName(), message);
     }
 }
 
@@ -348,23 +359,21 @@ void CChatServiceBase::onGetJoinStream(const wxString& channel,
         const wxString& name)
 {
     // 処理待ちに追加
-    CSubscribeData data(channel, name);
 
-    wxString nick = m_nickTable->getNickname(data.m_username);
+    wxString nick = m_nickTable->getNickname(name);
 
     // ニックネームが未知の場合、メンバー情報取得タスクの開始
-    if (!m_nickTable->isExist(data.m_username)){
+    if (!m_nickTable->isExist(name)){
         m_connect->startGetMemberInfoTask(m_user, name);
     }
 
     // 既に受信を行っていたチャンネルであればメンバーを追加
     if (m_channel->hasReceivedMember(channel)){
-        m_channel->pushMember(data.m_channel,
-                CMemberData(data.m_username, nick));
+        m_channel->pushMember(channel, CMemberData(name, nick));
     }
 
     // 自分が参加したとき(別クライアントソフトから)
-    if (data.m_username == m_user->getUserName()){
+    if (name == m_user->getUserName()){
 
         // チャンネル情報取得タスクの開始
         m_connect->startGetChannelTask(m_user);

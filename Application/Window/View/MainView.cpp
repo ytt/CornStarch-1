@@ -79,15 +79,14 @@ void CMainView::setSelectedChannel(int serviceId,const wxString& channelName)
 }
 
 // メッセージ一覧を表示する
-void CMainView::displayMessages(const vector<CMessageData*>& messages,
-        const map<wxString, wxString>& nickTable)
+void CMainView::displayMessages(const vector<CServiceLog*>& messages,
+        const CNickTable& nickTable)
 {
     m_panel->displayMessages(messages, nickTable);
 }
-void CMainView::addMessage(const CMessageData* message,
-        const std::map<wxString, wxString>& nickTable)
+void CMainView::addMessage(const CServiceLog* message)
 {
-    m_panel->addMessage(message, nickTable);
+    m_panel->addMessage(message);
 }
 
 void CMainView::addUnreadMessage(const CMessageData* message)

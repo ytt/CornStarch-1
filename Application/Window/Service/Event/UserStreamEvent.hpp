@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "ConnectionEventBase.hpp"
-#include "../../LogHolder/MemberLog.hpp"
+#include "../LogHolder/MemberLog.hpp"
 
 namespace CornStarch
 {

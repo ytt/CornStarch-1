@@ -48,19 +48,19 @@ public:
 
 
     // チャンネルのメッセージ一覧を取得する
-    std::vector<CMessageData*> getMessages(const wxString& channel);
+    std::vector<CServiceLog*> getLogs(const wxString& channel);
 
     // チャンネルのメンバー一覧を取得する
     std::vector<CMemberData*> getMembers(const wxString& channel);
 
     // チャンネルのメッセージを追加する
-    void pushMessage(const wxString& channel, const CMessageData& message);
+    void pushMessage(const wxString& channel, CServiceLog* message);
 
     // チャンネルのメンバーを追加する
     void pushMember(const wxString& channel, const CMemberData& member);
 
     // チャンネルのメッセージ一覧をセットする
-    void setMessages(const wxString& channel, const std::vector<CMessageData*>& messages);
+    void setMessages(const wxString& channel, const std::vector<CServiceLog*>& messages);
 
     // チャンネルのメンバー一覧をセットする
     void setMembers(const wxString& channel, const std::vector<CMemberData*>& members);

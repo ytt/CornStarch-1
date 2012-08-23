@@ -1,6 +1,5 @@
 ﻿#include "DefineEventTable.hpp" // イベントテーブル
 #include "MainWindow.hpp"
-#include "LogHolder/TopicLog.hpp"
 
 using namespace std;
 
@@ -36,7 +35,7 @@ void CMainWindow::init(void)
     SetMenuBar(m_view->getMenuBar()); // メニューバー
 
     // ログ保持部の初期化
-    m_logHolder = new CMainLogHolder();
+    m_logHolder = new CLogHolder();
     m_inputManager = new CInputManager();
     m_serviceHolder = new CServiceHolder();
     m_serviceHolder->load(GetEventHandler());
@@ -309,7 +308,6 @@ void CMainWindow::moveToUnread()
                 // 未読ノードを初めて見つける
                 serviceId = service->getId();
                 channelName = (*channel)->getChannelName();
-                return;
             }
 
             if ((*channel)->getUnreadCount() != 0 && isFoundCurrentNode){
@@ -380,17 +378,16 @@ void CMainWindow::onEnter(wxCommandEvent& event)
     m_inputManager->addHistory(body);
     // コンテンツの更新
     CMessageData message = service->generateMessage(body);
-    service->postMessage(message);
     CMessageLog* log = new CMessageLog();
     log->setServiceId(service->getId());
     log->init(message);
     log->setUserName(service->getUserName());
     log->setChannelName(service->getCurrentChannel());
-    //log->init(message, service->getMemberNick(service->getUserName()));
 
+    service->postMessage(log);
     m_logHolder->pushLog(log);
     m_view->displayLogs(m_logHolder->getLogs(),m_serviceHolder);
-    m_view->addMessage(&message, service->getNickTable());
+    m_view->addMessage(log);
 
     // 表示の更新
     m_view->clearPostPaneText();
@@ -648,7 +645,7 @@ void CMainWindow::onMsgStream(CMsgStreamEvent& event)
                 && service->getCurrentChannel() == data.m_channel){
             // メッセージを表示
             data.m_isReaded = true;
-            m_view->addMessage(&data, service->getNickTable());
+            m_view->addMessage(event.getServiceLog());
 
         } else{
             // 未読追加。
@@ -660,7 +657,7 @@ void CMainWindow::onMsgStream(CMsgStreamEvent& event)
 
         m_logHolder->pushLog(event.getServiceLog());
     }
-    service->onGetMessageStream(data);
+    service->onGetMessageStream(event.getServiceLog());
     // メッセージをログ一覧に表示
     m_view->displayLogs(m_logHolder->getLogs(),m_serviceHolder); // ログペイン
     // 通知があったとき && 自分以外の人から

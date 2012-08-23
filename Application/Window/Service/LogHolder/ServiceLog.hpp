@@ -1,9 +1,6 @@
 ﻿#pragma once
 #include <wx/string.h>
-#include "../../DataStruct/MemberData.hpp"
-#include "../../DataStruct/MessageData.hpp"
-#include "../../DataStruct/SubscribeData.hpp"
-#include "../../DataStruct/ChannelData.hpp"
+#include "../../../DataStruct/MessageData.hpp"
 
 namespace CornStarch
 {

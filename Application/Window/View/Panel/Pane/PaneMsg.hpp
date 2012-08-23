@@ -6,6 +6,7 @@
 #include <wx/wx.h>
 #include <vector>
 #include <map>
+#include "../../../Service/NickTable.hpp"
 #include "LogTextCtrl.hpp"
 
 namespace CornStarch
@@ -31,18 +32,18 @@ public:
     // 初期化を行う
     void init(wxWindow* parent);
     // メッセージを再描画する
-    void displayMessages(const std::vector<CMessageData*>& messages, 
-        const std::map<wxString, wxString>& nickTable);
+    void displayMessages(const std::vector<CServiceLog*>& messages,
+        const CNickTable& nickTable);
 
-    // メッセージを追加する
-    void addMessage(const CMessageData* message,
-            const std::map<wxString, wxString>& nickTable);
+//    // メッセージを追加する
+//    void addMessage(const CMessageData* message,
+//            const std::map<wxString, wxString>& nickTable);
     void clearUnreadBackgroundColor();
 private:
 
     // ユーザ名に対応するニックネームを取得する
-    wxString getNickName(const wxString& userName, 
-        const std::map<wxString, wxString>& nickTable);
+//    wxString getNickName(const wxString& userName,
+//        const std::map<wxString, wxString>& nickTable);
 
     // 必要に応じて日付変更線を描画
     void drawDateLine(const wxString& now, const wxString& next);

@@ -44,21 +44,8 @@ void CPaneRecord::displayLogs(const vector<CServiceLog*>& logs,const CServiceHol
         logs[i]->setNick(nickName);
         if (typeid(*logs[i]) == typeid(CMessageLog)){
             writeColoredText("<" + logs[i]->getChannelName() + ">", *wxBLACK);
-            pushLog(*(CMessageLog*) logs[i]);
-        } else if (typeid(*logs[i]) == typeid(CJoinLog)){
-            pushLog(*(CJoinLog*) logs[i]);
-        } else if (typeid(*logs[i]) == typeid(CPartLog)){
-            pushLog(*(CPartLog*) logs[i]);
-        } else if (typeid(*logs[i]) == typeid(CTopicLog)){
-            pushLog(*(CTopicLog*) logs[i]);
-        } else if (typeid(*logs[i]) == typeid(CMemberLog)){
-            pushLog(*(CMemberLog*) logs[i]);
-        } else if (typeid(*logs[i]) == typeid(CInviteLog)){
-            pushLog(*(CInviteLog*) logs[i]);
-        } else if (typeid(*logs[i]) == typeid(CKickLog)){
-            pushLog(*(CKickLog*) logs[i]);
         }
-        this->Newline();
+        pushLog(logs[i]);
     }
     this->ShowPosition(this->GetLastPosition());
 }

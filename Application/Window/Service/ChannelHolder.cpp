@@ -139,14 +139,14 @@ wxString CChannelHolder::getFirstChannel(void)
 /////////////////////////////////////////////////////////////
 
 // チャンネルのメッセージ一覧を取得する
-vector<CMessageData*> CChannelHolder::getMessages(const wxString& channel)
+vector<CServiceLog*> CChannelHolder::getLogs(const wxString& channel)
 {
     // チャンネルが存在しない
     if (m_channels.find(channel) == m_channels.end()){
-        return vector<CMessageData*>();
+        return vector<CServiceLog*>();
     }
 
-    return m_channels[channel]->getMessages();
+    return m_channels[channel]->getLog();
 }
 
 // チャンネルのメンバー一覧を取得する
@@ -162,14 +162,13 @@ vector<CMemberData*> CChannelHolder::getMembers(const wxString& channel)
 
 // チャンネルのメッセージを追加する
 void CChannelHolder::pushMessage(const wxString& channel,
-        const CMessageData& message)
+         CServiceLog* message)
 {
     // チャンネルが存在しない
     if (m_channels.find(channel) == m_channels.end()){
         return;
     }
-
-    m_channels[channel]->pushMessage(message);
+    m_channels[channel]->pushLog(message);
 }
 
 // チャンネルのメンバーを追加する
@@ -186,7 +185,7 @@ void CChannelHolder::pushMember(const wxString& channel,
 
 // チャンネルのメッセージ一覧をセットする
 void CChannelHolder::setMessages(const wxString& channel,
-        const vector<CMessageData*>& messages)
+        const vector<CServiceLog*>& messages)
 {
     // チャンネルが存在しない
     if (m_channels.find(channel) == m_channels.end()){

@@ -1,7 +1,7 @@
 #ifndef KICKEVENT_HPP_
 #define KICKEVENT_HPP_
 #include "ConnectionEventBase.hpp"
-#include "../../LogHolder/KickLog.hpp"
+#include "../LogHolder/KickLog.hpp"
 
 namespace CornStarch
 {

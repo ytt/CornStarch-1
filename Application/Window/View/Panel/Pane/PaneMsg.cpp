@@ -63,48 +63,48 @@ void CPaneMsg::clearUnreadBackgroundColor()
     int index = this->GetLastPosition();
     this->SetStyle(0, index, wxTextAttr(wxNullColour, *wxWHITE));
 }
-void CPaneMsg::addMessage(const CMessageData* message,
-        const map<wxString, wxString>& nickTable)
-{
-    this->Freeze();
-    this->MoveEnd();
-    int index = this->GetLastPosition();
-
-    // 時刻
-    wxString date = message->getTime("%H:%M");
-    writeColoredText(date,*wxRED);
-
-    // 名前
-    int nickIndex = index + date.size();
-    wxString nick = getNickName(message->m_username, nickTable);
-    nick = " (" + nick + "):";
-    if (message->m_tempNick != ""){
-        nick += " (" + message->m_tempNick + ") ";
-    }
-    writeColoredText(nick,*wxBLUE);
-
-    //本文
-    wxString body = message->m_body;
-
-    // 未読の背景色設定
-    if (message->m_isReaded == false){
-        this->BeginStyle(wxTextAttr(*wxBLACK, COLOR_LIGHT_YELLOW));
-    } else{
-        this->BeginStyle(wxTextAttr(*wxBLACK));
-    }
-    writeLinkableText(body);
-    this->EndStyle();
-
-    this->Newline();
-    this->Thaw();
-    if (m_isScrollingBack == false){
-        this->ShowPosition(this->GetLastPosition());
-    }
-    this->EndAllStyles();
-}
+//void CPaneMsg::addMessage(const CMessageData* message,
+//        const map<wxString, wxString>& nickTable)
+//{
+//    this->Freeze();
+//    this->MoveEnd();
+//    int index = this->GetLastPosition();
+//
+//    // 時刻
+//    wxString date = message->getTime("%H:%M");
+//    writeColoredText(date,*wxRED);
+//
+//    // 名前
+//    int nickIndex = index + date.size();
+//    wxString nick = getNickName(message->m_username, nickTable);
+//    nick = " (" + nick + "):";
+//    if (message->m_tempNick != ""){
+//        nick += " (" + message->m_tempNick + ") ";
+//    }
+//    writeColoredText(nick,*wxBLUE);
+//
+//    //本文
+//    wxString body = message->m_body;
+//
+//    // 未読の背景色設定
+//    if (message->m_isReaded == false){
+//        this->BeginStyle(wxTextAttr(*wxBLACK, COLOR_LIGHT_YELLOW));
+//    } else{
+//        this->BeginStyle(wxTextAttr(*wxBLACK));
+//    }
+//    writeLinkableText(body);
+//    this->EndStyle();
+//
+//    this->Newline();
+//    this->Thaw();
+//    if (m_isScrollingBack == false){
+//        this->ShowPosition(this->GetLastPosition());
+//    }
+//    this->EndAllStyles();
+//}
 // メッセージを表示する
-void CPaneMsg::displayMessages(const vector<CMessageData*>& messages,
-        const map<wxString, wxString>& nickTable)
+void CPaneMsg::displayMessages(const vector<CServiceLog*>& messages,
+        const CNickTable& nickTable)
 {
     m_isScrollingBack = false;
     m_beforeScroolHeight = 0;
@@ -114,7 +114,10 @@ void CPaneMsg::displayMessages(const vector<CMessageData*>& messages,
     GetCaret()->Hide();
     int size = (int) messages.size();
     for (int i = 0; i < size; i++){
-        addMessage(messages[i], nickTable);
+        CServiceLog* log =messages[i];
+        wxString nickName = nickTable.getNickname(log->getUserName());
+        log->setNick(nickName);
+        pushLog(log);
         if (i < size - 1){
             drawDateLine(messages[i]->getTime("%Y/%m/%d(%a)"),
                     messages[i + 1]->getTime("%Y/%m/%d(%a)"));
@@ -126,18 +129,18 @@ void CPaneMsg::displayMessages(const vector<CMessageData*>& messages,
 
 //////////////////////////////////////////////////////////////////////
 
-// ユーザ名に対応するニックネームを取得する
-wxString CPaneMsg::getNickName(const wxString& userName,
-        const map<wxString, wxString>& nickTable)
-{
-    // テーブルに存在しない時、本名を返す
-    if (nickTable.find(userName) == nickTable.end()){
-        return userName;
-    }
-
-    // ニックネームを返す
-    return nickTable.find(userName)->second;
-}
+//// ユーザ名に対応するニックネームを取得する
+//wxString CPaneMsg::getNickName(const wxString& userName,
+//        const CNickTable& nickTable)
+//{
+//    // テーブルに存在しない時、本名を返す
+//    if (nickTable.find(userName) == nickTable.end()){
+//        return userName;
+//    }
+//
+//    // ニックネームを返す
+//    return nickTable.find(userName)->second;
+//}
 
 // 必要に応じて日付変更線を描画
 void CPaneMsg::drawDateLine(const wxString& now, const wxString& next)
