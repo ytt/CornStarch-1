@@ -11,8 +11,6 @@
 #include "../Event/PartEvent.hpp"
 #include "../Event/GetChannelEvent.hpp"
 #include "../Event/GetMessageEvent.hpp"
-#include "../Event/ChannelStreamEvent.hpp"
-#include "../Event/UserStreamEvent.hpp"
 #include "../Event/DisconnectEvent.hpp"
 #include "Task/IRCTask.hpp"
 #include "IRCCommand.hpp"

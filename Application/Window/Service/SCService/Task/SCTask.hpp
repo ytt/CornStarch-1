@@ -9,17 +9,10 @@
 #include "../../Event/PartEvent.hpp"
 #include "../../Event/AuthEvent.hpp"
 #include "../../Event/JoinEvent.hpp"
-#include "../../Event/MsgStreamEvent.hpp"
-#include "../../Event/ChannelStreamEvent.hpp"
-#include "../../Event/JoinStreamEvent.hpp"
-#include "../../Event/PartStreamEvent.hpp"
-#include "../../Event/UserStreamEvent.hpp"
 #include "../../Event/GetMessageEvent.hpp"
 #include "../../Event/GetMemberEvent.hpp"
 #include "../../Event/GetMemberInfoEvent.hpp"
 #include "../../Event/GetChannelEvent.hpp"
-#include "../../Event/InviteEvent.hpp"
-#include "../../Event/KickEvent.hpp"
 #include "../../IMessageConnectionObserver.hpp"
 
 namespace CornStarch
