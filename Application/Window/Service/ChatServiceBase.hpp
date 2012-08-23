@@ -188,7 +188,7 @@ public:
     // チャンネル一覧を取得
     CChannelStatus* getChannel(const wxString& channel) const;
     // メッセージ一覧を取得
-    std::vector<CServiceLog*> getMessages(const wxString& channel) const;
+    std::vector<CServiceLog*> getLogs(const wxString& channel) const;
 
     // メンバー一覧を取得
     std::vector<CMemberData*> getMembers(const wxString& channel) const;

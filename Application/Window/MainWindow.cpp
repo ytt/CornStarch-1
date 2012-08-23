@@ -104,7 +104,7 @@ void CMainWindow::updateMessageView(int connectionId, const wxString& channel)
         service->onUpdateMessageView(channel);
 
         // メッセージを表示
-        m_view->displayMessages(service->getMessages(channel),
+        m_view->displayMessages(service->getLogs(channel),
                 service->getNickTable());
 
         // 未読リセット
@@ -633,7 +633,7 @@ void CMainWindow::onGetMemberInfo(CGetMemberInfoEvent& event)
 }
 
 // メッセージストリーム受信時
-void CMainWindow::onMsgStream(CMsgStreamEvent& event)
+void CMainWindow::onMsgStream(CStreamEvent<CMessageLog>& event)
 {
     CChatServiceBase* service = m_serviceHolder->getService(
             event.getConnectionId());
@@ -667,7 +667,7 @@ void CMainWindow::onMsgStream(CMsgStreamEvent& event)
 }
 
 // チャンネル参加ストリーム受信時
-void CMainWindow::onJoinStream(CJoinStreamEvent& event)
+void CMainWindow::onJoinStream(CStreamEvent<CJoinLog>& event)
 {
     CChatServiceBase* service = m_serviceHolder->getService(
             event.getConnectionId());
@@ -687,7 +687,7 @@ void CMainWindow::onJoinStream(CJoinStreamEvent& event)
 }
 
 // チャンネル離脱ストリーム受信時
-void CMainWindow::onPartStream(CPartStreamEvent& event)
+void CMainWindow::onPartStream(CStreamEvent<CPartLog>& event)
 {
     CChatServiceBase* service = m_serviceHolder->getService(
             event.getConnectionId());
@@ -712,7 +712,7 @@ void CMainWindow::onPartStream(CPartStreamEvent& event)
 }
 
 // チャンネル更新ストリーム受信時
-void CMainWindow::onChannelStream(CChannelStreamEvent& event)
+void CMainWindow::onChannelStream(CStreamEvent<CTopicLog>& event)
 {
     CChatServiceBase* service = m_serviceHolder->getService(
             event.getConnectionId());
@@ -736,7 +736,7 @@ void CMainWindow::onChannelStream(CChannelStreamEvent& event)
 }
 
 // ユーザ情報更新ストリーム受信時
-void CMainWindow::onUserStream(CUserStreamEvent& event)
+void CMainWindow::onUserStream(CStreamEvent<CMemberLog>& event)
 {
     CChatServiceBase* service = m_serviceHolder->getService(
             event.getConnectionId());
@@ -754,7 +754,7 @@ void CMainWindow::onUserStream(CUserStreamEvent& event)
     m_view->displayLogs(m_logHolder->getLogs(),m_serviceHolder); // ログペイン
 }
 // 招待ストリーム受信時
-void CMainWindow::onInvite(CInviteEvent& event)
+void CMainWindow::onInvite(CStreamEvent<CInviteLog>& event)
 {
     CChatServiceBase* service = m_serviceHolder->getService(
             event.getConnectionId());
@@ -775,7 +775,7 @@ void CMainWindow::onInvite(CInviteEvent& event)
 }
 
 // キックストリーム受信時
-void CMainWindow::onKick(CKickEvent& event)
+void CMainWindow::onKick(CStreamEvent<CKickLog>& event)
 {
     CChatServiceBase* service = m_serviceHolder->getService(
             event.getConnectionId());

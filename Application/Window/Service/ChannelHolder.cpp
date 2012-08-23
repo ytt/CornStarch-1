@@ -161,7 +161,7 @@ vector<CMemberData*> CChannelHolder::getMembers(const wxString& channel)
 }
 
 // チャンネルのメッセージを追加する
-void CChannelHolder::pushMessage(const wxString& channel,
+void CChannelHolder::pushLog(const wxString& channel,
          CServiceLog* message)
 {
     // チャンネルが存在しない
@@ -184,7 +184,7 @@ void CChannelHolder::pushMember(const wxString& channel,
 }
 
 // チャンネルのメッセージ一覧をセットする
-void CChannelHolder::setMessages(const wxString& channel,
+void CChannelHolder::setLogs(const wxString& channel,
         const vector<CServiceLog*>& messages)
 {
     // チャンネルが存在しない

@@ -126,7 +126,7 @@ void CChatServiceBase::postMessage(CMessageLog* log)
     wxString channel = m_user->getChannelName();
     m_connect->startPostMessageTask(m_user, message.m_body, channel);
 
-    m_channel->pushMessage(log->getChannelName(), log);
+    m_channel->pushLog(log->getChannelName(), log);
 }
 
 // チャンネルを選択した際
@@ -146,7 +146,7 @@ CChannelStatus* CChatServiceBase::getChannel(const wxString& channelName) const
     return m_channel->getChannel(channelName);
 }
 // メッセージ一覧を取得
-vector<CServiceLog*> CChatServiceBase::getMessages(
+vector<CServiceLog*> CChatServiceBase::getLogs(
         const wxString& channel) const
 {
     return m_channel->getLogs(channel);
@@ -277,7 +277,7 @@ void CChatServiceBase::onGetMessages(const wxString channleName,
         logs.push_back(log);
         it++;
     }
-    m_channel->setMessages(channleName, logs);
+    m_channel->setLogs(channleName, logs);
 }
 
 // メンバー一覧を取得した場合
@@ -350,7 +350,7 @@ void CChatServiceBase::onGetMessageStream(CMessageLog* message)
 
     // 既に受信を行っていたチャンネルであればデータ追加
     if (m_channel->hasReceivedMessage(message->getChannelName())){
-        m_channel->pushMessage(message->getChannelName(), message);
+        m_channel->pushLog(message->getChannelName(), message);
     }
 }
 

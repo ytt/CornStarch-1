@@ -7,8 +7,6 @@ namespace CornStarch
 // イベントの宣言
 wxDECLARE_EVENT(myEVT_THREAD_GET_PING, CAuthEvent);
 
-wxDECLARE_EVENT(myEVT_THREAD_INVITE, CInviteEvent);
-wxDECLARE_EVENT(myEVT_THREAD_KICK, CKickEvent);
 namespace StarChat
 {
 ;

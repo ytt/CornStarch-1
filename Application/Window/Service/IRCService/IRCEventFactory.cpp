@@ -21,6 +21,7 @@
 #include "../LogHolder/TopicLog.hpp"
 #include "../LogHolder/InviteLog.hpp"
 #include "../LogHolder/KickLog.hpp"
+#include "../Event/StreamEvent.hpp"
 
 #include "IRCCommand.hpp"
 #include <vector>
@@ -49,7 +50,8 @@ CConnectionEventBase* CIRCEventFactory::Create(const CIRCMessageData& message)
     }
     if (message.m_statusCode == IRCCommand::QUIT){
         // すべてのチャンネルへのPartEventの作成
-        CPartStreamEvent* event = new CPartStreamEvent();
+
+        CStreamEvent<CPartLog>* event = new CStreamEvent<CPartLog>(myEVT_THREAD_STREAM_CH_PART);
         CPartLog* log = new CPartLog();
         log->setServiceId(m_connectionId);
         log->setChannelName("");
@@ -91,7 +93,7 @@ CConnectionEventBase* CIRCEventFactory::createNickMessageEvent(
 {
     // Eventの作成
 
-    CUserStreamEvent* event = new CUserStreamEvent();
+    CStreamEvent<CMemberLog>* event = new CStreamEvent<CMemberLog>(myEVT_THREAD_STREAM_USER_UPDATE);
     CMemberLog* log = new CMemberLog();
     log->setServiceId(m_connectionId);
     log->setUserName(message.m_username);
@@ -104,7 +106,7 @@ CConnectionEventBase* CIRCEventFactory::createTopicMessageEvent(
         const CIRCMessageData& message) const
 {
     // Eventの作成
-    CChannelStreamEvent* event = new CChannelStreamEvent();
+    CStreamEvent<CTopicLog>* event = new CStreamEvent<CTopicLog>(myEVT_THREAD_STREAM_CH_UPDATE);
     CTopicLog* log = new CTopicLog();
     log->setServiceId(m_connectionId);
     log->setTopic(message.m_body);
@@ -117,7 +119,7 @@ CConnectionEventBase* CIRCEventFactory::createJoinMessageEvent(
         const CIRCMessageData& message) const
 {
     // Eventの作成
-    CJoinStreamEvent* event = new CJoinStreamEvent();
+    CStreamEvent<CJoinLog>* event = new CStreamEvent<CJoinLog>(myEVT_THREAD_STREAM_CH_JOIN);
     CJoinLog* log = new CJoinLog();
     log->setServiceId(m_connectionId);
     log->setChannelName(message.m_body);
@@ -130,7 +132,7 @@ CConnectionEventBase* CIRCEventFactory::createPartMessageEvent(
         const CIRCMessageData& message) const
 {
     // Eventの作成
-    CPartStreamEvent* event = new CPartStreamEvent();
+    CStreamEvent<CPartLog>* event = new CStreamEvent<CPartLog>(myEVT_THREAD_STREAM_CH_PART);
     CPartLog* log = new CPartLog();
     log->setServiceId(m_connectionId);
     log->setChannelName(message.m_channel);
@@ -144,7 +146,7 @@ CConnectionEventBase* CIRCEventFactory::createPrivateMessageEvent(
         const CIRCMessageData& message) const
 {
     // Eventの作成
-    CMsgStreamEvent* event = new CMsgStreamEvent();
+    CStreamEvent<CMessageLog>* event = new CStreamEvent<CMessageLog>(myEVT_THREAD_STREAM_MSG_ADD);
 
     CMessageLog* log = new CMessageLog();
     log->init(message);
@@ -196,7 +198,7 @@ CConnectionEventBase* CIRCEventFactory::createTopicEvent(
 CConnectionEventBase* CIRCEventFactory::createKickEvent(
         const CIRCMessageData& message) const
 {
-    CKickEvent* event = new CKickEvent();
+    CStreamEvent<CKickLog>* event = new CStreamEvent<CKickLog>(myEVT_THREAD_KICK);
     CKickLog* log = new CKickLog();
     log->setServiceId(m_connectionId);
     log->setChannelName(message.m_channel);
@@ -210,7 +212,7 @@ CConnectionEventBase* CIRCEventFactory::createKickEvent(
 CConnectionEventBase* CIRCEventFactory::createInviteEvent(
         const CIRCMessageData& message) const
 {
-    CInviteEvent* event = new CInviteEvent();
+    CStreamEvent<CInviteLog>* event = new CStreamEvent<CInviteLog>(myEVT_THREAD_INVITE);
     CInviteLog* log = new CInviteLog();
     log->setServiceId(m_connectionId);
     log->setChannelName(message.m_body);

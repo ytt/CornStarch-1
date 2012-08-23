@@ -6,6 +6,7 @@
 #include "Service/ServiceHolder.hpp"
 #include "Service/InputManager.hpp"
 #include "Service/ClientCommandInvoker.hpp"
+#include "Service/Event/StreamEvent.hpp"
 
 namespace CornStarch
 {
@@ -166,24 +167,24 @@ private:
     void onGetMemberInfo(CGetMemberInfoEvent& event);
 
     // メッセージストリーム受信時
-    void onMsgStream(CMsgStreamEvent& event);
+    void onMsgStream(CStreamEvent<CMessageLog>& event);
 
     // チャンネル参加ストリーム受信時
-    void onJoinStream(CJoinStreamEvent& event);
+    void onJoinStream(CStreamEvent<CJoinLog>& event);
 
     // チャンネル離脱ストリーム受信時
-    void onPartStream(CPartStreamEvent& event);
+    void onPartStream(CStreamEvent<CPartLog>& event);
 
     // チャンネル更新ストリーム受信時
-    void onChannelStream(CChannelStreamEvent& event);
+    void onChannelStream(CStreamEvent<CTopicLog>& event);
 
     // ユーザ情報更新ストリーム受信時
-    void onUserStream(CUserStreamEvent& event);
+    void onUserStream(CStreamEvent<CMemberLog>& event);
     // チャンネル更新ストリーム受信時
-    void onInvite(CInviteEvent& event);
+    void onInvite(CStreamEvent<CInviteLog>& event);
 
     // ユーザ情報更新ストリーム受信時
-    void onKick(CKickEvent& event);
+    void onKick(CStreamEvent<CKickLog>& event);
 
 };
 
