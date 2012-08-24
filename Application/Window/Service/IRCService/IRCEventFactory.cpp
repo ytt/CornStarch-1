@@ -166,8 +166,14 @@ CConnectionEventBase* CIRCEventFactory::createNamesEvent(
         if (names[i].size() != 0 && names[i] != "\r"){
             // パラメータの取得
             CMemberData* mem = new CMemberData();
-            mem->m_name = names[i]; // 名前(name)
-            mem->m_nick = names[i]; // ニックネーム(name)
+            wxString name =names[i];
+            wxString nickName =name;
+            if(name.find("@") ==0)
+            {
+                name = name.substr(1);
+            }
+            mem->m_name = name; // 名前
+            mem->m_nick = nickName; // ニックネーム
             result.push_back(mem);
         }
     }
