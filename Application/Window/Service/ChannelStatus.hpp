@@ -1,8 +1,8 @@
 ﻿#pragma once
 //#include "MessageVec.hpp"
 #include "MemberVec.hpp"
-#include "LogHolder/LogHolder.hpp"
-#include "LogHolder/MessageLog.hpp"
+#include "Message/MessageHolder.hpp"
+#include "Message/ChatMessage.hpp"
 
 namespace CornStarch
 {
@@ -17,7 +17,7 @@ private:
     CMemberVec* m_members; // メンバー一覧
     wxString m_channelName;
     int m_unreadCount;
-    CLogHolder* m_logHolder;
+    CMessageHolder* m_logHolder;
     bool m_isLoaded;
 
 public:
@@ -34,19 +34,19 @@ public:
     wxString getTopic(void) const;
 
     // メッセージ一覧を取得する
-    std::vector<CServiceLog*> getLog(void) const;
+    std::vector<CMessage*> getLog(void) const;
 
     // メンバー一覧を取得する
     std::vector<CMemberData*> getMembers(void) const;
 
     // メッセージを追加する
-    void pushLog( CServiceLog* log);
+    void pushLog( CMessage* log);
 
     // メンバーを追加する
     void pushMember(const CMemberData& member);
 
     // メッセージ一覧をセットする
-    void setMessages(const std::vector<CServiceLog*>& logs);
+    void setMessages(const std::vector<CMessage*>& logs);
 
     // メンバー一覧をセットする
     void setMembers(const std::vector<CMemberData*>& members);
@@ -58,10 +58,10 @@ public:
     bool hasReceivedMember(void) const;
 
     // ID不明かつ同じ投稿内容のメッセージがあるか
-    bool hasSameMessage(const CMessageLog* message) const;
+    bool hasSameMessage(const CChatMessage* message) const;
 
     // 同じ内容のメッセージについてIDを更新
-    void updateMessageId(const CMessageLog* message);
+    void updateMessageId(const CChatMessage* message);
 
     // メンバー情報を更新する
     void updateMember(const wxString& userName,const wxString& nick);

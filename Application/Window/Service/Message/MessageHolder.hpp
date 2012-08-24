@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "ServiceLog.hpp"
+#include "Message.hpp"
 #include <vector>
 
 namespace CornStarch
@@ -7,22 +7,22 @@ namespace CornStarch
 ;
 
 // チャットのログを保持するクラス
-class CLogHolder
+class CMessageHolder
 {
 private:
     static const int MAX_LENGTH = 200;
 
     bool m_isOriginalSource;
-    std::vector<CServiceLog*> m_logs;
+    std::vector<CMessage*> m_logs;
     void clear(void);
 
 public:
-    CLogHolder(void);
-    ~CLogHolder(void);
-    std::vector<CServiceLog*> getLogs(void) const;
-    void pushLog(CServiceLog* log);
+    CMessageHolder(void);
+    ~CMessageHolder(void);
+    std::vector<CMessage*> getLogs(void) const;
+    void pushLog(CMessage* log);
 
-    void setLogs(std::vector<CServiceLog*> logs)
+    void setLogs(std::vector<CMessage*> logs)
     {
         clear();
         m_logs = logs;

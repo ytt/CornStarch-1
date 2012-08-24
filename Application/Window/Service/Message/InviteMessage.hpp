@@ -2,15 +2,15 @@
 #ifndef INVITELOG_HPP_
 #define INVITELOG_HPP_
 
-#include "ServiceLog.hpp"
+#include "Message.hpp"
 namespace CornStarch
 {;
 
-class CInviteLog: public CServiceLog
+class CInviteMessage: public CMessage
 {
 public:
-    CInviteLog();
-    virtual ~CInviteLog();
+    CInviteMessage();
+    virtual ~CInviteMessage();
 };
 }
 #endif /* INVITELOG_HPP_ */

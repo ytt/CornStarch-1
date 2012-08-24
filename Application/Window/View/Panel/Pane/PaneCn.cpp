@@ -206,7 +206,7 @@ wxTreeItemId CPaneCn::findChannelNode(int serviceId,
     return server;
 }
 // Messageが追加された時に呼ばれます。
-void CPaneCn::addUnreadMessage(const CMessageLog* message)
+void CPaneCn::addUnreadMessage(const CChatMessage* message)
 {
     wxTreeItemId node = findChannelNode(message->getServiceId(),
             message->getChannelName());

@@ -1,19 +1,19 @@
 ﻿#pragma once
-#include "ServiceLog.hpp"
+#include "Message.hpp"
 
 namespace CornStarch
 {
 ;
 
 // メンバー情報更新ログ
-class CMemberLog: public CServiceLog
+class CMemberMessage: public CMessage
 {
 private:
     wxString m_nickName;
 
 public:
-    CMemberLog(void);
-    ~CMemberLog(void);
+    CMemberMessage(void);
+    ~CMemberMessage(void);
 
     wxString getNickName() const
     {

@@ -1,18 +1,18 @@
 ﻿#pragma once
-#include "ServiceLog.hpp"
+#include "Message.hpp"
 
 namespace CornStarch
 {
 ;
 
 // トピック変更のログ
-class CTopicLog: public CServiceLog
+class CTopicMessage: public CMessage
 {
 private:
     wxString m_topic;
 public:
-    CTopicLog(void);
-    ~CTopicLog(void);
+    CTopicMessage(void);
+    ~CTopicMessage(void);
 
 
     wxString getTopic() const

@@ -101,13 +101,13 @@ wxString CChatServiceBase::getCurrentChannel(void) const
 }
 
 // メッセージを生成
-CMessageLog* CChatServiceBase::generateMessage(const wxString& body)
+CChatMessage* CChatServiceBase::generateMessage(const wxString& body)
 {
     // コンテンツの更新
 
     CResponseData data(-1, m_user->getUserName(), body,
             m_user->getChannelName(), time(NULL));
-    CMessageLog* log = new CMessageLog();
+    CChatMessage* log = new CChatMessage();
     log->setNick(m_user->getNickName());
     log->setServiceId(this->getId());
     log->init(&data);
@@ -115,7 +115,7 @@ CMessageLog* CChatServiceBase::generateMessage(const wxString& body)
 }
 
 // メッセージを投稿した際
-void CChatServiceBase::postMessage(CMessageLog* log)
+void CChatServiceBase::postMessage(CChatMessage* log)
 {
     // メッセージ投稿タスクの開始
     wxString channel = m_user->getChannelName();
@@ -141,7 +141,7 @@ CChannelStatus* CChatServiceBase::getChannel(const wxString& channelName) const
     return m_channel->getChannel(channelName);
 }
 // メッセージ一覧を取得
-vector<CServiceLog*> CChatServiceBase::getLogs(const wxString& channel) const
+vector<CMessage*> CChatServiceBase::getLogs(const wxString& channel) const
 {
     return m_channel->getLogs(channel);
 }
@@ -183,7 +183,7 @@ wxString CChatServiceBase::getTopic(const wxString& channel)
 }
 
 // このクライアントから投稿されたメッセージか
-bool CChatServiceBase::isPostedThisClient(const CMessageLog* message)
+bool CChatServiceBase::isPostedThisClient(const CChatMessage* message)
 {
     return m_channel->hasSameMessage(message)
             && message->getUserName() == m_user->getUserName();
@@ -256,11 +256,11 @@ void CChatServiceBase::onAuthSucceeed(void)
 void CChatServiceBase::onGetMessages(const wxString channleName,
         const vector<CResponseData*>& messages)
 {
-    vector<CServiceLog*> logs;
+    vector<CMessage*> logs;
     vector<CResponseData*>::const_iterator it = messages.begin();
     while (it != messages.end()){
 
-        CMessageLog* log = new CMessageLog();
+        CChatMessage* log = new CChatMessage();
         log->setServiceId(getId());
         log->init((*it));
 
@@ -324,7 +324,7 @@ void CChatServiceBase::onGetMemberStatus(const CMemberData& member)
 }
 
 // メッセージストリームを取得した場合
-void CChatServiceBase::onGetMessageStream(CMessageLog* message)
+void CChatServiceBase::onGetMessageStream(CChatMessage* message)
 {
     // 自分発言のメッセージだったら、データ更新のみしてログを破棄
     if (m_channel->hasSameMessage(message)
@@ -340,7 +340,7 @@ void CChatServiceBase::onGetMessageStream(CMessageLog* message)
     }
     addLog(message);
 }
-void CChatServiceBase::addLog(CServiceLog* log)
+void CChatServiceBase::addLog(CMessage* log)
 {
     // 既に受信を行っていたチャンネルであればデータ追加
     if (m_channel->hasReceivedMessage(log->getChannelName())){

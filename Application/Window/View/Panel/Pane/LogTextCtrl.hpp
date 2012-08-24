@@ -2,13 +2,13 @@
 #ifndef LOGTEXTCTRL_HPP_
 #define LOGTEXTCTRL_HPP_
 
-#include "../../../Service/LogHolder/MessageLog.hpp"
-#include "../../../Service/LogHolder/MemberLog.hpp"
-#include "../../../Service/LogHolder/JoinLog.hpp"
-#include "../../../Service/LogHolder/PartLog.hpp"
-#include "../../../Service/LogHolder/TopicLog.hpp"
-#include "../../../Service/LogHolder/InviteLog.hpp"
-#include "../../../Service/LogHolder/KickLog.hpp"
+#include "../../../Service/Message/ChatMessage.hpp"
+#include "../../../Service/Message/MemberMessage.hpp"
+#include "../../../Service/Message/JoinMessage.hpp"
+#include "../../../Service/Message/PartMessage.hpp"
+#include "../../../Service/Message/TopicMessage.hpp"
+#include "../../../Service/Message/InviteMessage.hpp"
+#include "../../../Service/Message/KickMessage.hpp"
 #include "LinkableRichTextCtrl.hpp"
 
 namespace CornStarch
@@ -22,30 +22,30 @@ protected:
     static const wxColour COLOR_RED;
     static const wxColour COLOR_BLUE;
     // メッセージログを表示
-    virtual void pushLog(const CMessageLog* messageLog);
+    virtual void pushLog(const CChatMessage* messageLog);
 
     // チャンネル参加ログを表示
-    void pushLog(const CJoinLog* joinLog);
+    void pushLog(const CJoinMessage* joinLog);
 
     // チャンネル離脱ログを表示
-    void pushLog(const CPartLog* partLog);
+    void pushLog(const CPartMessage* partLog);
 
     // メンバー情報更新ログを表示
-    void pushLog(const CMemberLog* memberLog);
+    void pushLog(const CMemberMessage* memberLog);
 
     // トピック変更ログを表示
-    void pushLog(const CTopicLog* topicLog);
+    void pushLog(const CTopicMessage* topicLog);
     // 招待ログを表示
-    void pushLog(const CInviteLog* inviteLog);
+    void pushLog(const CInviteMessage* inviteLog);
     // キックログを表示
-    void pushLog(const CKickLog* kickLog);
+    void pushLog(const CKickMessage* kickLog);
 
 
 public:
     CLogTextCtrl();
     virtual ~CLogTextCtrl();
 
-    virtual void pushLog(const CServiceLog* log);
+    virtual void pushLog(const CMessage* log);
     // 単色で文字列を追加する
     void writeColoredText(const wxString& str, const wxColour& colour);
 

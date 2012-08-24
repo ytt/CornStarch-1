@@ -30,13 +30,13 @@ public:
     void init(wxWindow* parent);
 
     // メッセージペインにメッセージを表示
-    void displayMessages(const std::vector<CServiceLog*>& messages,
+    void displayMessages(const std::vector<CMessage*>& messages,
             const CNickTable& nickTable);
     // メッセージペインにメッセージを表示
-    void addLog(const CServiceLog* message);
+    void addLog(const CMessage* message);
 
     // 選択してないチャンネルにMessageが追加された時に呼ばれます。
-    void addUnreadMessage(const CMessageLog* message);
+    void addUnreadMessage(const CChatMessage* message);
 
     // 投稿ペインにフォーカスを与える。
     void setFocusPostPane(void);
@@ -51,7 +51,7 @@ public:
     void displayChannels(const std::map<int, CChatServiceBase*>& services);
 
     // ログ一覧ペインにログを表示
-    void displayLogs(const std::vector<CServiceLog*>& logs,const CServiceHolder* services);
+    void displayLogs(const std::vector<CMessage*>& logs,const CServiceHolder* services);
 
     // メッセージペインをクリアする。
     void clearMessages(void);

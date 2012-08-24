@@ -1,4 +1,4 @@
-﻿#include "MessageLog.hpp"
+﻿#include "ChatMessage.hpp"
 
 using namespace std;
 
@@ -6,18 +6,18 @@ namespace CornStarch
 {
 ;
 
-CMessageLog::CMessageLog(void):m_isReaded(true),m_body("")
+CChatMessage::CChatMessage(void):m_isReaded(true),m_body("")
 {
 }
 
-CMessageLog::~CMessageLog(void)
+CChatMessage::~CChatMessage(void)
 {
 }
 
 //////////////////////////////////////////////////////////////////////
 
 // 初期化を行う
-void CMessageLog::init(const CResponseData* message)
+void CChatMessage::init(const CResponseData* message)
 {
     this->setTempNick(message->m_tempNick);
     this->setUserName(message->m_username);

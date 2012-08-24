@@ -5,7 +5,7 @@ namespace CornStarch
 ;
 
 // サービスのログを管理
-class CServiceLog
+class CMessage
 {
     static const int MAX_LENGTH = 256;
 
@@ -17,8 +17,8 @@ class CServiceLog
     int m_serviceId;
 
 public:
-    CServiceLog(void);
-    virtual ~CServiceLog(void);
+    CMessage(void);
+    virtual ~CMessage(void);
 
     wxString getTempNick() const
     {

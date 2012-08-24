@@ -25,9 +25,9 @@ protected:
     // wxWindowイベントを処理させたいクラスに利用するマクロ
     DECLARE_EVENT_TABLE();
 
-    void pushLog(const CMessageLog* messageLog);
+    void pushLog(const CChatMessage* messageLog);
 public:
-    void pushLog(const CServiceLog* log);
+    void pushLog(const CMessage* log);
 
     CPaneMsg(void);
     ~CPaneMsg(void);
@@ -35,7 +35,7 @@ public:
     // 初期化を行う
     void init(wxWindow* parent);
     // メッセージを再描画する
-    void displayMessages(const std::vector<CServiceLog*>& messages,
+    void displayMessages(const std::vector<CMessage*>& messages,
         const CNickTable& nickTable);
 
 //    // メッセージを追加する

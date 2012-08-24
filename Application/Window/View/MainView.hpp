@@ -45,14 +45,14 @@ public:
     void setFocusPostPane(void);
 
     // メッセージ一覧を表示する
-    void displayMessages(const std::vector<CServiceLog*>& messages,
+    void displayMessages(const std::vector<CMessage*>& messages,
             const CNickTable& nickTable);
 
     // メッセージ一覧を表示する
-    void addLog(const CServiceLog* message);
+    void addLog(const CMessage* message);
 
     // 読み込んでないメッセージを通知する。
-    void addUnreadMessage(const CMessageLog* message);
+    void addUnreadMessage(const CChatMessage* message);
 
     // メンバー一覧を表示する
     void displayMembers(const std::vector<CMemberData*>& members);
@@ -73,7 +73,7 @@ public:
     void clearPostPaneText(void);
 
     // ログ一覧にログを表示する
-    void displayLogs(const std::vector<CServiceLog*>& logs,const CServiceHolder* services);
+    void displayLogs(const std::vector<CMessage*>& logs,const CServiceHolder* services);
 
 public:
     // メニューバーに関するメソッド

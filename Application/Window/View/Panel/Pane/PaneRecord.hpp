@@ -23,7 +23,7 @@ public:
     void init(wxWindow* parent);
 
     // ログ一覧を表示
-    void displayLogs(const std::vector<CServiceLog*>& logs,const CServiceHolder* services);
+    void displayLogs(const std::vector<CMessage*>& logs,const CServiceHolder* services);
 
 
 };

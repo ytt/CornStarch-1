@@ -13,13 +13,13 @@ typedef void (wxEvtHandler::*GetChannelEvtFunc)(CGetChannelEvent&);
 typedef void (wxEvtHandler::*GetMessageEvtFunc)(CGetMessageEvent&);
 typedef void (wxEvtHandler::*GetMemberInfoEvtFunc)(CGetMemberInfoEvent&);
 
-typedef void (wxEvtHandler::*GetMsgStreamEvtFunc)(CStreamEvent<CMessageLog>&);
-typedef void (wxEvtHandler::*GetMemStreamEvtFunc)(CStreamEvent<CMemberLog>&);
-typedef void (wxEvtHandler::*GetChStreamEvtFunc)(CStreamEvent<CTopicLog>&);
-typedef void (wxEvtHandler::*GetChPartStreamEvtFunc)(CStreamEvent<CPartLog>&);
-typedef void (wxEvtHandler::*GetChJoinStreamEvtFunc)(CStreamEvent<CJoinLog>&);
-typedef void (wxEvtHandler::*InviteEvtFunc)(CStreamEvent<CInviteLog>&);
-typedef void (wxEvtHandler::*KickEvtFunc)(CStreamEvent<CKickLog>&);
+typedef void (wxEvtHandler::*GetMsgStreamEvtFunc)(CStreamEvent<CChatMessage>&);
+typedef void (wxEvtHandler::*GetMemStreamEvtFunc)(CStreamEvent<CMemberMessage>&);
+typedef void (wxEvtHandler::*GetChStreamEvtFunc)(CStreamEvent<CTopicMessage>&);
+typedef void (wxEvtHandler::*GetChPartStreamEvtFunc)(CStreamEvent<CPartMessage>&);
+typedef void (wxEvtHandler::*GetChJoinStreamEvtFunc)(CStreamEvent<CJoinMessage>&);
+typedef void (wxEvtHandler::*InviteEvtFunc)(CStreamEvent<CInviteMessage>&);
+typedef void (wxEvtHandler::*KickEvtFunc)(CStreamEvent<CKickMessage>&);
 
 typedef void (wxEvtHandler::*JoinEvtFunc)(CJoinEvent&);
 typedef void (wxEvtHandler::*SelectEvtFunc)(CChannelSelectEvent&);
@@ -32,13 +32,13 @@ wxDEFINE_EVENT(myEVT_THREAD_GET_MESSAGE, CGetMessageEvent);
 wxDEFINE_EVENT(myEVT_THREAD_GET_MEMBER, CGetMemberEvent);
 wxDEFINE_EVENT(myEVT_THREAD_GET_MEMBER_INFO, CGetMemberInfoEvent);
 
-wxDEFINE_EVENT(myEVT_THREAD_STREAM_MSG_ADD, CStreamEvent<CMessageLog>);
-wxDEFINE_EVENT(myEVT_THREAD_STREAM_CH_JOIN, CStreamEvent<CJoinLog>);
-wxDEFINE_EVENT(myEVT_THREAD_STREAM_CH_PART, CStreamEvent<CPartLog>);
-wxDEFINE_EVENT(myEVT_THREAD_STREAM_CH_UPDATE, CStreamEvent<CTopicLog>);
-wxDEFINE_EVENT(myEVT_THREAD_STREAM_USER_UPDATE, CStreamEvent<CMemberLog>);
-wxDEFINE_EVENT(myEVT_THREAD_INVITE, CStreamEvent<CInviteLog>);
-wxDEFINE_EVENT(myEVT_THREAD_KICK, CStreamEvent<CKickLog>);
+wxDEFINE_EVENT(myEVT_THREAD_STREAM_MSG_ADD, CStreamEvent<CChatMessage>);
+wxDEFINE_EVENT(myEVT_THREAD_STREAM_CH_JOIN, CStreamEvent<CJoinMessage>);
+wxDEFINE_EVENT(myEVT_THREAD_STREAM_CH_PART, CStreamEvent<CPartMessage>);
+wxDEFINE_EVENT(myEVT_THREAD_STREAM_CH_UPDATE, CStreamEvent<CTopicMessage>);
+wxDEFINE_EVENT(myEVT_THREAD_STREAM_USER_UPDATE, CStreamEvent<CMemberMessage>);
+wxDEFINE_EVENT(myEVT_THREAD_INVITE, CStreamEvent<CInviteMessage>);
+wxDEFINE_EVENT(myEVT_THREAD_KICK, CStreamEvent<CKickMessage>);
 
 wxDEFINE_EVENT(myEVT_THREAD_PUT_JOIN, CJoinEvent);
 wxDEFINE_EVENT(myEVT_THREAD_DELETE_PART, CPartEvent);

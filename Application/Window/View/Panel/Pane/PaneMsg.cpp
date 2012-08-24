@@ -63,7 +63,7 @@ void CPaneMsg::clearUnreadBackgroundColor()
     int index = this->GetLastPosition();
     this->SetStyle(0, index, wxTextAttr(wxNullColour, *wxWHITE));
 }
-void CPaneMsg::pushLog(const CServiceLog* messageLog)
+void CPaneMsg::pushLog(const CMessage* messageLog)
 {
     this->MoveEnd();
     CLogTextCtrl::pushLog(messageLog);
@@ -71,7 +71,7 @@ void CPaneMsg::pushLog(const CServiceLog* messageLog)
         this->ShowPosition(this->GetLastPosition());
     }
 }
-void CPaneMsg::pushLog(const CMessageLog* messageLog)
+void CPaneMsg::pushLog(const CChatMessage* messageLog)
 {
     wxString name = messageLog->getNick();
     wxString body = messageLog->getBody();
@@ -96,7 +96,7 @@ void CPaneMsg::pushLog(const CMessageLog* messageLog)
 }
 
 // メッセージを表示する
-void CPaneMsg::displayMessages(const vector<CServiceLog*>& messages,
+void CPaneMsg::displayMessages(const vector<CMessage*>& messages,
         const CNickTable& nickTable)
 {
     m_isScrollingBack = false;
@@ -107,7 +107,7 @@ void CPaneMsg::displayMessages(const vector<CServiceLog*>& messages,
     GetCaret()->Hide();
     int size = (int) messages.size();
     for (int i = 0; i < size; i++){
-        CServiceLog* log = messages[i];
+        CMessage* log = messages[i];
         wxString nickName = nickTable.getNickname(log->getUserName());
         log->setNick(nickName);
         pushLog(log);

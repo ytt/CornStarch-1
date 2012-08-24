@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "View/MainView.hpp"
-#include "Service/LogHolder/LogHolder.hpp"
+#include "Service/Message/MessageHolder.hpp"
 #include "Serializer/ServiceSerializer.hpp"
 #include "Serializer/ServiceSerializerWin.hpp"
 #include "Service/ServiceHolder.hpp"
@@ -18,7 +18,7 @@ class CMainWindow: public wxFrame,public CClientCommandInvoker
 private:
 
     CMainView* m_view; // ビューの挙動を管理
-    CLogHolder* m_logHolder; // チャットのログを保持
+    CMessageHolder* m_logHolder; // チャットのログを保持
     CInputManager* m_inputManager; // 入力補助
     // サービス一覧の保持
     CServiceHolder* m_serviceHolder;
@@ -170,24 +170,24 @@ private:
     void onGetMemberInfo(CGetMemberInfoEvent& event);
 
     // メッセージストリーム受信時
-    void onMsgStream(CStreamEvent<CMessageLog>& event);
+    void onMsgStream(CStreamEvent<CChatMessage>& event);
 
     // チャンネル参加ストリーム受信時
-    void onJoinStream(CStreamEvent<CJoinLog>& event);
+    void onJoinStream(CStreamEvent<CJoinMessage>& event);
 
     // チャンネル離脱ストリーム受信時
-    void onPartStream(CStreamEvent<CPartLog>& event);
+    void onPartStream(CStreamEvent<CPartMessage>& event);
 
     // チャンネル更新ストリーム受信時
-    void onChannelStream(CStreamEvent<CTopicLog>& event);
+    void onChannelStream(CStreamEvent<CTopicMessage>& event);
 
     // ユーザ情報更新ストリーム受信時
-    void onUserStream(CStreamEvent<CMemberLog>& event);
+    void onUserStream(CStreamEvent<CMemberMessage>& event);
     // チャンネル更新ストリーム受信時
-    void onInvite(CStreamEvent<CInviteLog>& event);
+    void onInvite(CStreamEvent<CInviteMessage>& event);
 
     // ユーザ情報更新ストリーム受信時
-    void onKick(CStreamEvent<CKickLog>& event);
+    void onKick(CStreamEvent<CKickMessage>& event);
 
 };
 

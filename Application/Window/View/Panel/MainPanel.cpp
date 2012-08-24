@@ -60,7 +60,7 @@ void CMainPanel::init(wxWindow* parent)
 }
 
 // メッセージペインにメッセージを表示
-void CMainPanel::displayMessages(const vector<CServiceLog*>& messages,
+void CMainPanel::displayMessages(const vector<CMessage*>& messages,
         const CNickTable& nickTable)
 {
     m_msgPane->Show(false);
@@ -68,13 +68,13 @@ void CMainPanel::displayMessages(const vector<CServiceLog*>& messages,
     m_msgPane->Show(true);
 
 }
-void CMainPanel::addLog(const CServiceLog* message)
+void CMainPanel::addLog(const CMessage* message)
 {
     m_msgPane->pushLog(message);
     m_msgPane->clearUnreadBackgroundColor();
 }
 
-void CMainPanel::addUnreadMessage(const CMessageLog* message)
+void CMainPanel::addUnreadMessage(const CChatMessage* message)
 {
     m_cnBox->addUnreadMessage(message);
 }
@@ -116,7 +116,7 @@ void CMainPanel::clearChannels(void)
 }
 
 // ログ一覧ペインにログを表示
-void CMainPanel::displayLogs(const std::vector<CServiceLog*>& logs,const CServiceHolder* services)
+void CMainPanel::displayLogs(const std::vector<CMessage*>& logs,const CServiceHolder* services)
 {
     m_recordPane->displayLogs(logs,services);
 }

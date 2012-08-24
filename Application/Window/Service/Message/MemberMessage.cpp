@@ -1,14 +1,14 @@
-﻿#include "MemberLog.hpp"
+﻿#include "MemberMessage.hpp"
 
 namespace CornStarch
 {;
 
-CMemberLog::CMemberLog(void)
+CMemberMessage::CMemberMessage(void)
 {
 }
 
 
-CMemberLog::~CMemberLog(void)
+CMemberMessage::~CMemberMessage(void)
 {
 }
 

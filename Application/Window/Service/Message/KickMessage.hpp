@@ -1,16 +1,16 @@
 #ifndef KICKLOG_HPP_
 #define KICKLOG_HPP_
-#include "ServiceLog.hpp"
+#include "Message.hpp"
 namespace CornStarch
 {;
 
-class CKickLog:public CServiceLog
+class CKickMessage:public CMessage
 {
 
     wxString m_target; // ユーザ名
 public:
-    CKickLog();
-    virtual ~CKickLog();
+    CKickMessage();
+    virtual ~CKickMessage();
 
 
     wxString getTarget() const

@@ -24,29 +24,29 @@ void CLogTextCtrl::writeColoredText(const wxString& str, const wxColour& colour)
     writeLinkableText(str);
     this->EndAllStyles();
 }
-void CLogTextCtrl::pushLog(const CServiceLog* log)
+void CLogTextCtrl::pushLog(const CMessage* log)
 {
     this->Freeze();
-    if (typeid(*log) == typeid(CMessageLog)){
-        pushLog(dynamic_cast<const CMessageLog*>(log));
-    } else if (typeid(*log) == typeid(CJoinLog)){
-        pushLog(dynamic_cast<const CJoinLog*>(log));
-    } else if (typeid(*log) == typeid(CPartLog)){
-        pushLog(dynamic_cast<const CPartLog*> (log));
-    } else if (typeid(*log) == typeid(CTopicLog)){
-        pushLog(dynamic_cast<const CTopicLog*>(log));
-    } else if (typeid(*log) == typeid(CMemberLog)){
-        pushLog(dynamic_cast<const CMemberLog*>(log));
-    } else if (typeid(*log) == typeid(CInviteLog)){
-        pushLog(dynamic_cast<const CInviteLog*>(log));
-    } else if (typeid(*log) == typeid(CKickLog)){
-        pushLog(dynamic_cast<const CKickLog*>( log));
+    if (typeid(*log) == typeid(CChatMessage)){
+        pushLog(dynamic_cast<const CChatMessage*>(log));
+    } else if (typeid(*log) == typeid(CJoinMessage)){
+        pushLog(dynamic_cast<const CJoinMessage*>(log));
+    } else if (typeid(*log) == typeid(CPartMessage)){
+        pushLog(dynamic_cast<const CPartMessage*> (log));
+    } else if (typeid(*log) == typeid(CTopicMessage)){
+        pushLog(dynamic_cast<const CTopicMessage*>(log));
+    } else if (typeid(*log) == typeid(CMemberMessage)){
+        pushLog(dynamic_cast<const CMemberMessage*>(log));
+    } else if (typeid(*log) == typeid(CInviteMessage)){
+        pushLog(dynamic_cast<const CInviteMessage*>(log));
+    } else if (typeid(*log) == typeid(CKickMessage)){
+        pushLog(dynamic_cast<const CKickMessage*>( log));
     }
     this->Newline();
     this->Thaw();
 }
 // メッセージログを表示
-void CLogTextCtrl::pushLog(const CMessageLog* messageLog)
+void CLogTextCtrl::pushLog(const CChatMessage* messageLog)
 {
     // 文字コード変換
     wxString name = messageLog->getNick();
@@ -65,7 +65,7 @@ void CLogTextCtrl::pushLog(const CMessageLog* messageLog)
 }
 
 // チャンネル参加ログを表示
-void CLogTextCtrl::pushLog(const CJoinLog* joinLog)
+void CLogTextCtrl::pushLog(const CJoinMessage* joinLog)
 {
     writeColoredText(
             joinLog->getUserName() + "が" + joinLog->getChannelName() + "に参加しました",
@@ -74,7 +74,7 @@ void CLogTextCtrl::pushLog(const CJoinLog* joinLog)
 }
 
 // チャンネル離脱ログを表示
-void CLogTextCtrl::pushLog(const CPartLog* partLog)
+void CLogTextCtrl::pushLog(const CPartMessage* partLog)
 {
     if (partLog->getChannelName() != ""){
         writeColoredText(
@@ -86,7 +86,7 @@ void CLogTextCtrl::pushLog(const CPartLog* partLog)
 }
 
 // メンバー情報更新ログを表示
-void CLogTextCtrl::pushLog(const CMemberLog* memberLog)
+void CLogTextCtrl::pushLog(const CMemberMessage* memberLog)
 {
     //CMemberData member = memberLog.getLog();
     writeColoredText(
@@ -95,7 +95,7 @@ void CLogTextCtrl::pushLog(const CMemberLog* memberLog)
 }
 
 // トピック変更ログを表示
-void CLogTextCtrl::pushLog(const CTopicLog* topicLog)
+void CLogTextCtrl::pushLog(const CTopicMessage* topicLog)
 {
     //CChannelData channel = topicLog.getLog();
     writeColoredText(
@@ -105,13 +105,13 @@ void CLogTextCtrl::pushLog(const CTopicLog* topicLog)
 }
 
 // 招待ログを表示
-void CLogTextCtrl::pushLog(const CInviteLog* inviteLog)
+void CLogTextCtrl::pushLog(const CInviteMessage* inviteLog)
 {
     writeColoredText(inviteLog->getNick() + "に招待されました", COLOR_GREEN);
 
 }
 // キックログを表示
-void CLogTextCtrl::pushLog(const CKickLog* kickLog)
+void CLogTextCtrl::pushLog(const CKickMessage* kickLog)
 {
     writeColoredText(
             kickLog->getUserName() + "が" + kickLog->getNick() + "からキックされました",

@@ -48,19 +48,19 @@ public:
 
 
     // チャンネルのメッセージ一覧を取得する
-    std::vector<CServiceLog*> getLogs(const wxString& channel);
+    std::vector<CMessage*> getLogs(const wxString& channel);
 
     // チャンネルのメンバー一覧を取得する
     std::vector<CMemberData*> getMembers(const wxString& channel);
 
     // チャンネルのメッセージを追加する
-    void pushLog(const wxString& channel, CServiceLog* message);
+    void pushLog(const wxString& channel, CMessage* message);
 
     // チャンネルのメンバーを追加する
     void pushMember(const wxString& channel, const CMemberData& member);
 
     // チャンネルのメッセージ一覧をセットする
-    void setLogs(const wxString& channel, const std::vector<CServiceLog*>& messages);
+    void setLogs(const wxString& channel, const std::vector<CMessage*>& messages);
 
     // チャンネルのメンバー一覧をセットする
     void setMembers(const wxString& channel, const std::vector<CMemberData*>& members);
@@ -72,7 +72,7 @@ public:
     void updateMember(const wxString& userName,const wxString& nick);
 
     // メッセージIDを更新する
-    void onUpdateMessageId(const CMessageLog* message);
+    void onUpdateMessageId(const CChatMessage* message);
     
     // チャンネルのメッセージ情報を収集したか
     bool hasReceivedMessage(const wxString& channel);
@@ -81,7 +81,7 @@ public:
     bool hasReceivedMember(const wxString& channel);
 
     // 同じメッセージ内容のものがあるか
-    bool hasSameMessage(const CMessageLog* message);
+    bool hasSameMessage(const CChatMessage* message);
 
     // チャンネルを取得する。
     CChannelStatus* getChannel(const wxString& channel) ;

@@ -30,7 +30,7 @@ void CPaneRecord::init(wxWindow* parent)
 }
 
 // ログ一覧を表示
-void CPaneRecord::displayLogs(const vector<CServiceLog*>& logs,
+void CPaneRecord::displayLogs(const vector<CMessage*>& logs,
         const CServiceHolder* services)
 {
     Clear();
@@ -45,7 +45,7 @@ void CPaneRecord::displayLogs(const vector<CServiceLog*>& logs,
             wxString nickName = service->getNickTable().getNickname(
                     logs[i]->getUserName());
             logs[i]->setNick(nickName);
-            if (typeid(*logs[i]) == typeid(CMessageLog)){
+            if (typeid(*logs[i]) == typeid(CChatMessage)){
                 writeColoredText("<" + logs[i]->getChannelName() + ">",
                         *wxBLACK);
             }

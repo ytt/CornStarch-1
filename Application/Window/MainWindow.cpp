@@ -35,7 +35,7 @@ void CMainWindow::init(void)
     SetMenuBar(m_view->getMenuBar()); // メニューバー
 
     // ログ保持部の初期化
-    m_logHolder = new CLogHolder();
+    m_logHolder = new CMessageHolder();
     m_inputManager = new CInputManager();
     m_serviceHolder = new CServiceHolder();
     m_serviceHolder->load(GetEventHandler());
@@ -386,7 +386,7 @@ void CMainWindow::onEnter(wxCommandEvent& event)
     // 送信履歴を追加
     m_inputManager->addHistory(body);
     // コンテンツの更新
-    CMessageLog* log = service->generateMessage(body);
+    CChatMessage* log = service->generateMessage(body);
     service->postMessage(log);
     m_view->addLog(log);
 
@@ -637,11 +637,11 @@ void CMainWindow::onGetMemberInfo(CGetMemberInfoEvent& event)
 }
 
 // メッセージストリーム受信時
-void CMainWindow::onMsgStream(CStreamEvent<CMessageLog>& event)
+void CMainWindow::onMsgStream(CStreamEvent<CChatMessage>& event)
 {
     CChatServiceBase* service = m_serviceHolder->getService(
             event.getConnectionId());
-    CMessageLog* message = event.getServiceLog();
+    CChatMessage* message = event.getServiceLog();
     wxString nickName = service->getNickTable().getNickname(
             message->getUserName());
     message->setNick(nickName);
@@ -676,14 +676,13 @@ void CMainWindow::onMsgStream(CStreamEvent<CMessageLog>& event)
 }
 
 // チャンネル参加ストリーム受信時
-void CMainWindow::onJoinStream(CStreamEvent<CJoinLog>& event)
+void CMainWindow::onJoinStream(CStreamEvent<CJoinMessage>& event)
 {
     CChatServiceBase* service = m_serviceHolder->getService(
             event.getConnectionId());
 
     // 処理待ちに追加
-    //CSubscribeData data(event.getChannelName(), event.getUserName());
-    CJoinLog* log = event.getServiceLog();
+    CJoinMessage* log = event.getServiceLog();
     service->onGetJoinStream(log->getChannelName(), log->getUserName());
 
     m_logHolder->pushLog(event.getServiceLog());
@@ -701,13 +700,13 @@ void CMainWindow::onJoinStream(CStreamEvent<CJoinLog>& event)
 }
 
 // チャンネル離脱ストリーム受信時
-void CMainWindow::onPartStream(CStreamEvent<CPartLog>& event)
+void CMainWindow::onPartStream(CStreamEvent<CPartMessage>& event)
 {
     CChatServiceBase* service = m_serviceHolder->getService(
             event.getConnectionId());
     if (service != NULL){
 
-        CPartLog* partLog = event.getServiceLog();
+        CPartMessage* partLog = event.getServiceLog();
         wxString name = partLog->getUserName();
         wxString channel = partLog->getChannelName();
 
@@ -731,13 +730,13 @@ void CMainWindow::onPartStream(CStreamEvent<CPartLog>& event)
 }
 
 // チャンネル更新ストリーム受信時
-void CMainWindow::onChannelStream(CStreamEvent<CTopicLog>& event)
+void CMainWindow::onChannelStream(CStreamEvent<CTopicMessage>& event)
 {
     CChatServiceBase* service = m_serviceHolder->getService(
             event.getConnectionId());
 
     // データ更新
-    CTopicLog* log = event.getServiceLog();
+    CTopicMessage* log = event.getServiceLog();
     wxString channelName = log->getChannelName();
     wxString topic = log->getTopic();
     service->onGetChannelStream(channelName, topic);
@@ -759,13 +758,13 @@ void CMainWindow::onChannelStream(CStreamEvent<CTopicLog>& event)
 }
 
 // ユーザ情報更新ストリーム受信時
-void CMainWindow::onUserStream(CStreamEvent<CMemberLog>& event)
+void CMainWindow::onUserStream(CStreamEvent<CMemberMessage>& event)
 {
     CChatServiceBase* service = m_serviceHolder->getService(
             event.getConnectionId());
 
     // データ更新
-    CMemberLog* log = event.getServiceLog();
+    CMemberMessage* log = event.getServiceLog();
     service->onGetUserStream(log->getUserName(), log->getNickName());
     m_logHolder->pushLog(event.getServiceLog());
     service->addLog(event.getServiceLog());
@@ -783,12 +782,12 @@ void CMainWindow::onUserStream(CStreamEvent<CMemberLog>& event)
     m_view->displayLogs(m_logHolder->getLogs(), m_serviceHolder); // ログペイン
 }
 // 招待ストリーム受信時
-void CMainWindow::onInvite(CStreamEvent<CInviteLog>& event)
+void CMainWindow::onInvite(CStreamEvent<CInviteMessage>& event)
 {
     CChatServiceBase* service = m_serviceHolder->getService(
             event.getConnectionId());
     if (service != NULL){
-        CInviteLog* log = event.getServiceLog();
+        CInviteMessage* log = event.getServiceLog();
         m_logHolder->pushLog(event.getServiceLog());
         // 表示の更新
         m_view->displayLogs(m_logHolder->getLogs(), m_serviceHolder); // ログペイン
@@ -804,13 +803,13 @@ void CMainWindow::onInvite(CStreamEvent<CInviteLog>& event)
 }
 
 // キックストリーム受信時
-void CMainWindow::onKick(CStreamEvent<CKickLog>& event)
+void CMainWindow::onKick(CStreamEvent<CKickMessage>& event)
 {
     CChatServiceBase* service = m_serviceHolder->getService(
             event.getConnectionId());
     if (service != NULL){
         m_logHolder->pushLog(event.getServiceLog());
-        CKickLog* log = event.getServiceLog();
+        CKickMessage* log = event.getServiceLog();
 
         if (log->getTarget() == service->getUser()->getUserName()){
             wxMessageDialog dialog(this,

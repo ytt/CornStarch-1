@@ -49,8 +49,8 @@ CConnectionEventBase* CSCEventFactory::Create(CSCResponseData message)
         return event;
     }
     if (message.m_type == CSCMessageType::MESSAGE){
-        CStreamEvent<CMessageLog>* event = new CStreamEvent<CMessageLog>(myEVT_THREAD_STREAM_MSG_ADD);
-        CMessageLog* log = new CMessageLog();
+        CStreamEvent<CChatMessage>* event = new CStreamEvent<CChatMessage>(myEVT_THREAD_STREAM_MSG_ADD);
+        CChatMessage* log = new CChatMessage();
         log->init(&message);
         log->setServiceId(m_connectionId);
         event->setServiceLog(log);
@@ -58,8 +58,8 @@ CConnectionEventBase* CSCEventFactory::Create(CSCResponseData message)
         return event;
     }
     if (message.m_type == CSCMessageType::JOIN){
-        CStreamEvent<CJoinLog>* event = new CStreamEvent<CJoinLog>(myEVT_THREAD_STREAM_CH_JOIN);
-        CJoinLog* log = new CJoinLog();
+        CStreamEvent<CJoinMessage>* event = new CStreamEvent<CJoinMessage>(myEVT_THREAD_STREAM_CH_JOIN);
+        CJoinMessage* log = new CJoinMessage();
         log->setServiceId(m_connectionId);
         log->setChannelName(message.m_channel);
         log->setUserName(message.m_username);
@@ -68,8 +68,8 @@ CConnectionEventBase* CSCEventFactory::Create(CSCResponseData message)
         return event;
     }
     if (message.m_type == CSCMessageType::PART){
-        CStreamEvent<CPartLog>* event = new CStreamEvent<CPartLog>(myEVT_THREAD_STREAM_CH_PART);
-        CPartLog* log = new CPartLog();
+        CStreamEvent<CPartMessage>* event = new CStreamEvent<CPartMessage>(myEVT_THREAD_STREAM_CH_PART);
+        CPartMessage* log = new CPartMessage();
         log->setServiceId(m_connectionId);
         log->setChannelName(message.m_channel);
         log->setUserName(message.m_username);
@@ -78,8 +78,8 @@ CConnectionEventBase* CSCEventFactory::Create(CSCResponseData message)
     }
     if (message.m_type == CSCMessageType::TOPIC){
 
-        CStreamEvent<CTopicLog>* event = new CStreamEvent<CTopicLog>(myEVT_THREAD_STREAM_CH_UPDATE);
-        CTopicLog* log = new CTopicLog();
+        CStreamEvent<CTopicMessage>* event = new CStreamEvent<CTopicMessage>(myEVT_THREAD_STREAM_CH_UPDATE);
+        CTopicMessage* log = new CTopicMessage();
         log->setServiceId(m_connectionId);
         log->setChannelName(message.m_channelData.m_name);
         log->setTopic(message.m_channelData.m_topic);
@@ -88,8 +88,8 @@ CConnectionEventBase* CSCEventFactory::Create(CSCResponseData message)
         return event;
     }
     if (message.m_type == CSCMessageType::NICK){
-        CStreamEvent<CMemberLog>* event = new CStreamEvent<CMemberLog>(myEVT_THREAD_STREAM_USER_UPDATE);
-        CMemberLog* log = new CMemberLog();
+        CStreamEvent<CMemberMessage>* event = new CStreamEvent<CMemberMessage>(myEVT_THREAD_STREAM_USER_UPDATE);
+        CMemberMessage* log = new CMemberMessage();
         log->setServiceId(m_connectionId);
         log->setUserName(message.m_member.m_name);
         log->setNickName(message.m_member.m_nick);

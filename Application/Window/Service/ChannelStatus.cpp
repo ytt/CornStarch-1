@@ -1,5 +1,5 @@
 #include "ChannelStatus.hpp"
-#include "LogHolder/MessageLog.hpp"
+#include "Message/ChatMessage.hpp"
 
 using namespace std;
 
@@ -23,7 +23,7 @@ CChannelStatus::~CChannelStatus(void)
 // 初期化を行う
 void CChannelStatus::init(void)
 {
-    m_logHolder = new CLogHolder();
+    m_logHolder = new CMessageHolder();
     m_logHolder->setOriginalSource(true);
     m_members = new CMemberVec();
 }
@@ -41,7 +41,7 @@ wxString CChannelStatus::getTopic(void) const
 }
 
 // メッセージ一覧を取得する
-vector<CServiceLog*> CChannelStatus::getLog(void) const
+vector<CMessage*> CChannelStatus::getLog(void) const
 {
     return m_logHolder->getLogs();
 }
@@ -53,7 +53,7 @@ vector<CMemberData*> CChannelStatus::getMembers(void) const
 }
 
 // メッセージを追加する
-void CChannelStatus::pushLog(CServiceLog* log)
+void CChannelStatus::pushLog(CMessage* log)
 {
     m_logHolder->pushLog(log);
 }
@@ -72,14 +72,14 @@ void CChannelStatus::pushMember(const CMemberData& member)
 }
 
 // メッセージ一覧をセットする
-void CChannelStatus::setMessages(const vector<CServiceLog*>& messages)
+void CChannelStatus::setMessages(const vector<CMessage*>& messages)
 {
     if (m_isLoaded == false){
         int size = messages.size();
         if (size != 0){
             size--;
             for (int i = 0; i < m_unreadCount; i++){
-                CMessageLog* message = dynamic_cast<CMessageLog*>(messages[size
+                CChatMessage* message = dynamic_cast<CChatMessage*>(messages[size
                         - i]);
                 if (message != NULL){
                     message->setReaded(false);
@@ -109,13 +109,13 @@ bool CChannelStatus::hasReceivedMember(void) const
 }
 
 // ID不明かつ同じ投稿内容のメッセージがあるか
-bool CChannelStatus::hasSameMessage(const CMessageLog* message) const
+bool CChannelStatus::hasSameMessage(const CChatMessage* message) const
 {
-    vector<CServiceLog*> logs = m_logHolder->getLogs();
+    vector<CMessage*> logs = m_logHolder->getLogs();
     size_t length = logs.size();
     for (size_t i = 0; i < length; i++){
 
-        CMessageLog* log = dynamic_cast<CMessageLog*>(logs[i]);
+        CChatMessage* log = dynamic_cast<CChatMessage*>(logs[i]);
         if (log != NULL){
             // 未知のIDでかつメッセージが同じだったら
             if (log->getId() == -1 && log->getBody() == message->getBody()){
@@ -127,17 +127,17 @@ bool CChannelStatus::hasSameMessage(const CMessageLog* message) const
 }
 
 // 同じ内容のメッセージについてIDを更新
-void CChannelStatus::updateMessageId(const CMessageLog* message)
+void CChannelStatus::updateMessageId(const CChatMessage* message)
 {
     if (!hasSameMessage(message)){
         return;
     }
 
-    vector<CServiceLog*> logs = m_logHolder->getLogs();
+    vector<CMessage*> logs = m_logHolder->getLogs();
     size_t length = logs.size();
     for (size_t i = 0; i < length; i++){
 
-        CMessageLog* log = dynamic_cast<CMessageLog*>(logs[i]);
+        CChatMessage* log = dynamic_cast<CChatMessage*>(logs[i]);
         if (log != NULL){
             // 未知のIDでかつメッセージが同じだったら
             if (log->getId() == -1 && log->getBody() == message->getBody()){
@@ -164,10 +164,10 @@ void CChannelStatus::clearUnreadCount()
 {
     if (m_isLoaded){
         m_unreadCount = 0;
-        vector<CServiceLog*> logs = m_logHolder->getLogs();
-        vector<CServiceLog*>::iterator it = logs.begin();
+        vector<CMessage*> logs = m_logHolder->getLogs();
+        vector<CMessage*>::iterator it = logs.begin();
         while (it != logs.end()){
-            CMessageLog* message = dynamic_cast<CMessageLog*>(*it);
+            CChatMessage* message = dynamic_cast<CChatMessage*>(*it);
             if (message != NULL){
                 message->setReaded(true);
             }

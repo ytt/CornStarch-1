@@ -1,31 +1,23 @@
-﻿#include "LogHolder.hpp"
-#include "MessageLog.hpp"
-#include "MemberLog.hpp"
-#include "JoinLog.hpp"
-#include "PartLog.hpp"
-#include "TopicLog.hpp"
-#include "InviteLog.hpp"
-#include "KickLog.hpp"
-
+﻿#include "MessageHolder.hpp"
 using namespace std;
 
 namespace CornStarch
 {
 ;
 
-CLogHolder::CLogHolder(void) :
+CMessageHolder::CMessageHolder(void) :
         m_isOriginalSource(false)
 {
 }
 
-CLogHolder::~CLogHolder(void)
+CMessageHolder::~CMessageHolder(void)
 {
     clear();
 }
 
 //////////////////////////////////////////////////////////////////////
 
-void CLogHolder::clear(void)
+void CMessageHolder::clear(void)
 {
     if (m_isOriginalSource){
         size_t size = m_logs.size();
@@ -37,7 +29,7 @@ void CLogHolder::clear(void)
 }
 
 // ログ一覧を取得する
-vector<CServiceLog*> CLogHolder::getLogs(void) const
+vector<CMessage*> CMessageHolder::getLogs(void) const
 {
     return m_logs;
 }
@@ -45,14 +37,14 @@ vector<CServiceLog*> CLogHolder::getLogs(void) const
 //////////////////////////////////////////////////////////////////////
 
 // ログを追加する
-void CLogHolder::pushLog(CServiceLog* log)
+void CMessageHolder::pushLog(CMessage* log)
 {
     // ログの追加
     m_logs.push_back(log);
 
     // 多すぎたら先頭削除
     if (m_logs.size() > MAX_LENGTH){
-        vector<CServiceLog*>::iterator it = m_logs.begin();
+        vector<CMessage*>::iterator it = m_logs.begin();
         if (m_isOriginalSource){
             delete *it;
         }

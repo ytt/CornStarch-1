@@ -139,11 +139,11 @@ wxString CChannelHolder::getFirstChannel(void)
 /////////////////////////////////////////////////////////////
 
 // チャンネルのメッセージ一覧を取得する
-vector<CServiceLog*> CChannelHolder::getLogs(const wxString& channel)
+vector<CMessage*> CChannelHolder::getLogs(const wxString& channel)
 {
     // チャンネルが存在しない
     if (m_channels.find(channel) == m_channels.end()){
-        return vector<CServiceLog*>();
+        return vector<CMessage*>();
     }
 
     return m_channels[channel]->getLog();
@@ -162,7 +162,7 @@ vector<CMemberData*> CChannelHolder::getMembers(const wxString& channel)
 
 // チャンネルのメッセージを追加する
 void CChannelHolder::pushLog(const wxString& channel,
-         CServiceLog* message)
+         CMessage* message)
 {
     // チャンネルが存在しない
     if (m_channels.find(channel) == m_channels.end()){
@@ -185,7 +185,7 @@ void CChannelHolder::pushMember(const wxString& channel,
 
 // チャンネルのメッセージ一覧をセットする
 void CChannelHolder::setLogs(const wxString& channel,
-        const vector<CServiceLog*>& messages)
+        const vector<CMessage*>& messages)
 {
     // チャンネルが存在しない
     if (m_channels.find(channel) == m_channels.end()){
@@ -229,7 +229,7 @@ void CChannelHolder::updateMember(const wxString& userName,const wxString& nick)
 }
 
 // メッセージIDを更新する
-void CChannelHolder::onUpdateMessageId(const CMessageLog* message)
+void CChannelHolder::onUpdateMessageId(const CChatMessage* message)
 {
     map<wxString, CChannelStatus*>::iterator it;
     for (it = m_channels.begin(); it != m_channels.end(); it++){
@@ -260,7 +260,7 @@ bool CChannelHolder::hasReceivedMember(const wxString& channel)
 }
 
 // 同じメッセージ内容のものがあるか
-bool CChannelHolder::hasSameMessage(const CMessageLog* message)
+bool CChannelHolder::hasSameMessage(const CChatMessage* message)
 {
     // チャンネルが存在しない
     if (m_channels.find(message->getChannelName()) == m_channels.end()){

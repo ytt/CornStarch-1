@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "ServiceLog.hpp"
+#include "Message.hpp"
 #include "../../../DataStruct/ResponseData.hpp"
 
 
@@ -8,7 +8,7 @@ namespace CornStarch
 ;
 
 // メッセージのログ
-class CMessageLog: public CServiceLog
+class CChatMessage: public CMessage
 {
 private:
     bool m_isReaded;
@@ -16,8 +16,8 @@ private:
     wxString m_body;
 
 public:
-    CMessageLog(void);
-    ~CMessageLog(void);
+    CChatMessage(void);
+    ~CChatMessage(void);
     void init(const CResponseData* message);
 
     wxString getBody() const

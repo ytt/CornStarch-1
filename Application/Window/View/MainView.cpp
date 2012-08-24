@@ -79,17 +79,17 @@ void CMainView::setSelectedChannel(int serviceId,const wxString& channelName)
 }
 
 // メッセージ一覧を表示する
-void CMainView::displayMessages(const vector<CServiceLog*>& messages,
+void CMainView::displayMessages(const vector<CMessage*>& messages,
         const CNickTable& nickTable)
 {
     m_panel->displayMessages(messages, nickTable);
 }
-void CMainView::addLog(const CServiceLog* message)
+void CMainView::addLog(const CMessage* message)
 {
     m_panel->addLog(message);
 }
 
-void CMainView::addUnreadMessage(const CMessageLog* message)
+void CMainView::addUnreadMessage(const CChatMessage* message)
 {
     m_panel->addUnreadMessage(message);
 }
@@ -114,7 +114,7 @@ void CMainView::clearPostPaneText(void)
 }
 
 // ログ一覧にログを表示する
-void CMainView::displayLogs(const std::vector<CServiceLog*>& logs,const CServiceHolder* services)
+void CMainView::displayLogs(const std::vector<CMessage*>& logs,const CServiceHolder* services)
 {
     m_panel->displayLogs(logs,services);
 }

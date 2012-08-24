@@ -4,7 +4,7 @@
 #include "IUser.hpp"
 #include "IConnection.hpp"
 #include "ICommandInvoker.hpp"
-#include "LogHolder/MessageLog.hpp"
+#include "Message/ChatMessage.hpp"
 
 namespace CornStarch
 {
@@ -150,7 +150,7 @@ public:
     void partChannel(const wxString& channel);
 
     // ログの追加
-    void addLog(CServiceLog* log);
+    void addLog(CMessage* log);
     // 接続する
     void connect(void);
     // 再接続を行う
@@ -167,10 +167,10 @@ public:
     wxString getCurrentChannel(void) const;
 
     // メッセージを生成
-    CMessageLog* generateMessage(const wxString& body);
+    CChatMessage* generateMessage(const wxString& body);
 
     // メッセージを投稿した際
-    void postMessage(CMessageLog* message);
+    void postMessage(CChatMessage* message);
 
     // チャンネルを選択した際
     void selectChannel(const wxString& channel);
@@ -181,7 +181,7 @@ public:
     // チャンネル一覧を取得
     CChannelStatus* getChannel(const wxString& channel) const;
     // メッセージ一覧を取得
-    std::vector<CServiceLog*> getLogs(const wxString& channel) const;
+    std::vector<CMessage*> getLogs(const wxString& channel) const;
 
     // メンバー一覧を取得
     std::vector<CMemberData*> getMembers(const wxString& channel) const;
@@ -202,7 +202,7 @@ public:
     wxString getTopic(const wxString& channel);
 
     // このクライアントから投稿されたメッセージか
-    bool isPostedThisClient(const CMessageLog* message);
+    bool isPostedThisClient(const CChatMessage* message);
 
     // メッセージ表示を行う際
     void onUpdateMessageView(const wxString& channel);
@@ -244,7 +244,7 @@ public:
     void onGetMemberStatus(const CMemberData& member);
 
     // メッセージストリームを取得した場合
-    void onGetMessageStream( CMessageLog* message);
+    void onGetMessageStream( CChatMessage* message);
 
     // チャンネル参加ストリームを受信
     void onGetJoinStream(const wxString& channel, const wxString& name);
