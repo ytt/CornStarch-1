@@ -1,26 +1,25 @@
 ﻿#include "SCJsonParser.hpp"
-#include "SCMessageData.hpp"
+#include "SCResponseData.hpp"
 
 using namespace std;
 using namespace picojson;
 
 namespace CornStarch
-{;
+{
+;
 namespace StarChat
-{;
+{
+;
 
 CSCJsonParser::CSCJsonParser(void)
 {
 }
 
-
 CSCJsonParser::~CSCJsonParser(void)
 {
 }
 
-
 //////////////////////////////////////////////////////////////////////
-
 
 // メンバの一覧をvectorとして返す
 vector<CMemberData*> CSCJsonParser::getMembers(const string& json) const
@@ -31,13 +30,15 @@ vector<CMemberData*> CSCJsonParser::getMembers(const string& json) const
     array arr = getArray(parseSCJson(json));
 
     // 各メンバについてループ
-    int size = (int)arr.size();
+    int size = (int) arr.size();
     for (int i = 0; i < size; i++){
 
         // パラメータの取得
         CMemberData* mem = new CMemberData();
-        mem->m_name = wxString(arr[i].get("name").get<string>().c_str(), wxConvUTF8); // 名前(name)
-        mem->m_nick = wxString(arr[i].get("nick").get<string>().c_str(), wxConvUTF8); // ニックネーム(name)
+        mem->m_name = wxString(arr[i].get("name").get<string>().c_str(),
+                wxConvUTF8); // 名前(name)
+        mem->m_nick = wxString(arr[i].get("nick").get<string>().c_str(),
+                wxConvUTF8); // ニックネーム(name)
 
         // vectorに追加
         result.push_back(mem);
@@ -55,15 +56,18 @@ vector<CChannelData*> CSCJsonParser::getChannels(const string& json) const
     array arr = getArray(parseSCJson(json));
 
     // 各チャンネルについてループ
-    int size = (int)arr.size();
+    int size = (int) arr.size();
     for (int i = 0; i < size; i++){
 
         // パラメータの取得
         CChannelData* cn = new CChannelData();
-        cn->m_name = wxString(arr[i].get("name").get<string>().c_str(), wxConvUTF8); // チャンネル名(name)
+        cn->m_name = wxString(arr[i].get("name").get<string>().c_str(),
+                wxConvUTF8); // チャンネル名(name)
         if (arr[i].get("topic")){ // topic(あれば)
-            cn->m_topic = wxString(arr[i].get("topic").get("body").get<string>().c_str(), wxConvUTF8);
-        } else {
+            cn->m_topic = wxString(
+                    arr[i].get("topic").get("body").get<string>().c_str(),
+                    wxConvUTF8);
+        } else{
             cn->m_topic = "";
         }
 
@@ -75,26 +79,31 @@ vector<CChannelData*> CSCJsonParser::getChannels(const string& json) const
 }
 
 // メッセージ一覧をvectorとして返す
-vector<CMessageData*> CSCJsonParser::getMessages(const string& json) const
+vector<CResponseData*> CSCJsonParser::getMessages(const string& json) const
 {
-    vector<CMessageData*> result;
+    vector<CResponseData*> result;
 
     // jsonを解析したarrayを取得
     array arr = getArray(parseSCJson(json));
 
     // 各メッセージについてループ
-    int size = (int)arr.size();
+    int size = (int) arr.size();
     for (int i = 0; i < size; i++){
 
         // パラメータの取得
-        CMessageData* msg = new CMessageData();
+        CResponseData* msg = new CResponseData();
         msg->m_id = arr[i].get("id").get<double>(); // メッセージID
-        msg->m_username = wxString(arr[i].get("user_name").get<string>().c_str(), wxConvUTF8); // 発言者
-        msg->m_body = wxString(arr[i].get("body").get<string>().c_str(), wxConvUTF8); // 本文
-        msg->m_channel = wxString(arr[i].get("channel_name").get<string>().c_str(), wxConvUTF8); // 投稿チャンネル
-        msg->m_time = (time_t)arr[i].get("created_at").get<double>(); // 作成UNIX時
+        msg->m_username = wxString(
+                arr[i].get("user_name").get<string>().c_str(), wxConvUTF8); // 発言者
+        msg->m_body = wxString(arr[i].get("body").get<string>().c_str(),
+                wxConvUTF8); // 本文
+        msg->m_channel = wxString(
+                arr[i].get("channel_name").get<string>().c_str(), wxConvUTF8); // 投稿チャンネル
+        msg->m_time = (time_t) arr[i].get("created_at").get<double>(); // 作成UNIX時
         if (arr[i].get("temporary_nick")){ // テンポラリニックネーム(あれば)
-            msg->m_tempNick = wxString(arr[i].get("temporary_nick").get<string>().c_str(), wxConvUTF8);
+            msg->m_tempNick = wxString(
+                    arr[i].get("temporary_nick").get<string>().c_str(),
+                    wxConvUTF8);
         }
 
         // vectorに追加
@@ -120,7 +129,8 @@ CMemberData CSCJsonParser::getMember(const string& json) const
         array arr = v.get("keywords").get<array>();
         size_t size = arr.size();
         for (size_t i = 0; i < size; i++){
-            member.m_keywords.push_back(wxString(arr[i].get<string>().c_str(), wxConvUTF8)); // キーワード
+            member.m_keywords.push_back(
+                    wxString(arr[i].get<string>().c_str(), wxConvUTF8)); // キーワード
         }
     }
 
@@ -128,78 +138,90 @@ CMemberData CSCJsonParser::getMember(const string& json) const
 }
 
 // ストリームを返す
-CStreamData CSCJsonParser::getStreamData(const string& json) const
+CSCResponseData* CSCJsonParser::getStreamData(const string& json) const
 {
-    CStreamData result;
-    value u;
 
     // 文字列が空の場合
     if (json == ""){
         // ストリームはないと判断する
-        result.m_type = CStreamData::TYPE_NOSTREAM;
-        return result;
+        return NULL;
     }
 
     // ストリームの種類を取得
-    value v = parseSCJson(json);
-    CStreamData::TYPE type = getStreamType(v);
+    value content = parseSCJson(json);
+    CSCMessageType::SC_MESSAGE_TYPE type = getStreamType(content);
 
+    CSCResponseData* result = new CSCResponseData();
+    value val;
     // ストリームの種類により分岐
-    switch (type){
-    case CStreamData::TYPE_MESSAGE_ADD: // メッセージの投稿があった
-
+    switch (type) {
+    case CSCMessageType::MESSAGE: // メッセージの投稿があった
         // メッセージの取得
-        u = v.get("message");
+        val= content.get("message");
 
         // 値を取得する
-        result.m_type = CStreamData::TYPE_MESSAGE_ADD;
-        result.m_message.m_id = u.get("id").get<double>();
-        result.m_message.m_username = wxString(u.get("user_name").get<string>().c_str(), wxConvUTF8);
-        result.m_message.m_body = wxString(u.get("body").get<string>().c_str(), wxConvUTF8);
-        result.m_message.m_channel = wxString(u.get("channel_name").get<string>().c_str(), wxConvUTF8);
-        result.m_message.m_time = (time_t)u.get("created_at").get<double>();
-        if (u.get("temporary_nick")){ // テンポラリニックネーム(あれば)
-            result.m_message.m_tempNick = wxString(u.get("temporary_nick").get<string>().c_str(), wxConvUTF8);
+        result->m_type = CSCMessageType::MESSAGE;
+        result->m_id = val.get("id").get<double>();
+        result->m_username = wxString(
+                val.get("user_name").get<string>().c_str(), wxConvUTF8);
+        result->m_body = wxString(
+                val.get("body").get<string>().c_str(), wxConvUTF8);
+        result->m_channel = wxString(
+                val.get("channel_name").get<string>().c_str(), wxConvUTF8);
+        result->m_time =
+                (time_t) val.get("created_at").get<double>();
+        if (val.get("temporary_nick")){ // テンポラリニックネーム(あれば)
+            result->m_tempNick = wxString(
+                    val.get("temporary_nick").get<string>().c_str(),
+                    wxConvUTF8);
         }
         break;
 
-    case CStreamData::TYPE_CHANNEL_MEMBER_ADD: // チャンネルにメンバー追加
+    case CSCMessageType::JOIN: // チャンネルにメンバー追加
 
-        result.m_type = CStreamData::TYPE_CHANNEL_MEMBER_ADD;
-        result.m_member.m_name = wxString(v.get("user_name").get<string>().c_str(), wxConvUTF8);
-        result.m_channel.m_name = wxString(v.get("channel_name").get<string>().c_str(), wxConvUTF8);
+        result->m_type =CSCMessageType::JOIN;
+        result->m_username = wxString(
+                content.get("user_name").get<string>().c_str(), wxConvUTF8);
+        result->m_channel = wxString(
+                content.get("channel_name").get<string>().c_str(), wxConvUTF8);
         break;
 
-    case CStreamData::TYPE_CHANNEL_MEMBER_SUB: // チャンネルからメンバー離脱
+    case CSCMessageType::PART: // チャンネルからメンバー離脱
 
-        result.m_type = CStreamData::TYPE_CHANNEL_MEMBER_SUB;
-        result.m_member.m_name = wxString(v.get("user_name").get<string>().c_str(), wxConvUTF8);
-        result.m_channel.m_name = wxString(v.get("channel_name").get<string>().c_str(), wxConvUTF8);
+        result->m_type  =CSCMessageType::PART;
+        result->m_username= wxString(
+                content.get("user_name").get<string>().c_str(), wxConvUTF8);
+        result->m_channel= wxString(
+                content.get("channel_name").get<string>().c_str(), wxConvUTF8);
         break;
 
-    case CStreamData::TYPE_CHANNEL_UPDATE: // チャンネル情報更新
+    case CSCMessageType::TOPIC: // チャンネル情報更新
 
-        u = v.get("channel");
+        val = content.get("channel");
 
-        result.m_type = CStreamData::TYPE_CHANNEL_UPDATE;
-        result.m_channel.m_name = wxString(u.get("name").get<string>().c_str(), wxConvUTF8);
-        result.m_channel.m_topic = wxString(u.get("topic").get("body").get<string>().c_str(), wxConvUTF8);
+        result->m_type  =CSCMessageType::TOPIC;
+        result->m_channelData.m_name= wxString(
+                val.get("name").get<string>().c_str(), wxConvUTF8);
+        result->m_channelData.m_topic= wxString(
+                val.get("topic").get("body").get<string>().c_str(),
+                wxConvUTF8);
         break;
 
-    case CStreamData::TYPE_USER_UPDATE: // ユーザ情報更新
+    case CSCMessageType::NICK: // ユーザ情報更新
 
-        u =  v.get("user");
+        val= content.get("user");
 
-        result.m_type = CStreamData::TYPE_USER_UPDATE;
-        result.m_member.m_name = wxString(u.get("name").get<string>().c_str(), wxConvUTF8);
-        result.m_member.m_nick = wxString(u.get("nick").get<string>().c_str(), wxConvUTF8);
+        result->m_type  =CSCMessageType::NICK;
+        result->m_member.m_name = wxString(
+                val.get("name").get<string>().c_str(), wxConvUTF8);
+        result->m_member.m_nick = wxString(
+                val.get("nick").get<string>().c_str(), wxConvUTF8);
         break;
 
     default: // 解析不能
-        result.m_type = CStreamData::TYPE_UNKNOWN;
-        break;
+        delete result;
+        return NULL;
     }
-
     return result;
 
 }
@@ -225,7 +247,7 @@ vector<string> CSCJsonParser::getJsonVec(const string& jsons)
         return result;
     }
 
-    while(1){
+    while (1){
 
         // これ以上JSON部分がない
         if (buffer.find("\r\n") == 0){
@@ -242,34 +264,32 @@ vector<string> CSCJsonParser::getJsonVec(const string& jsons)
     return result;
 }
 
-
 //////////////////////////////////////////////////////////////////////
 
-
 // ストリームのvalueから、ストリームタイプを得る
-CStreamData::TYPE CSCJsonParser::getStreamType(const value& val) const
+CSCMessageType::SC_MESSAGE_TYPE CSCJsonParser::getStreamType(const value& val) const
 {
     // 形式が不正
     if (!val.is<object>()){
-        return CStreamData::TYPE_UNKNOWN;
+        return CSCMessageType::UNKNOWN;
     }
 
     // タイプを文字列で取得
     wxString str = val.get("type").get<string>();
     if (str == "message"){ // メッセージが投稿
-        return CStreamData::TYPE_MESSAGE_ADD;
+        return CSCMessageType::MESSAGE;
     } else if (str == "delete_subscribing"){ // チャンネルにメンバー参加
-        return CStreamData::TYPE_CHANNEL_MEMBER_SUB;
+        return CSCMessageType::JOIN;
     } else if (str == "subscribing"){ // チャンネルからメンバー離脱
-        return CStreamData::TYPE_CHANNEL_MEMBER_ADD;
+        return CSCMessageType::PART;
     } else if (str == "channel"){ // チャンネル情報更新
-        return CStreamData::TYPE_CHANNEL_UPDATE;
+        return CSCMessageType::TOPIC;
     } else if (str == "user"){ // ユーザ情報変更
-        return CStreamData::TYPE_USER_UPDATE;
+        return CSCMessageType::NICK;
     }
 
     // 解析できなかった
-    return CStreamData::TYPE_UNKNOWN;
+    return CSCMessageType::UNKNOWN;
 }
 
 // valueを解析してarrayとして返す

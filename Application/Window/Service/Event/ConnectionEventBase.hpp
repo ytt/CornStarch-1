@@ -4,9 +4,8 @@
 #include <wx/wxprec.h>
 #include <wx/wx.h>
 #include "../../../DataStruct/MemberData.hpp"
-#include "../../../DataStruct/StreamData.hpp"
 #include "../../../DataStruct/ChannelData.hpp"
-#include "../../../DataStruct/MessageData.hpp"
+#include "../../../DataStruct/ResponseData.hpp"
 
 namespace CornStarch
 {;

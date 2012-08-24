@@ -9,17 +9,17 @@ namespace CornStarch
 class CGetMessageEvent : public CConnectionEventBase
 {
 private:
-    std::vector<CMessageData*> m_messages; // メッセージ
+    std::vector<CResponseData*> m_messages; // メッセージ
     wxString m_channel; // チャンネル名
 public:
     CGetMessageEvent(void);
     ~CGetMessageEvent(void);
 
     // メッセージをセット
-    void setMessages(const std::vector<CMessageData*>& messages);
+    void setMessages(const std::vector<CResponseData*>& messages);
 
     // メッセージを取得
-    std::vector<CMessageData*> getMessages(void) const;
+    std::vector<CResponseData*> getMessages(void) const;
 
     wxString getChannel() const
     {

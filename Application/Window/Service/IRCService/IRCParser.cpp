@@ -1,5 +1,4 @@
 ﻿#include "IRCParser.hpp"
-#include "IRCMessageData.hpp"
 #include "IRCCommand.hpp"
 #include "../StringUtility.hpp"
 namespace CornStarch
@@ -17,9 +16,9 @@ CIRCParser::CIRCParser() :
 CIRCParser::~CIRCParser()
 {
 }
-CIRCMessageData CIRCParser::parse(const wxString& content)
+CIRCResponseData CIRCParser::parse(const wxString& content)
 {
-    CIRCMessageData message;
+    CIRCResponseData message;
 
     if (content.find(IRCCommand::PING) == 0){
         message.m_statusCode = IRCCommand::PING;

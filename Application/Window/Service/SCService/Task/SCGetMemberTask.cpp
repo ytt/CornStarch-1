@@ -29,7 +29,7 @@ void CSCGetMemberTask::sendRequestToSC(CSCClient* client)
 void CSCGetMemberTask::notifyMessage(const string& responseBody)
 {
     CSCJsonParser parser;
-    CSCMessageData message;
+    CSCResponseData message;
     message.m_type = CSCMessageType::GET_MEMBERS;
     message.m_members= parser.getMembers(responseBody);
     message.m_channel = m_channel;

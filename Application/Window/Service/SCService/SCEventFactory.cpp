@@ -24,7 +24,7 @@ CSCEventFactory::CSCEventFactory()
 CSCEventFactory::~CSCEventFactory()
 {
 }
-CConnectionEventBase* CSCEventFactory::Create(CSCMessageData message)
+CConnectionEventBase* CSCEventFactory::Create(CSCResponseData message)
 {
     if (message.m_type == CSCMessageType::GET_CHANNEL){
         CGetChannelEvent* event = new CGetChannelEvent();

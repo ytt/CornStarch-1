@@ -2,7 +2,7 @@
 #define IRCRECEIVETASK_HPP_
 
 #include "IRCTask.hpp"
-#include "../IRCMessageData.hpp"
+#include "../IRCResponseData.hpp"
 #include "../../Event/ConnectionEventBase.hpp"
 
 namespace CornStarch

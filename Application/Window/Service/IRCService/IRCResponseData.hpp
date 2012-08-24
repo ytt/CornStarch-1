@@ -4,16 +4,16 @@
 #include <wx/wxprec.h>
 #include <wx/wx.h>
 #include <ctime>
-#include "../../../DataStruct/MessageData.hpp"
+#include "../../../DataStruct/ResponseData.hpp"
 namespace CornStarch
 {
 namespace IRC
 {
-class CIRCMessageData :public CMessageData
+class CIRCResponseData :public CResponseData
 {
 public:
-    CIRCMessageData();
-    virtual ~CIRCMessageData();
+    CIRCResponseData();
+    virtual ~CIRCResponseData();
 
     wxString m_host;
     wxString m_param;

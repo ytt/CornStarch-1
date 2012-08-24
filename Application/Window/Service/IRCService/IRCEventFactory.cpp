@@ -26,7 +26,7 @@ namespace IRC
 {
 ;
 
-CConnectionEventBase* CIRCEventFactory::Create(const CIRCMessageData& message)
+CConnectionEventBase* CIRCEventFactory::Create(const CIRCResponseData& message)
 {
     if (message.m_statusCode == IRCCommand::PRIVMSG){
         return createPrivateMessageEvent(message);
@@ -81,7 +81,7 @@ CConnectionEventBase* CIRCEventFactory::Create(const CIRCMessageData& message)
 }
 
 CConnectionEventBase* CIRCEventFactory::createNickMessageEvent(
-        const CIRCMessageData& message) const
+        const CIRCResponseData& message) const
 {
     // Eventの作成
     CStreamEvent<CMemberLog>* event = new CStreamEvent<CMemberLog>(myEVT_THREAD_STREAM_USER_UPDATE);
@@ -93,7 +93,7 @@ CConnectionEventBase* CIRCEventFactory::createNickMessageEvent(
     return event;
 }
 CConnectionEventBase* CIRCEventFactory::createTopicMessageEvent(
-        const CIRCMessageData& message) const
+        const CIRCResponseData& message) const
 {
     // Eventの作成
     CStreamEvent<CTopicLog>* event = new CStreamEvent<CTopicLog>(myEVT_THREAD_STREAM_CH_UPDATE);
@@ -106,7 +106,7 @@ CConnectionEventBase* CIRCEventFactory::createTopicMessageEvent(
     return event;
 }
 CConnectionEventBase* CIRCEventFactory::createJoinMessageEvent(
-        const CIRCMessageData& message) const
+        const CIRCResponseData& message) const
 {
     // Eventの作成
     CStreamEvent<CJoinLog>* event = new CStreamEvent<CJoinLog>(myEVT_THREAD_STREAM_CH_JOIN);
@@ -119,7 +119,7 @@ CConnectionEventBase* CIRCEventFactory::createJoinMessageEvent(
     return event;
 }
 CConnectionEventBase* CIRCEventFactory::createPartMessageEvent(
-        const CIRCMessageData& message) const
+        const CIRCResponseData& message) const
 {
     // Eventの作成
     CStreamEvent<CPartLog>* event = new CStreamEvent<CPartLog>(myEVT_THREAD_STREAM_CH_PART);
@@ -133,7 +133,7 @@ CConnectionEventBase* CIRCEventFactory::createPartMessageEvent(
 
 }
 CConnectionEventBase* CIRCEventFactory::createPrivateMessageEvent(
-        const CIRCMessageData& message) const
+        const CIRCResponseData& message) const
 {
     // Eventの作成
     CStreamEvent<CMessageLog>* event = new CStreamEvent<CMessageLog>(myEVT_THREAD_STREAM_MSG_ADD);
@@ -146,14 +146,14 @@ CConnectionEventBase* CIRCEventFactory::createPrivateMessageEvent(
     return event;
 }
 
-void CIRCEventFactory::addNames(const CIRCMessageData& message)
+void CIRCEventFactory::addNames(const CIRCResponseData& message)
 {
     int index = message.m_param.find(":");
     wxString names = message.m_param.substr(index + 1);
     m_namesBuffer += names;
 }
 CConnectionEventBase* CIRCEventFactory::createNamesEvent(
-        const CIRCMessageData& message)
+        const CIRCResponseData& message)
 {
     vector<CMemberData*> result;
     vector<wxString> names = CStringUtility::split(m_namesBuffer, " ");
@@ -184,13 +184,13 @@ CConnectionEventBase* CIRCEventFactory::createNamesEvent(
 }
 
 CConnectionEventBase* CIRCEventFactory::createTopicEvent(
-        const CIRCMessageData& message) const
+        const CIRCResponseData& message) const
 {
     return NULL;
 }
 
 CConnectionEventBase* CIRCEventFactory::createKickEvent(
-        const CIRCMessageData& message) const
+        const CIRCResponseData& message) const
 {
     CStreamEvent<CKickLog>* event = new CStreamEvent<CKickLog>(myEVT_THREAD_KICK);
     CKickLog* log = new CKickLog();
@@ -203,7 +203,7 @@ CConnectionEventBase* CIRCEventFactory::createKickEvent(
 }
 
 CConnectionEventBase* CIRCEventFactory::createInviteEvent(
-        const CIRCMessageData& message) const
+        const CIRCResponseData& message) const
 {
     CStreamEvent<CInviteLog>* event = new CStreamEvent<CInviteLog>(myEVT_THREAD_INVITE);
     CInviteLog* log = new CInviteLog();

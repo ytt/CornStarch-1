@@ -26,13 +26,13 @@ CGetMessageEvent::~CGetMessageEvent(void)
 
 
 // メッセージをセット
-void CGetMessageEvent::setMessages(const vector<CMessageData*>& messages)
+void CGetMessageEvent::setMessages(const vector<CResponseData*>& messages)
 {
     m_messages = messages;
 }
 
 // メッセージを取得
-vector<CMessageData*> CGetMessageEvent::getMessages(void) const
+vector<CResponseData*> CGetMessageEvent::getMessages(void) const
 {
     return m_messages;
 }

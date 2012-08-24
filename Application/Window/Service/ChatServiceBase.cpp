@@ -42,11 +42,6 @@ void CChatServiceBase::disconnect(void)
     m_connect->disconnect();
     m_state = DISCONNECT;
 }
-//// ユーザがログインしているか
-//bool CChatServiceBase::isUserLogin(void) const
-//{
-//    return m_user->isLogin();
-//}
 
 // ユーザ登録を行った際のデータ更新
 void CChatServiceBase::registerUser(const wxString& userName,
@@ -110,24 +105,18 @@ CMessageLog* CChatServiceBase::generateMessage(const wxString& body)
 {
     // コンテンツの更新
 
-    CMessageData data(-1, m_user->getUserName(), body,
+    CResponseData data(-1, m_user->getUserName(), body,
             m_user->getChannelName(), time(NULL));
     CMessageLog* log = new CMessageLog();
+    log->setNick(m_user->getNickName());
     log->setServiceId(this->getId());
     log->init(&data);
     return log;
 }
 
-//// ニックネームを取得
-//wxString CChatServiceBase::getNickName(void) const
-//{
-//    return m_user->getNickName();
-//}
-
 // メッセージを投稿した際
 void CChatServiceBase::postMessage(CMessageLog* log)
 {
-    //CMessageData* message = log->getMessage();
     // メッセージ投稿タスクの開始
     wxString channel = m_user->getChannelName();
     m_connect->startPostMessageTask(m_user, log->getBody(), channel);
@@ -265,10 +254,10 @@ void CChatServiceBase::onAuthSucceeed(void)
 
 // メッセージ一覧を取得した場合
 void CChatServiceBase::onGetMessages(const wxString channleName,
-        const vector<CMessageData*>& messages)
+        const vector<CResponseData*>& messages)
 {
     vector<CServiceLog*> logs;
-    vector<CMessageData*>::const_iterator it = messages.begin();
+    vector<CResponseData*>::const_iterator it = messages.begin();
     while (it != messages.end()){
 
         CMessageLog* log = new CMessageLog();
@@ -337,10 +326,11 @@ void CChatServiceBase::onGetMemberStatus(const CMemberData& member)
 // メッセージストリームを取得した場合
 void CChatServiceBase::onGetMessageStream(CMessageLog* message)
 {
-    // 別クライアントからのメッセージだったら、データ更新のみ
+    // 自分発言のメッセージだったら、データ更新のみしてログを破棄
     if (m_channel->hasSameMessage(message)
             && message->getUserName() == m_user->getUserName()){
         m_channel->onUpdateMessageId(message);
+        delete message;
         return;
     }
 

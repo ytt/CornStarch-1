@@ -26,7 +26,7 @@ void CSCPartChannelTask::sendRequestToSC(CSCClient* client)
 // HTTPレスポンスを解析してイベントを作成する
 void CSCPartChannelTask::notifyMessage(const string& responseBody)
 {
-    CSCMessageData message;
+    CSCResponseData message;
     message.m_type = CSCMessageType::PART_REPLY;
     message.m_channel = m_channel;
     m_observer->onMessageReceived(&message);

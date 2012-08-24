@@ -41,8 +41,14 @@ void CMainWindow::init(void)
     m_serviceHolder->load(GetEventHandler());
     // イベントハンドラの初期化
     initHandle();
-}
 
+}
+void CMainWindow::onShowed()
+{
+    if (m_serviceHolder->getServices().size() == 0){
+        registerService();
+    }
+}
 //////////////////////////////////////////////////////////////////////
 
 // 画面操作に関するイベントハンドラを設定する
@@ -155,7 +161,8 @@ void CMainWindow::displayTitle(const wxString& channel, const wxString& topic,
     // チャンネル名が空の時、サーバ名を表示
     if (channel == ""){
         SetTitle(
-            service->getName()+    "(" + service->getUser()->getNickName() + ")");
+                service->getName() + "(" + service->getUser()->getNickName()
+                        + ")");
         return;
     }
 
@@ -163,7 +170,9 @@ void CMainWindow::displayTitle(const wxString& channel, const wxString& topic,
     wxString tpc = topic;
     tpc.Replace("\r\n", " ");
     tpc.Replace("\n", " ");
-    this->SetTitle(service->getName()+"(" + service->getUser()->getNickName() + ")【" + channel + "】" + tpc);
+    this->SetTitle(
+            service->getName() + "(" + service->getUser()->getNickName() + ")【"
+                    + channel + "】" + tpc);
 }
 
 // すべての画面をクリアする。
@@ -374,13 +383,11 @@ void CMainWindow::onEnter(wxCommandEvent& event)
     if (service->getCurrentChannel() == "" || service->IsConnected() == false){
         return;
     }
-
+    // 送信履歴を追加
     m_inputManager->addHistory(body);
     // コンテンツの更新
     CMessageLog* log = service->generateMessage(body);
     service->postMessage(log);
-    m_logHolder->pushLog(log);
-    m_view->displayLogs(m_logHolder->getLogs(), m_serviceHolder);
     m_view->addLog(log);
 
     // 表示の更新
@@ -452,10 +459,9 @@ void CMainWindow::onChannelRightClicked(CChannelSelectEvent& event)
     if (event.isServerSelected()){
         menu.Append(Id_DeleteServer, "サーバの削除");
         menu.Append(Id_Refresh, "サーバの再読み込み");
-       if(service->IsConnected())
-       {
-           menu.Append(Id_Disconnect, "サーバの切断");
-       }
+        if (service->IsConnected()){
+            menu.Append(Id_Disconnect, "サーバの切断");
+        }
     }
     if (service->IsConnected()){
         menu.AppendSeparator();
@@ -623,7 +629,6 @@ void CMainWindow::onGetMemberInfo(CGetMemberInfoEvent& event)
     // データ更新
     CMemberData data = event.getMember();
     contents->onGetMemberStatus(data);
-    //m_logHolder->onUpdateNickName(data);
 
     // 表示を更新
     updateMemberView(event.getConnectionId(), contents->getCurrentChannel());
@@ -637,7 +642,8 @@ void CMainWindow::onMsgStream(CStreamEvent<CMessageLog>& event)
     CChatServiceBase* service = m_serviceHolder->getService(
             event.getConnectionId());
     CMessageLog* message = event.getServiceLog();
-    wxString nickName =service->getNickTable().getNickname(message->getUserName());
+    wxString nickName = service->getNickTable().getNickname(
+            message->getUserName());
     message->setNick(nickName);
 
     bool isMyPost = service->isPostedThisClient(message);
@@ -660,14 +666,13 @@ void CMainWindow::onMsgStream(CStreamEvent<CMessageLog>& event)
         }
         m_logHolder->pushLog(event.getServiceLog());
     }
-    service->onGetMessageStream(event.getServiceLog());
-    // メッセージをログ一覧に表示
-    m_view->displayLogs(m_logHolder->getLogs(), m_serviceHolder); // ログペイン
     // 通知があったとき && 自分以外の人から
     if (service->isUserCalled(message->getBody()) && !isMyPost){
         m_view->messageNotify("通知", "呼ばれました");
     }
-
+    service->onGetMessageStream(message);
+    // メッセージをログ一覧に表示
+    m_view->displayLogs(m_logHolder->getLogs(), m_serviceHolder); // ログペイン
 }
 
 // チャンネル参加ストリーム受信時

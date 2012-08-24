@@ -215,9 +215,9 @@ void CSCConnection::startThread(CSCTask* task)
 }
 
 // メッセージ取得
-void CSCConnection::onMessageReceived(CMessageData* message)
+void CSCConnection::onMessageReceived(CResponseData* message)
 {
-    CSCMessageData* scMessage = dynamic_cast<CSCMessageData*>(message);
+    CSCResponseData* scMessage = dynamic_cast<CSCResponseData*>(message);
     CSCEventFactory factory;
     factory.setConnectionId(m_connectionId);
     CConnectionEventBase* event = factory.Create(*scMessage);

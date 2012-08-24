@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include "ServiceLog.hpp"
+#include "../../../DataStruct/ResponseData.hpp"
+
 
 namespace CornStarch
 {
@@ -16,7 +18,7 @@ private:
 public:
     CMessageLog(void);
     ~CMessageLog(void);
-    void init(const CMessageData* message);
+    void init(const CResponseData* message);
 
     wxString getBody() const
     {

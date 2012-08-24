@@ -27,7 +27,7 @@ void CSCGetMemberInfoTask::sendRequestToSC(CSCClient* client)
 void CSCGetMemberInfoTask::notifyMessage(const string& responseBody)
 {
     CSCJsonParser parser;
-    CSCMessageData message;
+    CSCResponseData message;
     message.m_type = CSCMessageType::GET_MEMBER;
     message.m_member = parser.getMember(responseBody);
     m_observer->onMessageReceived(&message);

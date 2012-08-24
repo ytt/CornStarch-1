@@ -39,7 +39,7 @@ void CSCPostMessageTask::sendRequestToSC(CSCClient* client)
 // HTTPレスポンスを解析してイベントを作成する
 void CSCPostMessageTask::notifyMessage(const string& responseBody)
 {
-    CSCMessageData message;
+    CSCResponseData message;
     message.m_type = CSCMessageType::MESSAGE_REPLY;
     m_observer->onMessageReceived(&message);
 }

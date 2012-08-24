@@ -3,7 +3,7 @@
 #include <wx/wx.h>
 #include "../SCClient.hpp"
 #include "../SCJsonParser.hpp"
-#include "../SCMessageData.hpp"
+#include "../SCResponseData.hpp"
 #include "../../Event/ConnectionEventBase.hpp"
 #include "../../Event/DisconnectEvent.hpp"
 #include "../../Event/PartEvent.hpp"

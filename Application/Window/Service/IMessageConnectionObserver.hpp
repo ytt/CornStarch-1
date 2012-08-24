@@ -1,6 +1,6 @@
 #ifndef IMESSAGEOBSERVER_HPP_
 #define IMESSAGEOBSERVER_HPP_
-#include "../../DataStruct/MessageData.hpp"
+#include "../../DataStruct/ResponseData.hpp"
 
 namespace CornStarch
 {
@@ -17,7 +17,7 @@ public:
     {
     }
     virtual void onCheckServiceStatus()=0;
-    virtual void onMessageReceived(CMessageData* message) = 0;
+    virtual void onMessageReceived(CResponseData* message) = 0;
     virtual void onDisconnected() = 0;
     virtual void onConnected() = 0;
     virtual void onConnectionFailed() = 0;

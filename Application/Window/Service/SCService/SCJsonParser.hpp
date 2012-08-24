@@ -4,7 +4,8 @@
 #pragma warning(disable:4800)
 #pragma warning(disable:4996)
 #include "picojson.hpp"
-#include "../../../DataStruct/StreamData.hpp"
+#include "SCResponseData.hpp"
+
 #include <vector>
 #include <wx/wxprec.h>
 #include <wx/wx.h>
@@ -28,13 +29,13 @@ public:
     std::vector<CChannelData*> getChannels(const std::string& json) const;
 
     // メッセージ一覧をvectorとして返す
-    std::vector<CMessageData*> getMessages(const std::string& json) const;
+    std::vector<CResponseData*> getMessages(const std::string& json) const;
 
     // メンバ情報を返す
     CMemberData getMember(const std::string& json) const;
 
     // ストリームを返す
-    CStreamData getStreamData(const std::string& json) const;
+    CSCResponseData* getStreamData(const std::string& json) const;
 
     // pingが成功したか否かを返す
     bool isPingSucceeded(const std::string& json) const;
@@ -45,7 +46,7 @@ public:
 private:
 
     // ストリームのvalueから、ストリームタイプを得る
-    CStreamData::TYPE getStreamType(const picojson::value& val) const;
+    CSCMessageType::SC_MESSAGE_TYPE getStreamType(const picojson::value& val) const;
 
     // valueを解析してarrayとして返す
     picojson::array getArray(const picojson::value& val) const;

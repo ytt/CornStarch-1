@@ -133,22 +133,8 @@ public:
         return m_user;
     }
 
-//
-//    wxString getUserName(void) const
-//    {
-//        return m_user->getUserName();
-//    }
-//
-//    wxString getBasic(void) const
-//    {
-//        return m_user->getBasic();
-//    }
-
     // 初期化を行う
     virtual void init(wxEvtHandler* handler) = 0;
-
-//    // ユーザがログインしているか
-//    bool isUserLogin(void) const;
 
     // ユーザ登録を行った際のデータ更新
     void registerUser(const wxString& userName, const wxString& pass);
@@ -182,9 +168,6 @@ public:
 
     // メッセージを生成
     CMessageLog* generateMessage(const wxString& body);
-
-//    // ニックネームを取得
-//    wxString getNickName(void) const;
 
     // メッセージを投稿した際
     void postMessage(CMessageLog* message);
@@ -243,7 +226,7 @@ public:
 
     // メッセージ一覧を取得した場合
     void onGetMessages(const wxString channleName,
-            const std::vector<CMessageData*>& messages);
+            const std::vector<CResponseData*>& messages);
 
     // メンバー一覧を取得した場合
     void onGetMembers(const wxString& channel, const std::vector<CMemberData*>& members);

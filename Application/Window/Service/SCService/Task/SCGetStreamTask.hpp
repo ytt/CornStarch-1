@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "SCTask.hpp"
-#include "../SCMessageData.hpp"
+#include "../SCResponseData.hpp"
 
 namespace CornStarch
 {
@@ -34,7 +34,7 @@ public:
 
 private:
     ExitCode Entry(void);
-    CSCMessageData parseStream(const std::string& json);
+    CSCResponseData* parseStream(const std::string& json);
 };
 
 }

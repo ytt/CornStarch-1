@@ -3,7 +3,7 @@
 
 #include <vector>
 #include "../../../DataStruct/ChannelData.hpp"
-#include "../../../DataStruct/MessageData.hpp"
+#include "../../../DataStruct/ResponseData.hpp"
 #include "../../../DataStruct/MemberData.hpp"
 
 namespace CornStarch
@@ -22,18 +22,18 @@ public:
     };
 };
 
-class CSCMessageData: public CMessageData
+class CSCResponseData: public CResponseData
 {
 public:
 
     CSCMessageType::SC_MESSAGE_TYPE m_type;
-    vector<CMessageData*> m_messages;
+    vector<CResponseData*> m_messages;
     CMemberData m_member;
     vector<CMemberData*> m_members;
     vector<CChannelData*> m_channels;
     CChannelData m_channelData;
-    CSCMessageData();
-    virtual ~CSCMessageData();
+    CSCResponseData();
+    virtual ~CSCResponseData();
 };
 }
 }

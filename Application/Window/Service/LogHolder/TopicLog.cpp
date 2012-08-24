@@ -3,7 +3,7 @@
 namespace CornStarch
 {;
 
-CTopicLog::CTopicLog(void)
+CTopicLog::CTopicLog(void):m_topic("")
 {
 }
 

@@ -1,6 +1,6 @@
 ﻿#include "IRCConnection.hpp"
 #include "IRCEventFactory.hpp"
-#include "IRCMessageData.hpp"
+#include "IRCResponseData.hpp"
 
 namespace CornStarch
 {
@@ -71,7 +71,7 @@ void CIRCConnection::startGetMessageTask(const IUser* user,
 {
     if (channel != ""){
         // イベントを通知
-        vector<CMessageData*> result;
+        vector<CResponseData*> result;
         CGetMessageEvent* event = new CGetMessageEvent();
         event->setMessages(result); // 値取得
         event->setChannel(channel);
@@ -235,9 +235,9 @@ void CIRCConnection::startChangeTopicTask(const IUser* user,
 }
 
 // メッセージ取得
-void CIRCConnection::onMessageReceived(CMessageData* message)
+void CIRCConnection::onMessageReceived(CResponseData* message)
 {
-    CIRCMessageData* ircMessage = dynamic_cast<CIRCMessageData*>(message);
+    CIRCResponseData* ircMessage = dynamic_cast<CIRCResponseData*>(message);
     if (ircMessage->m_statusCode == IRCCommand::PING){
         m_client->pong(ircMessage->m_body);
     } else{

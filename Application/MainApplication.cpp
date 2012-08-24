@@ -22,7 +22,7 @@ bool CMainApplication::OnInit()
 
     // メインウィンドウの表示
     m_window->Show(true);
-
+    m_window->onShowed();
     // 続きの処理を実行
     return true;
 }

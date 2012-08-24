@@ -28,7 +28,7 @@ void CSCJoinChannelTask::sendRequestToSC(CSCClient* client)
 // HTTPレスポンスを解析してイベントを作成する
 void CSCJoinChannelTask::notifyMessage(const string& responseBody)
 {
-     CSCMessageData message;
+     CSCResponseData message;
      message.m_type = CSCMessageType::JOIN_REPLY;
      message.m_channel = m_channel;
      m_observer->onMessageReceived(&message);

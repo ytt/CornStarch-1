@@ -4,7 +4,7 @@ namespace CornStarch
 {
 ;
 
-CKickLog::CKickLog()
+CKickLog::CKickLog():m_target("")
 {
 }
 

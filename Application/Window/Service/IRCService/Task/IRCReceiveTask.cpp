@@ -39,7 +39,7 @@ wxThread::ExitCode CIRCReceiveTask::Entry(void)
                     break;
                 } else{
                     // イベント生成
-                    CIRCMessageData message = parser.parse(messages[index]);
+                    CIRCResponseData message = parser.parse(messages[index]);
                     if (message.m_statusCode == IRCCommand::OK){
                         m_client->setConnectedToIrcService(true);
                         m_client->getObserver()->onConnected();

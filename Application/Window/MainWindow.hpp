@@ -34,6 +34,9 @@ public:
     void init(void);
     // コマンドの実行
     bool invoke(const wxString& text);
+
+    // 表示が終わった後によばれます。
+    void onShowed();
 private:
     // 新規サービスの作成
     void registerService();

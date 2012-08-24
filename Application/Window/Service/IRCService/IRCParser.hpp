@@ -8,7 +8,7 @@
 #include <iostream>
 #include <vector>
 
-#include "IRCMessageData.hpp"
+#include "IRCResponseData.hpp"
 
 using namespace std;
 
@@ -26,7 +26,7 @@ public:
 
 	CIRCParser();
 	virtual ~CIRCParser(void);
-	CIRCMessageData parse(const wxString& content);
+	CIRCResponseData parse(const wxString& content);
 
 };
 }

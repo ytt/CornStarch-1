@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include "../../../../DataStruct/MessageData.hpp"
 #include "../../../../DataStruct/MemberData.hpp"
 #include <wx/wxprec.h>
 #include <wx/richtext/richtextctrl.h>

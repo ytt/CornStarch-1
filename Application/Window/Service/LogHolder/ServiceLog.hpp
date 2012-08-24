@@ -1,7 +1,5 @@
 ﻿#pragma once
 #include <wx/string.h>
-#include "../../../DataStruct/MessageData.hpp"
-
 namespace CornStarch
 {
 ;

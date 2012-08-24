@@ -97,7 +97,7 @@ public:
     void disconnect();
 
     // メッセージ取得
-    void onMessageReceived( CMessageData* message);
+    void onMessageReceived( CResponseData* message);
     // 切断時
     void onDisconnected();
     // 接続開始時
