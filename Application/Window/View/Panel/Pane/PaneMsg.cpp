@@ -78,13 +78,13 @@ void CPaneMsg::pushLog(const CChatMessage* messageLog)
     wxString channel = messageLog->getChannelName();
     wxString time = messageLog->getTime("%H:%M");
 
-    // temporary_nickがあれば、本文の先頭に表示
+    writeColoredText(time + " ", COLOR_GRAY); // 時間を灰で表示
     wxString nick = messageLog->getTempNick();
     if (nick != ""){
-        body = "(" + nick + ") " + body;
+        writeColoredText("(" + nick + ") : ", COLOR_RED); // テンポラリー名を赤で表示
+    } else{
+        writeColoredText("(" + name + ") : ", COLOR_BLUE); // 名前を青で表示
     }
-    writeColoredText(time + " ", COLOR_RED); // 時間を赤で表示
-    writeColoredText("(" + name + ") : ", COLOR_BLUE); // 名前を青で表示
     if (messageLog->isReaded() == false){
         this->BeginStyle(wxTextAttr(*wxBLACK, COLOR_LIGHT_YELLOW));
     } else{

@@ -6,8 +6,8 @@ namespace CornStarch
 const wxColour CLogTextCtrl::COLOR_BLACK = wxColour(0, 0, 0);
 const wxColour CLogTextCtrl::COLOR_BLUE = wxColour(0, 0, 200);
 const wxColour CLogTextCtrl::COLOR_GREEN = wxColour(0, 50, 0);
-const wxColour CLogTextCtrl::COLOR_RED = wxColour(255, 0, 0);
-
+const wxColour CLogTextCtrl::COLOR_RED = wxColour(200, 0, 0);
+const wxColour CLogTextCtrl::COLOR_GRAY = wxColour(100, 100, 100);
 CLogTextCtrl::CLogTextCtrl()
 {
 }
@@ -54,13 +54,13 @@ void CLogTextCtrl::pushLog(const CChatMessage* messageLog)
     wxString channel = messageLog->getChannelName();
     wxString time = messageLog->getTime("%H:%M");
 
-    // temporary_nickがあれば、本文の先頭に表示
+    writeColoredText(time + " ", COLOR_GRAY); // 時間を灰で表示
     wxString nick = messageLog->getTempNick();
     if (nick != ""){
-        body = "(" + nick + ") " + body;
+        writeColoredText("(" + nick + ") : ", COLOR_RED); // テンポラリー名を赤で表示
+    } else{
+        writeColoredText("(" + name + ") : ", COLOR_BLUE); // 名前を青で表示
     }
-    writeColoredText(time + " ", COLOR_RED); // 時間を赤で表示
-    writeColoredText("(" + name + ") : ", COLOR_BLUE); // 名前を青で表示
     writeColoredText(body, COLOR_BLACK); // 本文を黒で表示
 }
 

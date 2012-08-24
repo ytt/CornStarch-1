@@ -17,6 +17,7 @@ namespace CornStarch
 class CLogTextCtrl: public CLinkableRichTextCtrl
 {
 protected:
+    static const wxColour COLOR_GRAY;
     static const wxColour COLOR_BLACK;
     static const wxColour COLOR_GREEN;
     static const wxColour COLOR_RED;
