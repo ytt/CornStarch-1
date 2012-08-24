@@ -26,7 +26,6 @@ void CSCService::init(wxEvtHandler* handler)
     m_connect->init(this->m_id, m_handler);
 
     // スターチャットのユーザー
-    m_user->init();
     m_user->setChannelName("");
 
     // チャットのタイプ

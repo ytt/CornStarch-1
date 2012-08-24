@@ -27,15 +27,11 @@ class CIRCUser: public IUser
 	wxString m_nick; // ニックネーム
 	std::vector<wxString> m_keywords; // キーワード
 
-	bool m_login; // ログイン状況
 	wxString m_currentCn; // 現在見ているチャンネル
 
 public:
 	CIRCUser(void);
 	virtual ~CIRCUser(void);
-
-	// ユーザ情報を初期化
-	void init(void);
 
 	wxString getPassword()
 	{
@@ -68,9 +64,6 @@ public:
 
 	// basic暗号化された文字列を取得
 	wxString getBasic(void) const;
-
-	// ログイン状況を取得
-	bool isLogin(void) const;
 
 	// 現在見ているチャンネル名を取得する
 	wxString getChannelwxString(void) const;

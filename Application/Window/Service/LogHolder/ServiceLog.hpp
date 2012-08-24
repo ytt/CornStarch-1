@@ -10,7 +10,7 @@ namespace CornStarch
 class CServiceLog
 {
     static const int MAX_LENGTH = 256;
-    ;
+
     wxString m_nick;
     wxString m_tempNick;
     wxString m_userName;

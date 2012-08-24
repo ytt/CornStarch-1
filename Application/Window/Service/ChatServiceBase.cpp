@@ -255,8 +255,6 @@ void CChatServiceBase::onChangeTopic(const wxString& topic)
 void CChatServiceBase::onAuthSucceeed(void)
 {
     this->setConnected(true);
-    // ユーザをログイン状態にする
-    m_user->setLogin(true);
 
     // ニックネーム取得タスク
     m_connect->startGetMemberInfoTask(m_user, m_user->getUserName());

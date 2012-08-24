@@ -24,8 +24,6 @@ void CIRCService::init(wxEvtHandler* handler)
     CChatServiceBase::init(handler);
 
     m_connect->init(m_id, m_handler);
-
-    m_user->init();
     m_user->setChannelName("");
 
     // IRCのチャットタイプ

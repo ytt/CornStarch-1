@@ -15,9 +15,6 @@ public:
     IUser(void){};
     virtual ~IUser(void){};
 
-    // ユーザ情報を初期化
-    virtual void init(void) = 0;
-
     // ユーザ名をセット
     virtual void setUserInfo(const wxString& username, const wxString& password) = 0;
 
@@ -26,9 +23,6 @@ public:
 
     // キーワードをセット
     virtual void setKeywords(const std::vector<wxString> keywords) = 0;
-
-    // ログイン状況をセット
-    virtual void setLogin(bool login) = 0;
 
     // 現在見ているチャンネルをセット
     virtual void setChannelName(const wxString& channelName) = 0;
@@ -44,9 +38,6 @@ public:
 
     // basic暗号化された文字列を取得
     virtual wxString getBasic(void) const = 0;
-
-    // ログイン状況を取得
-    virtual  bool isLogin(void) const = 0;
 
     // 現在見ているチャンネル名を取得する
     virtual wxString getChannelName(void) const = 0;

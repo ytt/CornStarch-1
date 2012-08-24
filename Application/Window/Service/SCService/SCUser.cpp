@@ -10,7 +10,7 @@ namespace StarChat
 const wxString CSCUser::BASIC_KEY = "basic";
 const wxString CSCUser::NAME_KEY = "username";
 
-CSCUser::CSCUser(void) : m_login(false)
+CSCUser::CSCUser(void)
 {
 }
 
@@ -22,11 +22,6 @@ CSCUser::~CSCUser(void)
 //////////////////////////////////////////////////////////////////////
 
 
-// ユーザ情報を初期化
-void CSCUser::init(void)
-{
-    m_login = false;
-}
 
 // ユーザ名をセット
 void CSCUser::setUserInfo(const wxString& username, const wxString& password)
@@ -45,12 +40,6 @@ void CSCUser::setNickName(const wxString& nickName)
 void CSCUser::setKeywords(const vector<wxString> keywords)
 {
     m_keywords = keywords;
-}
-
-// ログイン状況をセット
-void CSCUser::setLogin(bool login)
-{
-    m_login = login;
 }
 
 // 現在見ているチャンネルをセット
@@ -81,12 +70,6 @@ vector<wxString> CSCUser::getKeywords(void) const
 wxString CSCUser::getBasic(void) const
 {
     return m_basic;
-}
-
-// ログイン状況を取得
-bool CSCUser::isLogin(void) const
-{
-    return m_login;
 }
 
 // 現在見ているチャンネル名を取得する

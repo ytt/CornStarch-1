@@ -40,7 +40,6 @@ wxThread::ExitCode CSCTask::Entry(void)
     // 接続
     string body;
     if (client->connect()){
-
         // リクエストを送信する
         sendRequestToSC(client);
 

@@ -84,14 +84,12 @@ CConnectionEventBase* CIRCEventFactory::createNickMessageEvent(
         const CIRCMessageData& message) const
 {
     // Eventの作成
-
     CStreamEvent<CMemberLog>* event = new CStreamEvent<CMemberLog>(myEVT_THREAD_STREAM_USER_UPDATE);
     CMemberLog* log = new CMemberLog();
     log->setServiceId(m_connectionId);
     log->setUserName(message.m_username);
     log->setNickName(message.m_body);
     event->setServiceLog(log);
-    //event->setMember(member);
     return event;
 }
 CConnectionEventBase* CIRCEventFactory::createTopicMessageEvent(
@@ -202,7 +200,6 @@ CConnectionEventBase* CIRCEventFactory::createKickEvent(
     log->setTarget(message.m_target);
     event->setServiceLog(log);
     return event;
-
 }
 
 CConnectionEventBase* CIRCEventFactory::createInviteEvent(

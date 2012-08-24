@@ -27,8 +27,7 @@ void CHttpClient::init(void)
 {
     CSocketClient::init();
 
-    m_socket->SetTimeout(2);
-    //setPort(HTTP_PORT); // 80番ポート
+    m_socket->SetTimeout(5);
 }
 
 // HTTPレスポンスを受信して、Bodyを返す

@@ -14,12 +14,6 @@ CIRCUser::~CIRCUser(void)
 {
 }
 
-// ユーザ情報を初期化
-void CIRCUser::init(void)
-{
-	m_login = true;
-}
-
 // ユーザ名をセット
 void CIRCUser::setUserInfo(const wxString& username, const wxString& password)
 {
@@ -43,12 +37,6 @@ void CIRCUser::setKeywords(const std::vector<wxString> keywords)
 {
 	m_keywords = keywords;
     m_keywords.push_back(m_username);
-}
-
-// ログイン状況をセット
-void CIRCUser::setLogin(bool login)
-{
-	m_login = login;
 }
 
 // 現在見ているチャンネルをセット
@@ -81,11 +69,6 @@ wxString CIRCUser::getBasic(void) const
 	return m_basic;
 }
 
-// ログイン状況を取得
-bool CIRCUser::isLogin(void) const
-{
-	return m_login;
-}
 
 // 現在見ているチャンネル名を取得する
 wxString CIRCUser::getChannelwxString(void) const
