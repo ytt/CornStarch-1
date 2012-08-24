@@ -72,7 +72,7 @@ public:
     void updateMember(const wxString& userName,const wxString& nick);
 
     // メッセージIDを更新する
-    void onUpdateMessageId(const CMessageData* message);
+    void onUpdateMessageId(const CMessageLog* message);
     
     // チャンネルのメッセージ情報を収集したか
     bool hasReceivedMessage(const wxString& channel);
@@ -81,7 +81,7 @@ public:
     bool hasReceivedMember(const wxString& channel);
 
     // 同じメッセージ内容のものがあるか
-    bool hasSameMessage(const CMessageData* message);
+    bool hasSameMessage(const CMessageLog* message);
 
     // チャンネルを取得する。
     CChannelStatus* getChannel(const wxString& channel) ;

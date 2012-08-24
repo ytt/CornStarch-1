@@ -82,7 +82,7 @@ void CChannelStatus::setMessages(const vector<CServiceLog*>& messages)
                 CMessageLog* message = dynamic_cast<CMessageLog*>(messages[size
                         - i]);
                 if (message != NULL){
-                    message->getMessage()->m_isReaded = false;
+                    message->setReaded(false);
                 }
             }
         }
@@ -109,7 +109,7 @@ bool CChannelStatus::hasReceivedMember(void) const
 }
 
 // ID不明かつ同じ投稿内容のメッセージがあるか
-bool CChannelStatus::hasSameMessage(const CMessageData& message) const
+bool CChannelStatus::hasSameMessage(const CMessageLog* message) const
 {
     vector<CServiceLog*> logs = m_logHolder->getLogs();
     size_t length = logs.size();
@@ -118,8 +118,7 @@ bool CChannelStatus::hasSameMessage(const CMessageData& message) const
         CMessageLog* log = dynamic_cast<CMessageLog*>(logs[i]);
         if (log != NULL){
             // 未知のIDでかつメッセージが同じだったら
-            if (log->getMessage()->m_id == -1
-                    && log->getMessage()->m_body == message.m_body){
+            if (log->getId() == -1 && log->getBody() == message->getBody()){
                 return true;
             }
         }
@@ -128,7 +127,7 @@ bool CChannelStatus::hasSameMessage(const CMessageData& message) const
 }
 
 // 同じ内容のメッセージについてIDを更新
-void CChannelStatus::updateMessageId(const CMessageData& message)
+void CChannelStatus::updateMessageId(const CMessageLog* message)
 {
     if (!hasSameMessage(message)){
         return;
@@ -141,9 +140,8 @@ void CChannelStatus::updateMessageId(const CMessageData& message)
         CMessageLog* log = dynamic_cast<CMessageLog*>(logs[i]);
         if (log != NULL){
             // 未知のIDでかつメッセージが同じだったら
-            if (log->getMessage()->m_id == -1
-                    && log->getMessage()->m_body == message.m_body){
-                log->getMessage()->m_id = message.m_id;
+            if (log->getId() == -1 && log->getBody() == message->getBody()){
+                log->setId(message->getId());
             }
         }
     }
@@ -171,7 +169,7 @@ void CChannelStatus::clearUnreadCount()
         while (it != logs.end()){
             CMessageLog* message = dynamic_cast<CMessageLog*>(*it);
             if (message != NULL){
-                message->getMessage()->m_isReaded = true;
+                message->setReaded(true);
             }
             it++;
         }

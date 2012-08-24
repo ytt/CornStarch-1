@@ -174,7 +174,7 @@ public:
     wxString getCurrentChannel(void) const;
 
     // メッセージを生成
-    CMessageData* generateMessage(const wxString& body);
+    CMessageLog* generateMessage(const wxString& body);
 
     // ニックネームを取得
     wxString getNickName(void) const;
@@ -212,7 +212,7 @@ public:
     wxString getTopic(const wxString& channel);
 
     // このクライアントから投稿されたメッセージか
-    bool isPostedThisClient(const CMessageData* message);
+    bool isPostedThisClient(const CMessageLog* message);
 
     // メッセージ表示を行う際
     void onUpdateMessageView(const wxString& channel);

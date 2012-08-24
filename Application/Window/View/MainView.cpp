@@ -89,7 +89,7 @@ void CMainView::addLog(const CServiceLog* message)
     m_panel->addLog(message);
 }
 
-void CMainView::addUnreadMessage(const CMessageData* message)
+void CMainView::addUnreadMessage(const CMessageLog* message)
 {
     m_panel->addUnreadMessage(message);
 }

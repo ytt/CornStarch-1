@@ -73,21 +73,19 @@ void CPaneMsg::pushLog(const CServiceLog* messageLog)
 }
 void CPaneMsg::pushLog(const CMessageLog* messageLog)
 {
-    // 文字コード変換
-    CMessageData* message = messageLog->getMessage();
     wxString name = messageLog->getNick();
-    wxString body = message->m_body;
-    wxString channel = message->m_channel;
-    wxString time = message->getTime("%H:%M");
+    wxString body = messageLog->getBody();
+    wxString channel = messageLog->getChannelName();
+    wxString time = messageLog->getTime("%H:%M");
 
     // temporary_nickがあれば、本文の先頭に表示
-    wxString nick = message->m_tempNick;
+    wxString nick = messageLog->getTempNick();
     if (nick != ""){
         body = "(" + nick + ") " + body;
     }
     writeColoredText(time + " ", COLOR_RED); // 時間を赤で表示
     writeColoredText("(" + name + ") : ", COLOR_BLUE); // 名前を青で表示
-    if (message->m_isReaded == false){
+    if (messageLog->isReaded() == false){
         this->BeginStyle(wxTextAttr(*wxBLACK, COLOR_LIGHT_YELLOW));
     } else{
         this->BeginStyle(wxTextAttr(*wxBLACK));
@@ -97,45 +95,6 @@ void CPaneMsg::pushLog(const CMessageLog* messageLog)
 
 }
 
-//void CPaneMsg::addMessage(const CMessageData* message,
-//        const map<wxString, wxString>& nickTable)
-//{
-//    this->Freeze();
-//    this->MoveEnd();
-//    int index = this->GetLastPosition();
-//
-//    // 時刻
-//    wxString date = message->getTime("%H:%M");
-//    writeColoredText(date,*wxRED);
-//
-//    // 名前
-//    int nickIndex = index + date.size();
-//    wxString nick = getNickName(message->m_username, nickTable);
-//    nick = " (" + nick + "):";
-//    if (message->m_tempNick != ""){
-//        nick += " (" + message->m_tempNick + ") ";
-//    }
-//    writeColoredText(nick,*wxBLUE);
-//
-//    //本文
-//    wxString body = message->m_body;
-//
-//    // 未読の背景色設定
-//    if (message->m_isReaded == false){
-//        this->BeginStyle(wxTextAttr(*wxBLACK, COLOR_LIGHT_YELLOW));
-//    } else{
-//        this->BeginStyle(wxTextAttr(*wxBLACK));
-//    }
-//    writeLinkableText(body);
-//    this->EndStyle();
-//
-//    this->Newline();
-//    this->Thaw();
-//    if (m_isScrollingBack == false){
-//        this->ShowPosition(this->GetLastPosition());
-//    }
-//    this->EndAllStyles();
-//}
 // メッセージを表示する
 void CPaneMsg::displayMessages(const vector<CServiceLog*>& messages,
         const CNickTable& nickTable)

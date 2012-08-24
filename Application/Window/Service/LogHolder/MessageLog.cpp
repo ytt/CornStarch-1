@@ -3,34 +3,36 @@
 using namespace std;
 
 namespace CornStarch
-{;
+{
+;
 
-CMessageLog::CMessageLog(void) : m_message(NULL)
+CMessageLog::CMessageLog(void):m_isReaded(true)
 {
 }
-
 
 CMessageLog::~CMessageLog(void)
 {
-    delete m_message;
 }
-
 
 //////////////////////////////////////////////////////////////////////
 
-
 // 初期化を行う
-void CMessageLog::init(CMessageData* message)
+void CMessageLog::init(const CMessageData* message)
 {
-    m_message = message;
+    this->setTempNick(message->m_tempNick);
+    this->setUserName(message->m_username);
+    this->setChannelName(message->m_channel);
+    this->setTime(message->m_time);
+    this->setBody(message->m_body);
+    this->setId(message->m_id);
+    // m_message = message;
 
 }
 
-// ログを取得する
-CMessageData* CMessageLog::getMessage(void) const
-{
-    return m_message;
-}
-
+//// ログを取得する
+//CMessageData* CMessageLog::getMessage(void) const
+//{
+//    return m_message;
+//}
 
 }

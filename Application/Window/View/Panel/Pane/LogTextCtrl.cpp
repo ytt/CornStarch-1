@@ -49,14 +49,13 @@ void CLogTextCtrl::pushLog(const CServiceLog* log)
 void CLogTextCtrl::pushLog(const CMessageLog* messageLog)
 {
     // 文字コード変換
-    CMessageData* message = messageLog->getMessage();
     wxString name = messageLog->getNick();
-    wxString body = message->m_body;
-    wxString channel = message->m_channel;
-    wxString time = message->getTime("%H:%M");
+    wxString body = messageLog->getBody();
+    wxString channel = messageLog->getChannelName();
+    wxString time = messageLog->getTime("%H:%M");
 
     // temporary_nickがあれば、本文の先頭に表示
-    wxString nick = message->m_tempNick;
+    wxString nick = messageLog->getTempNick();
     if (nick != ""){
         body = "(" + nick + ") " + body;
     }

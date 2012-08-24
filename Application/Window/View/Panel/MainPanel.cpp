@@ -74,7 +74,7 @@ void CMainPanel::addLog(const CServiceLog* message)
     m_msgPane->clearUnreadBackgroundColor();
 }
 
-void CMainPanel::addUnreadMessage(const CMessageData* message)
+void CMainPanel::addUnreadMessage(const CMessageLog* message)
 {
     m_cnBox->addUnreadMessage(message);
 }

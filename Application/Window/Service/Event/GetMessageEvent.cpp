@@ -14,6 +14,11 @@ CGetMessageEvent::CGetMessageEvent(void)
 
 CGetMessageEvent::~CGetMessageEvent(void)
 {
+    // メッセージの削除
+    int size = (int)m_messages.size();
+    for (int i = 0; i < size; i++){
+        delete m_messages[i];
+    }
 }
 
 

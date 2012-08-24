@@ -2,6 +2,7 @@
 //#include "MessageVec.hpp"
 #include "MemberVec.hpp"
 #include "LogHolder/LogHolder.hpp"
+#include "LogHolder/MessageLog.hpp"
 
 namespace CornStarch
 {
@@ -57,10 +58,10 @@ public:
     bool hasReceivedMember(void) const;
 
     // ID不明かつ同じ投稿内容のメッセージがあるか
-    bool hasSameMessage(const CMessageData& message) const;
+    bool hasSameMessage(const CMessageLog* message) const;
 
     // 同じ内容のメッセージについてIDを更新
-    void updateMessageId(const CMessageData& message);
+    void updateMessageId(const CMessageLog* message);
 
     // メンバー情報を更新する
     void updateMember(const wxString& userName,const wxString& nick);

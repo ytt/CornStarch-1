@@ -2,23 +2,51 @@
 #include "ServiceLog.hpp"
 
 namespace CornStarch
-{;
+{
+;
 
 // メッセージのログ
-class CMessageLog : public CServiceLog
+class CMessageLog: public CServiceLog
 {
 private:
-    CMessageData* m_message;
+    bool m_isReaded;
+    int m_id;
+    wxString m_body;
 
 public:
     CMessageLog(void);
     ~CMessageLog(void);
+    void init(const CMessageData* message);
 
-    // 初期化を行う
-    void init( CMessageData* message);
+    wxString getBody() const
+    {
+        return m_body;
+    }
 
-    // メッセージを取得する
-    CMessageData* getMessage(void) const;
+    void setBody(wxString body)
+    {
+        m_body = body;
+    }
+
+    int getId() const
+    {
+        return m_id;
+    }
+
+    void setId(int id)
+    {
+        m_id = id;
+    }
+
+    bool isReaded() const
+    {
+        return m_isReaded;
+    }
+
+    void setReaded(bool isReaded)
+    {
+        m_isReaded = isReaded;
+    }
 };
 
 }

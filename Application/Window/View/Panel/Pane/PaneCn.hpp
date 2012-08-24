@@ -33,7 +33,7 @@ public:
     void displayChannels(const std::map<int, CChatServiceBase*>& services);
 
     // 選択してないチャンネルにMessageが追加された時に呼ばれます。
-    void addUnreadMessage(const CMessageData* message);
+    void addUnreadMessage(const CMessageLog* message);
 private:
     wxTreeItemId findChannelNode(int serviceId, const wxString& channleName);
     // チャンネルが選択された際のイベント処理

@@ -6,11 +6,13 @@ namespace CornStarch
 {
 ;
 
-// チャットのログを管理
+// サービスのログを管理
 class CServiceLog
 {
     static const int MAX_LENGTH = 256;
+    ;
     wxString m_nick;
+    wxString m_tempNick;
     wxString m_userName;
     wxString m_channelName;
     time_t m_time;
@@ -19,6 +21,16 @@ class CServiceLog
 public:
     CServiceLog(void);
     virtual ~CServiceLog(void);
+
+    wxString getTempNick() const
+    {
+        return m_tempNick;
+    }
+
+    void setTempNick(wxString tempNick)
+    {
+        m_tempNick = tempNick;
+    }
 
     wxString getNick() const
     {

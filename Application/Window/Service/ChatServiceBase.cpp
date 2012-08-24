@@ -106,10 +106,16 @@ wxString CChatServiceBase::getCurrentChannel(void) const
 }
 
 // メッセージを生成
-CMessageData* CChatServiceBase::generateMessage(const wxString& body)
+CMessageLog* CChatServiceBase::generateMessage(const wxString& body)
 {
-    return new CMessageData(-1, m_user->getUserName(), body,
+    // コンテンツの更新
+
+    CMessageData data(-1, m_user->getUserName(), body,
             m_user->getChannelName(), time(NULL));
+    CMessageLog* log = new CMessageLog();
+    log->setServiceId(this->getId());
+    log->init(&data);
+    return log;
 }
 
 // ニックネームを取得
@@ -121,10 +127,10 @@ wxString CChatServiceBase::getNickName(void) const
 // メッセージを投稿した際
 void CChatServiceBase::postMessage(CMessageLog* log)
 {
-    CMessageData* message = log->getMessage();
+    //CMessageData* message = log->getMessage();
     // メッセージ投稿タスクの開始
     wxString channel = m_user->getChannelName();
-    m_connect->startPostMessageTask(m_user, message->m_body, channel);
+    m_connect->startPostMessageTask(m_user, log->getBody(), channel);
 
     m_channel->pushLog(log->getChannelName(), log);
 }
@@ -188,10 +194,10 @@ wxString CChatServiceBase::getTopic(const wxString& channel)
 }
 
 // このクライアントから投稿されたメッセージか
-bool CChatServiceBase::isPostedThisClient(const CMessageData* message)
+bool CChatServiceBase::isPostedThisClient(const CMessageLog* message)
 {
     return m_channel->hasSameMessage(message)
-            && message->m_username == m_user->getUserName();
+            && message->getUserName() == m_user->getUserName();
 }
 
 // メッセージ表示を行う際
@@ -270,9 +276,7 @@ void CChatServiceBase::onGetMessages(const wxString channleName,
         CMessageLog* log = new CMessageLog();
         log->setServiceId(getId());
         log->init((*it));
-        log->setUserName((*it)->m_username);
-        log->setChannelName((*it)->m_channel);
-        log->setTime((*it)->m_time);
+
         logs.push_back(log);
         it++;
     }
@@ -336,9 +340,9 @@ void CChatServiceBase::onGetMemberStatus(const CMemberData& member)
 void CChatServiceBase::onGetMessageStream(CMessageLog* message)
 {
     // 別クライアントからのメッセージだったら、データ更新のみ
-    if (m_channel->hasSameMessage(message->getMessage())
+    if (m_channel->hasSameMessage(message)
             && message->getUserName() == m_user->getUserName()){
-        m_channel->onUpdateMessageId(message->getMessage());
+        m_channel->onUpdateMessageId(message);
         return;
     }
 

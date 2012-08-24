@@ -229,11 +229,11 @@ void CChannelHolder::updateMember(const wxString& userName,const wxString& nick)
 }
 
 // メッセージIDを更新する
-void CChannelHolder::onUpdateMessageId(const CMessageData* message)
+void CChannelHolder::onUpdateMessageId(const CMessageLog* message)
 {
     map<wxString, CChannelStatus*>::iterator it;
     for (it = m_channels.begin(); it != m_channels.end(); it++){
-        it->second->updateMessageId(*message);
+        it->second->updateMessageId(message);
     }
 }
 
@@ -260,14 +260,14 @@ bool CChannelHolder::hasReceivedMember(const wxString& channel)
 }
 
 // 同じメッセージ内容のものがあるか
-bool CChannelHolder::hasSameMessage(const CMessageData* message)
+bool CChannelHolder::hasSameMessage(const CMessageLog* message)
 {
     // チャンネルが存在しない
-    if (m_channels.find(message->m_channel) == m_channels.end()){
+    if (m_channels.find(message->getChannelName()) == m_channels.end()){
         return false;
     }
 
-    return m_channels[message->m_channel]->hasSameMessage(*message);
+    return m_channels[message->getChannelName()]->hasSameMessage(message);
 }
 
 }

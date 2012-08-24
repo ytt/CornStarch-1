@@ -22,7 +22,7 @@ void CMenuServer::init(void)
     append(MENU_SERVER_NICK_CHANGE, wxT("ニックネーム変更\tCTRL+N"));
 
     AppendSeparator();
-    append(MENU_SERVER_MOVETO_UNREAD, wxT("未読チャンネルに移動\tCTRL+Space"));
+    append(MENU_SERVER_MOVETO_UNREAD, wxT("未読チャンネルに移動\tAlt+Space"));
 
 }
 

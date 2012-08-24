@@ -52,7 +52,7 @@ public:
     void addLog(const CServiceLog* message);
 
     // 読み込んでないメッセージを通知する。
-    void addUnreadMessage(const CMessageData* message);
+    void addUnreadMessage(const CMessageLog* message);
 
     // メンバー一覧を表示する
     void displayMembers(const std::vector<CMemberData*>& members);

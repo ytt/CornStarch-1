@@ -10,7 +10,6 @@ CMemberLog::CMemberLog(void)
 
 CMemberLog::~CMemberLog(void)
 {
-    //delete m_member;
 }
 
 

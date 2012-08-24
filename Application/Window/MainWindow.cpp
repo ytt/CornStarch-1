@@ -296,7 +296,7 @@ void CMainWindow::moveToUnread()
     map<int, CChatServiceBase*> services = m_serviceHolder->getServices();
     map<int, CChatServiceBase*>::iterator it = services.begin();
     bool isFoundCurrentNode = false;
-    int serviceId = 0;
+    int serviceId = -1;
     wxString channelName = "";
 
     while (it != services.end()){
@@ -327,7 +327,7 @@ void CMainWindow::moveToUnread()
         it++;
     }
     // 現在のノード以降で見つからなかったら、はじめに見つかった未読ノードを選択。
-    if (serviceId != 0){
+    if (serviceId != -1){
         m_view->setSelectedChannel(serviceId, channelName);
     }
 }
@@ -377,13 +377,7 @@ void CMainWindow::onEnter(wxCommandEvent& event)
 
     m_inputManager->addHistory(body);
     // コンテンツの更新
-    CMessageData* message = service->generateMessage(body);
-    CMessageLog* log = new CMessageLog();
-    log->setServiceId(service->getId());
-    log->init(message);
-    log->setUserName(service->getUserName());
-    log->setChannelName(service->getCurrentChannel());
-
+    CMessageLog* log = service->generateMessage(body);
     service->postMessage(log);
     m_logHolder->pushLog(log);
     m_view->displayLogs(m_logHolder->getLogs(), m_serviceHolder);
@@ -455,10 +449,15 @@ void CMainWindow::onChannelRightClicked(CChannelSelectEvent& event)
     CChatServiceBase* service = m_serviceHolder->getService(serviceId);
 
     wxMenu menu;
-    menu.Append(Id_DeleteServer, "サーバの削除");
-    menu.Append(Id_Refresh, "サーバの再読み込み");
+    if (event.isServerSelected()){
+        menu.Append(Id_DeleteServer, "サーバの削除");
+        menu.Append(Id_Refresh, "サーバの再読み込み");
+       if(service->IsConnected())
+       {
+           menu.Append(Id_Disconnect, "サーバの切断");
+       }
+    }
     if (service->IsConnected()){
-        menu.Append(Id_Disconnect, "サーバの切断");
         menu.AppendSeparator();
         menu.Append(Id_AddChannel, "チャンネルの追加");
         if (event.isServerSelected() == false){
@@ -637,24 +636,25 @@ void CMainWindow::onMsgStream(CStreamEvent<CMessageLog>& event)
 {
     CChatServiceBase* service = m_serviceHolder->getService(
             event.getConnectionId());
-    CMessageData* data = event.getServiceLog()->getMessage();
-    data->m_serviceId = event.getConnectionId();
-    bool isMyPost = service->isPostedThisClient(data);
+    CMessageLog* message = event.getServiceLog();
+    //CMessageData* data = event.getServiceLog()->getMessage();
+    //data->m_serviceId = event.getConnectionId();
+    bool isMyPost = service->isPostedThisClient(message);
     if (!isMyPost){
         if (event.getConnectionId() == m_serviceHolder->getCurrentServiceId()
-                && service->getCurrentChannel() == data->m_channel){
+                && service->getCurrentChannel() == message->getChannelName()){
             // メッセージを表示
-            data->m_isReaded = true;
+            message->setReaded(true);
             m_view->addLog(event.getServiceLog());
 
         } else{
             // 未読追加。
             CChannelStatus* channelStatus = service->getChannel(
-                    data->m_channel);
+                    message->getChannelName());
             if (channelStatus != NULL){
                 channelStatus->addUnreadCount();
-                data->m_isReaded = false;
-                m_view->addUnreadMessage(data);
+                message->setReaded(false);
+                m_view->addUnreadMessage(message);
             }
         }
         m_logHolder->pushLog(event.getServiceLog());
@@ -663,7 +663,7 @@ void CMainWindow::onMsgStream(CStreamEvent<CMessageLog>& event)
     // メッセージをログ一覧に表示
     m_view->displayLogs(m_logHolder->getLogs(), m_serviceHolder); // ログペイン
     // 通知があったとき && 自分以外の人から
-    if (service->isUserCalled(data->m_body) && !isMyPost){
+    if (service->isUserCalled(message->getBody()) && !isMyPost){
         m_view->messageNotify("通知", "呼ばれました");
     }
 

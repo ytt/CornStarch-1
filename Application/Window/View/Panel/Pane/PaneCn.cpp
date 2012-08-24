@@ -55,8 +55,7 @@ void CPaneCn::displayChannels(const map<int, CChatServiceBase*>& connections)
 
         // サーバ名をセット
         wxString name(
-                wxString::Format(wxT("%s[%s]"), (*it).second->getName(),
-                        (*it).second->getHost()));
+                wxString::Format(wxT("▼%s"), (*it).second->getName()));
         wxTreeItemId id = AppendItem(rootId, name, -1, -1, data);
         if ((*it).second->IsConnected() == false){
             this->SetItemTextColour(id, *wxLIGHT_GREY);
@@ -207,10 +206,10 @@ wxTreeItemId CPaneCn::findChannelNode(int serviceId,
     return server;
 }
 // Messageが追加された時に呼ばれます。
-void CPaneCn::addUnreadMessage(const CMessageData* message)
+void CPaneCn::addUnreadMessage(const CMessageLog* message)
 {
-    wxTreeItemId node = findChannelNode(message->m_serviceId,
-            message->m_channel);
+    wxTreeItemId node = findChannelNode(message->getServiceId(),
+            message->getChannelName());
     if (node.IsOk()){
         CTreeChannelItem* channleItem = ((CTreeChannelItem*) GetItemData(node));
         channleItem->addUnreadCount();

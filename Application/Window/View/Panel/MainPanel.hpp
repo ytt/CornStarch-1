@@ -36,7 +36,7 @@ public:
     void addLog(const CServiceLog* message);
 
     // 選択してないチャンネルにMessageが追加された時に呼ばれます。
-    void addUnreadMessage(const CMessageData* message);
+    void addUnreadMessage(const CMessageLog* message);
 
     // 投稿ペインにフォーカスを与える。
     void setFocusPostPane(void);

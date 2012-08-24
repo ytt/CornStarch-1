@@ -51,10 +51,8 @@ CConnectionEventBase* CSCEventFactory::Create(CSCMessageData message)
     if (message.m_type == CSCMessageType::MESSAGE){
         CStreamEvent<CMessageLog>* event = new CStreamEvent<CMessageLog>(myEVT_THREAD_STREAM_MSG_ADD);
         CMessageLog* log = new CMessageLog();
-        log->init(new CMessageData(message));
+        log->init(&message);
         log->setServiceId(m_connectionId);
-        log->setChannelName(message.m_channel);
-        log->setUserName(message.m_username);
         event->setServiceLog(log);
 
         return event;
