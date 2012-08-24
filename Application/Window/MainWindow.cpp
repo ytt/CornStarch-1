@@ -155,7 +155,7 @@ void CMainWindow::displayTitle(const wxString& channel, const wxString& topic,
     // チャンネル名が空の時、サーバ名を表示
     if (channel == ""){
         SetTitle(
-                "(" + service->getNickName() + ")<" + service->getHost() + ">");
+            service->getName()+    "(" + service->getUser()->getNickName() + ")");
         return;
     }
 
@@ -163,7 +163,7 @@ void CMainWindow::displayTitle(const wxString& channel, const wxString& topic,
     wxString tpc = topic;
     tpc.Replace("\r\n", " ");
     tpc.Replace("\n", " ");
-    this->SetTitle("(" + service->getNickName() + ")【" + channel + "】" + tpc);
+    this->SetTitle(service->getName()+"(" + service->getUser()->getNickName() + ")【" + channel + "】" + tpc);
 }
 
 // すべての画面をクリアする。
@@ -248,7 +248,7 @@ void CMainWindow::onPart(wxCommandEvent& event)
     }
 
     // 未ログインの時
-    if (!contents->isUserLogin()){
+    if (!contents->IsConnected()){
         return;
     }
 
@@ -637,8 +637,9 @@ void CMainWindow::onMsgStream(CStreamEvent<CMessageLog>& event)
     CChatServiceBase* service = m_serviceHolder->getService(
             event.getConnectionId());
     CMessageLog* message = event.getServiceLog();
-    //CMessageData* data = event.getServiceLog()->getMessage();
-    //data->m_serviceId = event.getConnectionId();
+    wxString nickName =service->getNickTable().getNickname(message->getUserName());
+    message->setNick(nickName);
+
     bool isMyPost = service->isPostedThisClient(message);
     if (!isMyPost){
         if (event.getConnectionId() == m_serviceHolder->getCurrentServiceId()
@@ -806,7 +807,7 @@ void CMainWindow::onKick(CStreamEvent<CKickLog>& event)
         m_logHolder->pushLog(event.getServiceLog());
         CKickLog* log = event.getServiceLog();
 
-        if (log->getTarget() == service->getUserName()){
+        if (log->getTarget() == service->getUser()->getUserName()){
             wxMessageDialog dialog(this,
                     wxString::Format(wxT("%s-チャンネル[%s]からキックされました。"),
                             service->getName(), log->getChannelName()), "確認",
@@ -858,7 +859,7 @@ void CMainWindow::showAddChannleDialog(int serviceId)
         return;
     }
     // 未ログインの時
-    if (!contents->isUserLogin()){
+    if (!contents->IsConnected()){
         return;
     }
 
@@ -882,7 +883,7 @@ void CMainWindow::showChangeTopicDialog(int serviceId)
         return;
     }
 
-    if (!contents->isUserLogin()){
+    if (!contents->IsConnected()){
         return;
     }
     if (contents->getCurrentChannel() == ""){
@@ -904,7 +905,7 @@ void CMainWindow::showChangeNicknameDialog(int serviceId)
     if (contents == NULL){
         return;
     }
-    if (!contents->isUserLogin()){
+    if (!contents->IsConnected()){
         return;
     }
 

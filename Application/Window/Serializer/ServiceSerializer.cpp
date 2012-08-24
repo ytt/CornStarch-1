@@ -159,9 +159,9 @@ void CServiceSerializer::addServiceToRoot(wxXmlNode* root,
     portString<<service->getPort();
     createNode(serverRoot, "port", portString);
 
-    createNode(serverRoot, "user", service->getUserName());
-    createNode(serverRoot, "pass", service->getBasic());
-    createNode(serverRoot, "nick", service->getUserName());
+    createNode(serverRoot, "user", service->getUser()->getUserName());
+    createNode(serverRoot, "pass", service->getUser()->getBasic());
+    createNode(serverRoot, "nick", service->getUser()->getUserName());
 
     if (service->getChatType() == CChatServiceBase::IRC){
 

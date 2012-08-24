@@ -42,11 +42,11 @@ void CChatServiceBase::disconnect(void)
     m_connect->disconnect();
     m_state = DISCONNECT;
 }
-// ユーザがログインしているか
-bool CChatServiceBase::isUserLogin(void) const
-{
-    return m_user->isLogin();
-}
+//// ユーザがログインしているか
+//bool CChatServiceBase::isUserLogin(void) const
+//{
+//    return m_user->isLogin();
+//}
 
 // ユーザ登録を行った際のデータ更新
 void CChatServiceBase::registerUser(const wxString& userName,
@@ -118,11 +118,11 @@ CMessageLog* CChatServiceBase::generateMessage(const wxString& body)
     return log;
 }
 
-// ニックネームを取得
-wxString CChatServiceBase::getNickName(void) const
-{
-    return m_user->getNickName();
-}
+//// ニックネームを取得
+//wxString CChatServiceBase::getNickName(void) const
+//{
+//    return m_user->getNickName();
+//}
 
 // メッセージを投稿した際
 void CChatServiceBase::postMessage(CMessageLog* log)

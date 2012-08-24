@@ -25,14 +25,7 @@ void CMessageLog::init(const CMessageData* message)
     this->setTime(message->m_time);
     this->setBody(message->m_body);
     this->setId(message->m_id);
-    // m_message = message;
-
 }
 
-//// ログを取得する
-//CMessageData* CMessageLog::getMessage(void) const
-//{
-//    return m_message;
-//}
 
 }

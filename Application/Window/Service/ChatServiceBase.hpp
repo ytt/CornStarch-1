@@ -127,21 +127,28 @@ public:
         return m_type;
     }
 
-    wxString getUserName(void) const
+    // ユーザーの取得
+    IUser* getUser() const
     {
-        return m_user->getUserName();
+        return m_user;
     }
 
-    wxString getBasic(void) const
-    {
-        return m_user->getBasic();
-    }
+//
+//    wxString getUserName(void) const
+//    {
+//        return m_user->getUserName();
+//    }
+//
+//    wxString getBasic(void) const
+//    {
+//        return m_user->getBasic();
+//    }
 
     // 初期化を行う
     virtual void init(wxEvtHandler* handler) = 0;
 
-    // ユーザがログインしているか
-    bool isUserLogin(void) const;
+//    // ユーザがログインしているか
+//    bool isUserLogin(void) const;
 
     // ユーザ登録を行った際のデータ更新
     void registerUser(const wxString& userName, const wxString& pass);
@@ -158,7 +165,7 @@ public:
 
     // ログの追加
     void addLog(CServiceLog* log);
-
+    // 接続する
     void connect(void);
     // 再接続を行う
     virtual void reconnect(void) = 0;
@@ -176,8 +183,8 @@ public:
     // メッセージを生成
     CMessageLog* generateMessage(const wxString& body);
 
-    // ニックネームを取得
-    wxString getNickName(void) const;
+//    // ニックネームを取得
+//    wxString getNickName(void) const;
 
     // メッセージを投稿した際
     void postMessage(CMessageLog* message);
@@ -268,6 +275,8 @@ public:
     // ユーザ情報更新ストリームの受信
     void onGetUserStream(const wxString& userName,const wxString& nick);
 }
+
+
 
 ;
 
