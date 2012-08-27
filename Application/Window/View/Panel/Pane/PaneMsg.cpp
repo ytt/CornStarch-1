@@ -77,21 +77,21 @@ void CPaneMsg::pushLog(const CChatMessage* messageLog)
     wxString body = messageLog->getBody();
     wxString channel = messageLog->getChannelName();
     wxString time = messageLog->getTime("%H:%M");
-
-    writeColoredText(time + " ", COLOR_GRAY); // 時間を灰で表示
+    if (messageLog->isReaded() == false){
+        this->BeginStyle(wxTextAttr(*wxBLACK, COLOR_LIGHT_YELLOW));
+    } else{
+        this->BeginStyle(wxTextAttr(*wxBLACK));
+    }
+    writeLinkableText(time + " "); // 時間を灰で表示
+    this->EndAllStyles();
     wxString nick = messageLog->getTempNick();
     if (nick != ""){
         writeColoredText("(" + nick + ") : ", COLOR_RED); // テンポラリー名を赤で表示
     } else{
         writeColoredText("(" + name + ") : ", COLOR_BLUE); // 名前を青で表示
     }
-    if (messageLog->isReaded() == false){
-        this->BeginStyle(wxTextAttr(*wxBLACK, COLOR_LIGHT_YELLOW));
-    } else{
-        this->BeginStyle(wxTextAttr(*wxBLACK));
-    }
-    writeLinkableText(body);
-    this->EndAllStyles();
+
+    writeColoredText(body, *wxBLACK);
 
 }
 

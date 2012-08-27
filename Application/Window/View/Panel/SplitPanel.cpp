@@ -29,17 +29,20 @@ CSplitPanel::~CSplitPanel(void)
 void CSplitPanel::init(wxWindow* parent)
 {
     // 左右に分割
-    this->Create(parent, wxID_ANY);
+    this->Create(parent, wxID_ANY, wxDefaultPosition,
+            wxDefaultSize, wxSP_3D|wxSP_LIVE_UPDATE);
 
     // 左を(メッセージ表示＋投稿画面)と(一覧表示)に分割
-    m_spHorL = new wxSplitterWindow(this, LEFT_WINDOW_ID);
+    m_spHorL = new wxSplitterWindow(this, LEFT_WINDOW_ID, wxDefaultPosition,
+            wxDefaultSize,wxSP_3D| wxSP_LIVE_UPDATE);
 
     // (メッセージ表示)と(投稿画面)に分割
     m_spMsg = new wxSplitterWindow(m_spHorL, MSG_WINDOW_ID, wxDefaultPosition,
         wxDefaultSize, wxSP_NOSASH);
 
     // 右を(メンバ表示)と(チャンネル表示)に分割
-    m_spHorR = new wxSplitterWindow(this, RIGHT_WINDOW_ID);
+    m_spHorR = new wxSplitterWindow(this, RIGHT_WINDOW_ID, wxDefaultPosition,
+            wxDefaultSize,wxSP_3D| wxSP_LIVE_UPDATE);
 
     // 各領域の設定
     setSplitParam();
@@ -99,7 +102,7 @@ void CSplitPanel::onLeftSashPosChanged(wxSplitterEvent& event)
     
     // 左画面のsash位置を調整する
     int newPos = event.GetSashPosition();
-    m_spMsg->SetSashPosition(newPos - 30);
+    m_spMsg->SetSashPosition(newPos - 24);
 
     Show(true);
 }
