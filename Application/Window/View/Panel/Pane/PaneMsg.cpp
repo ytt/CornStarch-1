@@ -36,7 +36,7 @@ void CPaneMsg::init(wxWindow* parent)
     // 画面の初期化
     Create(parent, CPaneMsg::PANE_MSG_ID, wxEmptyString, wxDefaultPosition,
             wxDefaultSize,
-            wxRE_MULTILINE | wxRE_READONLY | wxVSCROLL /*|wxTE_DONTWRAP*/);
+            wxRE_MULTILINE | wxRE_READONLY |  wxVSCROLL /*|wxTE_DONTWRAP*/);
 
     // フォント設定
     this->SetFont(wxFont(10, wxDEFAULT, wxNORMAL, wxNORMAL));
@@ -90,9 +90,7 @@ void CPaneMsg::pushLog(const CChatMessage* messageLog)
     } else{
         writeColoredText("(" + name + ") : ", COLOR_BLUE); // 名前を青で表示
     }
-
     writeColoredText(body, *wxBLACK);
-
 }
 
 // メッセージを表示する

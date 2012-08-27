@@ -5,6 +5,7 @@
 #include "Pane/PaneRecord.hpp"
 #include "Pane/PaneCn.hpp"
 #include "Pane/PaneMember.hpp"
+#include "Pane/FocusTargetCtrl.hpp"
 #include <wx/sizer.h>
 #include "../../Service/NickTable.hpp"
 
@@ -15,7 +16,7 @@ namespace CornStarch
 class CMainPanel: public CSplitPanel
 {
 private:
-
+    CFocusTargetCtrl* m_msgTabTargetPane; // タブ受付のペイン
     CPaneMsg* m_msgPane; // メッセージ表示
     CPanePost* m_postPane; // メッセージ投稿
     CPaneRecord* m_recordPane; // メッセージ一覧表示
@@ -51,7 +52,8 @@ public:
     void displayChannels(const std::map<int, CChatServiceBase*>& services);
 
     // ログ一覧ペインにログを表示
-    void displayLogs(const std::vector<CMessage*>& logs,const CServiceHolder* services);
+    void displayLogs(const std::vector<CMessage*>& logs,
+            const CServiceHolder* services);
 
     // メッセージペインをクリアする。
     void clearMessages(void);

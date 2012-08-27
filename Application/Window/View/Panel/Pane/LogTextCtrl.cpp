@@ -43,6 +43,7 @@ void CLogTextCtrl::pushLog(const CMessage* log)
         pushLog(dynamic_cast<const CKickMessage*>( log));
     }
     this->Newline();
+    GetCaret()->Hide();
     this->Thaw();
 }
 // メッセージログを表示

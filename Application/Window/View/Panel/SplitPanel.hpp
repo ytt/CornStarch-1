@@ -21,6 +21,7 @@ protected:
 
     wxSplitterWindow* m_spHorL; // 左画面を一覧とm_spMsgに分割
     wxSplitterWindow* m_spMsg; // メッセージ表示とメッセージ投稿画面に分割
+    wxSplitterWindow* m_spMsgTabTarget; // メッセージ投稿画面とタブ受付に分割
     wxSplitterWindow* m_spHorR; // 右画面を上下に分割
 
     // wxWindowイベントを処理させたいクラスに利用するマクロ
@@ -52,6 +53,9 @@ protected:
 
     // 一覧表示パネルを取得する
     wxSplitterWindow* getRecordPane(void);
+
+    // タブターゲットを取得する
+    wxSplitterWindow* getTabTargetPane(void);
 
 private:
 

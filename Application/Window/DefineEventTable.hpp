@@ -20,7 +20,6 @@ typedef void (wxEvtHandler::*GetChPartStreamEvtFunc)(CStreamEvent<CPartMessage>&
 typedef void (wxEvtHandler::*GetChJoinStreamEvtFunc)(CStreamEvent<CJoinMessage>&);
 typedef void (wxEvtHandler::*InviteEvtFunc)(CStreamEvent<CInviteMessage>&);
 typedef void (wxEvtHandler::*KickEvtFunc)(CStreamEvent<CKickMessage>&);
-
 typedef void (wxEvtHandler::*JoinEvtFunc)(CJoinEvent&);
 typedef void (wxEvtHandler::*SelectEvtFunc)(CChannelSelectEvent&);
 
@@ -45,7 +44,8 @@ wxDEFINE_EVENT(myEVT_THREAD_DELETE_PART, CPartEvent);
 wxDEFINE_EVENT(myEVT_THREAD_POST_MESSAGE, wxThreadEvent);
 wxDEFINE_EVENT(myEVT_SELECT_TREE_NODE, CChannelSelectEvent);
 wxDEFINE_EVENT(myEVT_SELECT_TREE_NODE_RIGHT, CChannelSelectEvent);
-
+wxDEFINE_EVENT(myEVT_FOCUSE_NEXT_INPUT_TEXT, wxThreadEvent);
+wxDEFINE_EVENT(myEVT_KEYDDOWN_ON_POSTPANE, wxKeyEvent);
 
 // イベントハンドラ
 #define authEventHandler(func) wxEVENT_HANDLER_CAST(AuthEventFunction, func)
@@ -79,6 +79,9 @@ wxDEFINE_EVENT(myEVT_SELECT_TREE_NODE_RIGHT, CChannelSelectEvent);
 #define EVT_GET_PART_STREAM(evt, id, func) wx__DECLARE_EVT1(evt, id, getChPartStreamEventHandler(func))
 #define EVT_PUT_JOIN(evt, id, func) wx__DECLARE_EVT1(evt, id, joinEventHandler(func))
 #define EVT_SELECT_TREE_NODE(evt, id, func) wx__DECLARE_EVT1(evt, id, selectEventHandler(func))
+
+#define EVT_KEYDDOWN_ON_POSTPANE(evt, id, func) wx__DECLARE_EVT1(evt, id, wxKeyEventHandler(func))
+#define EVT_FOCUSE_NEXT_INPUT_TEXT(evt, id, func) wx__DECLARE_EVT1(evt, id, wxThreadEventHandler(func))
 #define EVT_INVITE(evt, id, func) wx__DECLARE_EVT1(evt, id, inviteEventHandler(func))
 #define EVT_KICK(evt, id, func) wx__DECLARE_EVT1(evt, id, kickEventHandler(func))
 
@@ -87,8 +90,6 @@ BEGIN_EVENT_TABLE(CMainWindow, wxFrame)
 
     // メニューバー
     EVT_MENU(wxID_EXIT, CMainWindow::onQuit) // 終了終了
-    EVT_MENU(CMenuPart::MENU_EDIT_SEND_HISTORY, CMainWindow::onSendHistory) // 履歴表示
-    EVT_MENU(CMenuPart::MENU_EDIT_AUTOCOMPLETE, CMainWindow::onAutoComplete) // 入力補助
     EVT_MENU(CMenuPart::MENU_EDIT_SELECT_ALL, CMainWindow::onSelectAll) // 全てを選択
     EVT_MENU(CMenuPart::MENU_EDIT_FIND, CMainWindow::onFind) // 検索
 
@@ -101,6 +102,7 @@ BEGIN_EVENT_TABLE(CMainWindow, wxFrame)
 
     EVT_MENU(CMenuPart::MENU_SERVER_MOVETO_UNREAD, CMainWindow::onMoveToUnread) // 未読へ移動
     EVT_MENU(CMenuPart::MENU_UPDATE, CMainWindow::onUpdateDisplay) // 更新
+
 
     // 通信による結果を受け取ったとき
     EVT_GET_AUTH(myEVT_THREAD_GET_PING, wxID_ANY, CMainWindow::onGetAuth)
@@ -123,21 +125,13 @@ BEGIN_EVENT_TABLE(CMainWindow, wxFrame)
     EVT_SELECT_TREE_NODE(myEVT_SELECT_TREE_NODE, wxID_ANY, CMainWindow::onChannelSelected)
     EVT_SELECT_TREE_NODE(myEVT_SELECT_TREE_NODE_RIGHT, wxID_ANY, CMainWindow::onChannelRightClicked)
 
+    // テキストボックスでTabを押してフォーカスを移動した
+    EVT_FOCUSE_NEXT_INPUT_TEXT(myEVT_FOCUSE_NEXT_INPUT_TEXT, wxID_ANY, CMainWindow::onFocusNextText)
+
+    // テキストボックスでキーを押した
+    EVT_KEYDDOWN_ON_POSTPANE(myEVT_KEYDDOWN_ON_POSTPANE, wxID_ANY, CMainWindow::onKeyDownOnPostPane)
 END_EVENT_TABLE();
 
 
-// イベントテーブルの登録
-BEGIN_EVENT_TABLE(CPaneCn, wxTreeCtrl)
-
-    // チャンネルツリーの項目を選択
-    EVT_TREE_SEL_CHANGED(wxID_ANY, CPaneCn::onChannelSelected)
-
-    // チャンネルツリーの項目を右クリック
-    EVT_TREE_ITEM_RIGHT_CLICK(wxID_ANY, CPaneCn::onItemRightClicked)
-
-    // ツリーの項目がアクティベートされた
-    EVT_TREE_ITEM_ACTIVATED(wxID_ANY, CPaneCn::onActivated)
-
-END_EVENT_TABLE();
 
 }

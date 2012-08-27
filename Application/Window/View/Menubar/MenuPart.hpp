@@ -12,9 +12,7 @@ public:
     enum MENU{
         MENU_FILE_QUIT = 100,
         MENU_EDIT_SELECT_ALL,
-        MENU_EDIT_AUTOCOMPLETE,
         MENU_EDIT_FIND,
-        MENU_EDIT_SEND_HISTORY,
 
         MENU_SERVER_ADD,
         MENU_SERVER_DELETE,

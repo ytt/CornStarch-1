@@ -16,17 +16,21 @@ CPaneRecord::~CPaneRecord(void)
 
 //////////////////////////////////////////////////////////////////////
 
+const int CPaneRecord::PANE_RECEVE_ID = 10000;
 // 初期化を行う
 void CPaneRecord::init(wxWindow* parent)
 {
     // テキスト領域の作成
-    Create(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize,
+    Create(parent, CPaneRecord::PANE_RECEVE_ID, wxEmptyString, wxDefaultPosition, wxDefaultSize,
             wxRE_MULTILINE | wxRE_READONLY | wxVSCROLL);
 
     setNavigateHaldler();
     // フォントの設定(個人的にこれが好き)
     this->SetFont(wxFont(10, wxDEFAULT, wxNORMAL, wxNORMAL));
     this->SetBackgroundColour(wxColour(200, 200, 200));
+    GetCaret()->Hide();
+
+
 }
 
 // ログ一覧を表示
@@ -34,7 +38,6 @@ void CPaneRecord::displayLogs(const vector<CMessage*>& logs,
         const CServiceHolder* services)
 {
     Clear();
-    GetCaret()->Hide();
 
     size_t size = logs.size();
     for (size_t i = 0; i < size; i++){

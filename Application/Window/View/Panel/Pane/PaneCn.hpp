@@ -19,6 +19,8 @@ class CPaneCn : public wxTreeCtrl
     // wxWindowイベントを処理させたいクラスに利用するマクロ
     DECLARE_EVENT_TABLE()
 
+    static const wxColour COLOR_LIGHT_ORANGE;
+    static const wxColour COLOR_LIGHT_RED;
 public:
     CPaneCn(void);
     ~CPaneCn(void);

@@ -21,6 +21,7 @@ class CPaneMsg : public CLogTextCtrl
     bool m_isScrollingBack;
     int m_beforeScroolHeight;
 protected:
+
     void OnScroll(wxScrollWinEvent &event);
     // wxWindowイベントを処理させたいクラスに利用するマクロ
     DECLARE_EVENT_TABLE();

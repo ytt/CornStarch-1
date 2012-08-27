@@ -8,7 +8,7 @@ namespace CornStarch
 
 CMainPanel::CMainPanel(void) :
         m_msgPane(NULL), m_memBox(NULL), m_cnBox(NULL), m_postPane(NULL), m_recordPane(
-                NULL)
+                NULL),m_msgTabTargetPane(NULL)
 {
 }
 
@@ -52,6 +52,11 @@ void CMainPanel::init(wxWindow* parent)
     if (m_recordPane == NULL){
         m_recordPane = new CPaneRecord();
         m_recordPane->init(getRecordPane());
+    }
+
+    if (m_msgTabTargetPane == NULL){
+        m_msgTabTargetPane = new CFocusTargetCtrl();
+        m_msgTabTargetPane->init(getTabTargetPane());
     }
 
     // 分割ウィンドウにセットする
@@ -116,9 +121,10 @@ void CMainPanel::clearChannels(void)
 }
 
 // ログ一覧ペインにログを表示
-void CMainPanel::displayLogs(const std::vector<CMessage*>& logs,const CServiceHolder* services)
+void CMainPanel::displayLogs(const std::vector<CMessage*>& logs,
+        const CServiceHolder* services)
 {
-    m_recordPane->displayLogs(logs,services);
+    m_recordPane->displayLogs(logs, services);
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -176,7 +182,8 @@ wxWindowID CMainPanel::getMemPaneID(void) const
 void CMainPanel::split(void)
 {
     m_spMsg->SplitHorizontally(m_msgPane, m_postPane);
-    m_spHorL->SplitHorizontally(m_spMsg, m_recordPane);
+    m_spMsgTabTarget->SplitHorizontally(m_spMsg, m_msgTabTargetPane);
+    m_spHorL->SplitHorizontally(m_spMsgTabTarget, m_recordPane);
     m_spHorR->SplitHorizontally(m_memBox, m_cnBox);
     this->SplitVertically(m_spHorL, m_spHorR);
 }

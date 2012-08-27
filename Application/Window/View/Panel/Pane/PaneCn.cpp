@@ -7,6 +7,22 @@ namespace CornStarch
 {
 ;
 
+const wxColour CPaneCn::COLOR_LIGHT_ORANGE = wxColour(200, 0, 0);
+const wxColour CPaneCn::COLOR_LIGHT_RED = wxColour(100, 0, 0);
+// イベントテーブルの登録
+BEGIN_EVENT_TABLE(CPaneCn, wxTreeCtrl)
+
+    // チャンネルツリーの項目を選択
+    EVT_TREE_SEL_CHANGED(wxID_ANY, CPaneCn::onChannelSelected)
+
+    // チャンネルツリーの項目を右クリック
+    EVT_TREE_ITEM_RIGHT_CLICK(wxID_ANY, CPaneCn::onItemRightClicked)
+
+    // ツリーの項目がアクティベートされた
+    EVT_TREE_ITEM_ACTIVATED(wxID_ANY, CPaneCn::onActivated)
+
+END_EVENT_TABLE();
+
 CPaneCn::CPaneCn(void)
 {
 }
@@ -137,8 +153,8 @@ CChannelSelectEvent* CPaneCn::newSelectEvent(const wxTreeItemId& id)
     // 自分と親のツリーIDを取得
     wxTreeItemId parentId = GetItemParent(id);
 
-    //　背景を白に戻す。
-    this->SetItemBackgroundColour(id, *wxWHITE);
+    // フォント設定
+    this->SetItemTextColour(id, *wxBLACK);
     // アイテム名の取得
     wxString itemName = GetItemText(id);
 
@@ -216,8 +232,9 @@ void CPaneCn::addUnreadMessage(const CChatMessage* message)
         wxString channelText = wxString::Format(wxT("%s (%d)"),
                 channleItem->getChannelName(), channleItem->getUnreadCount());
         this->SetItemText(node, channelText);
-        //　背景を色を変更。
-        this->SetItemBackgroundColour(node, *wxLIGHT_GREY);
+
+        // フォント設定
+        this->SetItemTextColour(node, CPaneCn::COLOR_LIGHT_ORANGE);
     }
 }
 

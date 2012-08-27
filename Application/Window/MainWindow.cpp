@@ -1,5 +1,6 @@
 ﻿#include "DefineEventTable.hpp" // イベントテーブル
 #include "MainWindow.hpp"
+#include <wx/defs.h>
 
 using namespace std;
 
@@ -65,6 +66,7 @@ void CMainWindow::initHandle(void)
     // メンバーがダブルクリックされたとき
     this->Connect(m_view->getMemPaneID(), wxEVT_COMMAND_LISTBOX_DOUBLECLICKED,
             wxCommandEventHandler(CMainWindow::onMemberDoubleClicked));
+
 }
 // 検索
 void CMainWindow::onFind(wxCommandEvent& event)
@@ -77,20 +79,6 @@ void CMainWindow::onSelectAll(wxCommandEvent& event)
 
 }
 
-// 入力補助
-void CMainWindow::onAutoComplete(wxCommandEvent& event)
-{
-    CChatServiceBase * service = m_serviceHolder->getService(
-            m_serviceHolder->getCurrentServiceId());
-    m_view->setTextPostPane(
-            m_inputManager->getAutoCompletionText(m_view->getTextPostPane(),
-                    service, getCommandList()));
-}
-void CMainWindow::onSendHistory(wxCommandEvent& event)
-{
-    m_view->setTextPostPane(
-            m_inputManager->getHistory(m_view->getTextPostPane()));
-}
 void CMainWindow::onTextUpdated(wxCommandEvent& event)
 {
 }
@@ -294,7 +282,15 @@ void CMainWindow::updateService(int serviceId)
         }
     }
 }
-
+// 入力テキストでTabを押されて次のコントロールにフォーカスが来た時
+void CMainWindow::onFocusNextText(wxThreadEvent& event)
+{
+    CChatServiceBase * service = m_serviceHolder->getService(
+            m_serviceHolder->getCurrentServiceId());
+    m_view->setTextPostPane(
+            m_inputManager->getAutoCompletionText(m_view->getTextPostPane(),
+                    service, getCommandList()));
+}
 // 次の未読チャンネルを選択。
 void CMainWindow::onMoveToUnread(wxCommandEvent& event)
 {
@@ -441,7 +437,21 @@ void CMainWindow::onChannelSelected(CChannelSelectEvent& event)
     // 投稿ペインにフォーカス
     m_view->setFocusPostPane();
 }
-
+// ポストペインでキーを押した時
+void CMainWindow::onKeyDownOnPostPane(wxKeyEvent& event)
+{
+    if (event.GetModifiers() == wxMOD_ALT){
+        if (event.GetKeyCode() == WXK_SPACE){
+            moveToUnread();
+        }
+    }
+    if (event.GetKeyCode() == WXK_UP){
+        m_view->setTextPostPane(
+                m_inputManager->getHistory(m_view->getTextPostPane()));
+    }
+    if (event.GetKeyCode() == WXK_DOWN){
+    }
+}
 // チャンネルペインを右クリック時
 void CMainWindow::onChannelRightClicked(CChannelSelectEvent& event)
 {

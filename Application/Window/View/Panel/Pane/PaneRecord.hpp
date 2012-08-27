@@ -11,7 +11,7 @@ namespace CornStarch
 // メッセージ一覧表示用ペイン
 class CPaneRecord : public CLogTextCtrl
 {
-
+    static const int PANE_RECEVE_ID;
 
     // サーバー名を表示
     void pushServerName(const wxString& serviceName);

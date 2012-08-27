@@ -91,13 +91,6 @@ private:
     // 全てを選択
     void onSelectAll(wxCommandEvent& event);
 
-    // 送信履歴
-    void onSendHistory(wxCommandEvent& event);
-
-
-    // 入力補助
-    void onAutoComplete(wxCommandEvent& event);
-
     // 　サービス登録
     void onServiceRegister(wxCommandEvent& event);
 
@@ -119,7 +112,7 @@ private:
     // トピック変更
     void onChangeTopic(wxCommandEvent& event);
 
-    // トピック変更
+    // 未読移動
     void onMoveToUnread(wxCommandEvent& event);
 private:
     // 画面系
@@ -139,6 +132,14 @@ private:
     // チャンネルペインを右クリック時
     void onChannelRightClicked(CChannelSelectEvent& event);
 
+    // テキストボックスの次がフォーカスされた時。
+    void onFocusedNextTextBox(wxFocusEvent& event);
+
+    // 入力テキストでTabを押されて次のコントロールにフォーカスが来た時
+    void onFocusNextText(wxThreadEvent& event);
+
+    // ポストペインでキーを押した時
+    void onKeyDownOnPostPane(wxKeyEvent& event);
 private:
     // 通信系
 
