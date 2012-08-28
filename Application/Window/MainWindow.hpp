@@ -71,7 +71,7 @@ private:
     void showAddChannleDialog(int serviceId);
 
     // トピック変更ダイアログを表示する
-    void showChangeTopicDialog(int serviceId);
+    void showChangeTopicDialog(int serviceId,wxString channelName);
 
     // ニックネーム変更ダイアログを表示する。
     void showChangeNicknameDialog(int serviceId);

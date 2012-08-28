@@ -7,13 +7,13 @@ namespace CornStarch
 ;
 
 CMainView::CMainView(void) :
-        m_menuBar(NULL), m_panel(NULL), m_dialog(NULL), m_notifier(NULL)
+        m_menuBar(NULL), m_panel(NULL),m_notifier(NULL)
 {
 }
 
 CMainView::~CMainView(void)
 {
-    delete m_dialog;
+//    delete m_dialog;
     delete m_notifier;
 }
 
@@ -32,12 +32,6 @@ void CMainView::init(wxWindow* parent)
     if (m_panel == NULL){
         m_panel = new CMainPanel();
         m_panel->init(parent);
-    }
-
-    // ダイアログを初期化
-    if (m_dialog == NULL){
-        m_dialog = new CViewDialog();
-        m_dialog->init(parent);
     }
 
     // 通知クラスを初期化
@@ -162,50 +156,6 @@ void CMainView::showMsgBox(const wxString& message)
     wxMessageBox(message);
 }
 
-// 認証ダイアログを表示する(SC)
-int CMainView::showModalAuthDlg(void)
-{
-    return m_dialog->showModalAuthDlg();
-}
-
-// チャンネル名指定用ダイアログを表示する
-int CMainView::showModalChannelDlg(void)
-{
-    return m_dialog->showModalChannelDlg();
-}
-
-// ニックネーム変更ダイアログを表示
-int CMainView::showModalNickDlg(void)
-{
-    return m_dialog->showModalNickDlg();
-}
-
-// トピック変更ダイアログを表示
-int CMainView::showModalTopicDlg(void)
-{
-    return m_dialog->showModalTopicDlg();
-}
-CChatServiceBase* CMainView::getNewServiceFromDialog(void) const
-{
-    return m_dialog->getNewServiceFromDialog();
-}
-// チャンネル名を取得する
-wxString CMainView::getDlgChannelName(void) const
-{
-    return m_dialog->getChannelName();
-}
-
-// ニックネームを取得
-wxString CMainView::getNickName(void) const
-{
-    return m_dialog->getNickName();
-}
-
-// トピック名を取得
-wxString CMainView::getTopic(void) const
-{
-    return m_dialog->getTopic();
-}
 // 投稿ペインに文字を設定する
 void CMainView::setTextPostPane(const wxString& value)
 {

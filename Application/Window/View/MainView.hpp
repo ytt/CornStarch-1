@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include "Dialog/ViewDialog.hpp"
 #include "Menubar/MainMenuBar.hpp"
 #include "Panel/MainPanel.hpp"
 #include "MainNotifier.hpp"
@@ -15,7 +14,6 @@ class CMainView
 {
 private:
     CMainMenuBar* m_menuBar; // メニューバーを管理
-    CViewDialog* m_dialog; // ダイアログを管理
     CMainPanel* m_panel; // 各ペインを管理
     CMainNotifier* m_notifier; // 通知を行う
 
@@ -80,6 +78,12 @@ public:
 
     // 一つ前のチャンネルを選択します。
     void selectPreviousChannel();
+
+    // 投稿ペインに文字を設定する。
+    void setTextPostPane(const wxString& value);
+
+    // 投稿ペインに文字を取得する
+    wxString getTextPostPane() const;
 public:
     // メニューバーに関するメソッド
 
@@ -91,35 +95,6 @@ public:
 
     // メッセージボックスを表示する
     void showMsgBox(const wxString& message);
-
-    // 認証ダイアログを表示する(SC)
-    int showModalAuthDlg(void);
-
-    // チャンネル名指定用ダイアログを表示する
-    int showModalChannelDlg(void);
-
-    // ニックネーム変更ダイアログを表示
-    int showModalNickDlg(void);
-
-    // トピック変更ダイアログを表示
-    int showModalTopicDlg(void);
-
-    // チャンネル名を取得する
-    wxString getDlgChannelName(void) const;
-
-    // ダイアログからサービスを取得
-    CChatServiceBase* getNewServiceFromDialog(void) const;
-    // ニックネームを取得
-    wxString getNickName(void) const;
-
-    // トピック名を取得
-    wxString getTopic(void) const;
-
-    // 投稿ペインに文字を設定する。
-    void setTextPostPane(const wxString& value);
-
-    // 投稿ペインに文字を取得する
-    wxString getTextPostPane() const;
 
 public:
     // 通知に関するメソッド

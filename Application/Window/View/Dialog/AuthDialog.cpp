@@ -36,7 +36,7 @@ void CAuthDialog::init(wxWindow* parent, const wxString& title)
     wxBoxSizer* bSizer;
     bSizer = new wxBoxSizer(wxHORIZONTAL);
 
-    m_staticText1 = new wxStaticText(this, wxID_ANY, wxT("名前:"),
+    m_staticText1 = new wxStaticText(this, wxID_ANY, wxT("名前："),
             wxPoint(-1, -1), wxSize(100, -1), wxALIGN_RIGHT);
     m_staticText1->Wrap(-1);
     bSizer->Add(m_staticText1, 0, wxALIGN_CENTER, 5);
