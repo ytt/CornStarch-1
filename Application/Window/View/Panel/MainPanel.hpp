@@ -17,10 +17,10 @@ class CMainPanel: public CSplitPanel
 {
 private:
     CFocusTargetCtrl* m_msgTabTargetPane; // タブ受付のペイン
-    CPaneMsg* m_msgPane; // メッセージ表示
-    CPanePost* m_postPane; // メッセージ投稿
-    CPaneRecord* m_recordPane; // メッセージ一覧表示
-    CPaneCn* m_cnBox; // チャンネル表示用リストボックス
+    CPaneMsg* m_msgPane; // メッセージ表示ペイン
+    CPanePost* m_postPane; // メッセージ投稿ペイン
+    CPaneRecord* m_recordPane; // メッセージ一覧表示ペイン
+    CPaneCn* m_channelPane; // チャンネル表示ペイン
     CPaneMember* m_memBox; // メンバ表示用リストボックス
 
 public:
@@ -34,7 +34,7 @@ public:
     void displayMessages(const std::vector<CMessage*>& messages,
             const CNickTable& nickTable);
     // メッセージペインにメッセージを表示
-    void addLog(const CMessage* message);
+    void addMessage(const CMessage* message);
 
     // 選択してないチャンネルにMessageが追加された時に呼ばれます。
     void addUnreadMessage(const CChatMessage* message);
@@ -64,6 +64,11 @@ public:
     // チャンネルペインをクリアする
     void clearChannels(void);
 
+    // 一つ先のチャンネルを選択します。
+    void selectNextChannel();
+
+    // 一つ前のチャンネルを選択します。
+    void selectPreviousChannel();
 public:
     // 投稿ペインの文字列をクリアする
     void clearPostPaneText(void);

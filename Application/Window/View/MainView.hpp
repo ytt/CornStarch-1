@@ -49,7 +49,7 @@ public:
             const CNickTable& nickTable);
 
     // メッセージ一覧を表示する
-    void addLog(const CMessage* message);
+    void addMessage(const CMessage* message);
 
     // 読み込んでないメッセージを通知する。
     void addUnreadMessage(const CChatMessage* message);
@@ -75,6 +75,11 @@ public:
     // ログ一覧にログを表示する
     void displayLogs(const std::vector<CMessage*>& logs,const CServiceHolder* services);
 
+    // 一つ先のチャンネルを選択します。
+    void selectNextChannel();
+
+    // 一つ前のチャンネルを選択します。
+    void selectPreviousChannel();
 public:
     // メニューバーに関するメソッド
 

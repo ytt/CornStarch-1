@@ -78,15 +78,24 @@ void CMainView::setSelectedChannel(int serviceId,const wxString& channelName)
     m_panel->selectedChannel(serviceId,channelName);
 }
 
+// 一つ先のチャンネルを選択します。
+void CMainView::selectNextChannel(){
+    m_panel->selectNextChannel();
+}
+
+// 一つ前のチャンネルを選択します。
+void CMainView::selectPreviousChannel(){
+    m_panel->selectPreviousChannel();
+}
 // メッセージ一覧を表示する
 void CMainView::displayMessages(const vector<CMessage*>& messages,
         const CNickTable& nickTable)
 {
     m_panel->displayMessages(messages, nickTable);
 }
-void CMainView::addLog(const CMessage* message)
+void CMainView::addMessage(const CMessage* message)
 {
-    m_panel->addLog(message);
+    m_panel->addMessage(message);
 }
 
 void CMainView::addUnreadMessage(const CChatMessage* message)

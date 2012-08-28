@@ -12,14 +12,14 @@ const wxColour CPaneCn::COLOR_LIGHT_RED = wxColour(100, 0, 0);
 // イベントテーブルの登録
 BEGIN_EVENT_TABLE(CPaneCn, wxTreeCtrl)
 
-    // チャンネルツリーの項目を選択
-    EVT_TREE_SEL_CHANGED(wxID_ANY, CPaneCn::onChannelSelected)
+// チャンネルツリーの項目を選択
+EVT_TREE_SEL_CHANGED(wxID_ANY, CPaneCn::onChannelSelected)
 
-    // チャンネルツリーの項目を右クリック
-    EVT_TREE_ITEM_RIGHT_CLICK(wxID_ANY, CPaneCn::onItemRightClicked)
+// チャンネルツリーの項目を右クリック
+EVT_TREE_ITEM_RIGHT_CLICK(wxID_ANY, CPaneCn::onItemRightClicked)
 
-    // ツリーの項目がアクティベートされた
-    EVT_TREE_ITEM_ACTIVATED(wxID_ANY, CPaneCn::onActivated)
+// ツリーの項目がアクティベートされた
+EVT_TREE_ITEM_ACTIVATED(wxID_ANY, CPaneCn::onActivated)
 
 END_EVENT_TABLE();
 
@@ -51,9 +51,90 @@ void CPaneCn::selectChannel(int serviceId, const wxString& channel)
     if (node.IsOk()){
         this->SelectItem(node);
     }
-    // SetStringSelection(channel);
 }
 
+// 一つ先のチャンネルを選択します。
+void CPaneCn::selectNextChannel()
+{
+    wxTreeItemId selectedId = GetSelection();
+    if (selectedId.IsOk()){
+        wxTreeItemIdValue cookie;
+        wxTreeItemId root = GetRootItem();
+        wxTreeItemId server = GetFirstChild(root, cookie);
+        wxTreeItemId firstFoundId;
+        bool isFound;
+        while (server.IsOk()) // サーバーノードを探索
+        {
+            // 選択しているサーバーを見つけた。
+            if (server == selectedId){
+                isFound = true;
+            }
+            wxTreeItemId channel = this->GetFirstChild(server, cookie);
+            while (channel.IsOk()) // チャンネルノードを探索
+            {
+                // 一つ目のチャンネル
+                if (firstFoundId.IsOk() == false){
+                    firstFoundId = channel;
+                }
+                // 選択を見つけた以降でのチャンネルがあれば選択して終了
+                if (isFound){
+                    SelectItem(channel);
+                    return;
+                }
+                // 選択しているチャンネルをみつける。
+                if (channel == selectedId){
+                    isFound = true;
+                }
+                channel = this->GetNextSibling(channel);
+            }
+            server = this->GetNextSibling(server);
+        }
+        // 選択している以降にチャンネルが見つからないなら、選択前に見つけたものを選択
+        if (firstFoundId.IsOk()){
+            SelectItem(firstFoundId);
+        }
+    }
+}
+
+// 一つ前のチャンネルを選択します。
+void CPaneCn::selectPreviousChannel()
+{
+    wxTreeItemId selectedId = GetSelection();
+    if (selectedId.IsOk()){
+        wxTreeItemIdValue cookie;
+        wxTreeItemId root = GetRootItem();
+        wxTreeItemId server = GetFirstChild(root, cookie);
+        wxTreeItemId lastFoundId;
+        while (server.IsOk()) // サーバーノードを探索
+        {
+            // 選択しているサーバーを見つけたら、最後に見つけたノードを選択。
+            if (server == selectedId){
+                if (lastFoundId.IsOk()){
+                    SelectItem(lastFoundId);
+                    return;
+                }
+            }
+            wxTreeItemId channel = this->GetFirstChild(server, cookie);
+            while (channel.IsOk()) // チャンネルノードを探索
+            {
+                // 選択しているチャンネルをみつけたら、最後に見つけたノードを選択。
+                if (channel == selectedId){
+                    if (lastFoundId.IsOk()){
+                        SelectItem(lastFoundId);
+                        return;
+                    }
+                }
+                lastFoundId = channel;
+                channel = this->GetNextSibling(channel);
+            }
+            server = this->GetNextSibling(server);
+        }
+        // 最後に見つけたものを選択
+        if (lastFoundId.IsOk()){
+            SelectItem(lastFoundId);
+        }
+    }
+}
 // 所属チャンネル一覧を表示
 void CPaneCn::displayChannels(const map<int, CChatServiceBase*>& connections)
 {
@@ -70,8 +151,7 @@ void CPaneCn::displayChannels(const map<int, CChatServiceBase*>& connections)
         data->setServerId((*it).second->getId());
 
         // サーバ名をセット
-        wxString name(
-                wxString::Format(wxT("▼%s"), (*it).second->getName()));
+        wxString name(wxString::Format(wxT("▼%s"), (*it).second->getName()));
         wxTreeItemId id = AppendItem(rootId, name, -1, -1, data);
         if ((*it).second->IsConnected() == false){
             this->SetItemTextColour(id, *wxLIGHT_GREY);

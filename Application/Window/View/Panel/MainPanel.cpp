@@ -7,7 +7,7 @@ namespace CornStarch
 ;
 
 CMainPanel::CMainPanel(void) :
-        m_msgPane(NULL), m_memBox(NULL), m_cnBox(NULL), m_postPane(NULL), m_recordPane(
+        m_msgPane(NULL), m_memBox(NULL), m_channelPane(NULL), m_postPane(NULL), m_recordPane(
                 NULL),m_msgTabTargetPane(NULL)
 {
 }
@@ -37,9 +37,9 @@ void CMainPanel::init(wxWindow* parent)
     }
 
     // チャンネル表示ペインの初期化
-    if (m_cnBox == NULL){
-        m_cnBox = new CPaneCn();
-        m_cnBox->init(getCnPane());
+    if (m_channelPane == NULL){
+        m_channelPane = new CPaneCn();
+        m_channelPane->init(getCnPane());
     }
 
     // メッセージ投稿ペインの初期化
@@ -73,7 +73,7 @@ void CMainPanel::displayMessages(const vector<CMessage*>& messages,
     m_msgPane->Show(true);
 
 }
-void CMainPanel::addLog(const CMessage* message)
+void CMainPanel::addMessage(const CMessage* message)
 {
     m_msgPane->pushLog(message);
     m_msgPane->clearUnreadBackgroundColor();
@@ -81,7 +81,7 @@ void CMainPanel::addLog(const CMessage* message)
 
 void CMainPanel::addUnreadMessage(const CChatMessage* message)
 {
-    m_cnBox->addUnreadMessage(message);
+    m_channelPane->addUnreadMessage(message);
 }
 // メンバーペインにメンバーを表示
 void CMainPanel::displayMembers(const vector<CMemberData*>& members)
@@ -95,9 +95,9 @@ void CMainPanel::displayMembers(const vector<CMemberData*>& members)
 void CMainPanel::displayChannels(
         const std::map<int, CChatServiceBase*>& services)
 {
-    m_cnBox->Show(false);
-    m_cnBox->displayChannels(services);
-    m_cnBox->Show(true);
+    m_channelPane->Show(false);
+    m_channelPane->displayChannels(services);
+    m_channelPane->Show(true);
 
 }
 
@@ -116,8 +116,8 @@ void CMainPanel::clearMembers(void)
 // チャンネルペインをクリアする
 void CMainPanel::clearChannels(void)
 {
-    wxTreeItemId rootId = m_cnBox->GetRootItem();
-    m_cnBox->DeleteChildren(rootId);
+    wxTreeItemId rootId = m_channelPane->GetRootItem();
+    m_channelPane->DeleteChildren(rootId);
 }
 
 // ログ一覧ペインにログを表示
@@ -138,7 +138,7 @@ void CMainPanel::clearPostPaneText(void)
 // 選択済みチャンネルを決める
 void CMainPanel::selectedChannel(int serviceId, const wxString& channel)
 {
-    m_cnBox->selectChannel(serviceId, channel);
+    m_channelPane->selectChannel(serviceId, channel);
 }
 
 // 投稿ペインのIDを取得する
@@ -167,7 +167,7 @@ wxString CMainPanel::getTextPostPane() const
 // チャンネルペインのIDを取得する
 wxWindowID CMainPanel::getCnPaneID(void) const
 {
-    return m_cnBox->GetId();
+    return m_channelPane->GetId();
 }
 
 // メンバーペインのIDを取得する
@@ -175,7 +175,15 @@ wxWindowID CMainPanel::getMemPaneID(void) const
 {
     return m_memBox->GetId();
 }
+// 一つ先のチャンネルを選択します。
+void CMainPanel::selectNextChannel(){
+    m_channelPane->selectNextChannel();
+}
 
+// 一つ前のチャンネルを選択します。
+void CMainPanel::selectPreviousChannel(){
+    m_channelPane->selectPreviousChannel();
+}
 //////////////////////////////////////////////////////////////////////
 
 // 画面分割を行う
@@ -184,7 +192,7 @@ void CMainPanel::split(void)
     m_spMsg->SplitHorizontally(m_msgPane, m_postPane);
     m_spMsgTabTarget->SplitHorizontally(m_spMsg, m_msgTabTargetPane);
     m_spHorL->SplitHorizontally(m_spMsgTabTarget, m_recordPane);
-    m_spHorR->SplitHorizontally(m_memBox, m_cnBox);
+    m_spHorR->SplitHorizontally(m_memBox, m_channelPane);
     this->SplitVertically(m_spHorL, m_spHorR);
 }
 

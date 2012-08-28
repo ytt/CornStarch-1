@@ -36,6 +36,12 @@ public:
 
     // 選択してないチャンネルにMessageが追加された時に呼ばれます。
     void addUnreadMessage(const CChatMessage* message);
+
+    // 一つ先のチャンネルを選択します。
+    void selectNextChannel();
+
+    // 一つ前のチャンネルを選択します。
+    void selectPreviousChannel();
 private:
     wxTreeItemId findChannelNode(int serviceId, const wxString& channleName);
     // チャンネルが選択された際のイベント処理
@@ -49,6 +55,7 @@ private:
 
     // アクティベートされた
     void onActivated(wxTreeEvent& event);
+
 };
 
 }
