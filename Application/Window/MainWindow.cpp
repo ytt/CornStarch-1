@@ -78,9 +78,14 @@ void CMainWindow::onSelectAll(wxCommandEvent& event)
 {
 
 }
-
+// ポストペインの文字が変更された
 void CMainWindow::onTextUpdated(wxCommandEvent& event)
 {
+    if (m_inputManager->isChangingText() == false){
+        m_inputManager->setCurrentInput(m_view->getTextPostPane());
+        m_inputManager->resetIndex();
+    }
+    m_inputManager->setChangingText(false);
 }
 // Modelがあれば画面を更新する
 void CMainWindow::updateAllView(int connectionId, const wxString& channel)
@@ -446,10 +451,12 @@ void CMainWindow::onKeyDownOnPostPane(wxKeyEvent& event)
         }
     }
     if (event.GetKeyCode() == WXK_UP){
-        m_view->setTextPostPane(
-                m_inputManager->getHistory(m_view->getTextPostPane()));
+        m_inputManager->setChangingText(true);
+        m_view->setTextPostPane(m_inputManager->getHistory());
     }
     if (event.GetKeyCode() == WXK_DOWN){
+        m_inputManager->setChangingText(true);
+        m_view->setTextPostPane(m_inputManager->getHistoryBefore());
     }
 }
 // チャンネルペインを右クリック時

@@ -5,7 +5,7 @@ namespace CornStarch
 {
 
 CInputManager::CInputManager() :
-        m_predicateFirstInput("")
+        m_predicateFirstInput(""), m_historyIndex(0), m_isChangingText(false)
 {
 
 }
@@ -61,7 +61,7 @@ wxString CInputManager::getNextInputCandidate(const wxString& currentInput,
     }
     // 完全一致のものがある場合は、初期入力に合う、その次の候補を探す。
     wxString result = getNextCandidate(currentInput, candidates,
-            m_predicateFirstInput);
+            m_predicateFirstInput, true);
     if (result != ""){
         return result;
     }
@@ -77,6 +77,7 @@ wxString CInputManager::getNextInputCandidate(const wxString& currentInput,
 // 入力履歴を追加
 void CInputManager::addHistory(const wxString& content)
 {
+    m_historyIndex = 0;
     m_inputHistory.push_back(content);
     if (m_inputHistory.size() > 10){
         vector<wxString>::iterator it = m_inputHistory.begin();
@@ -96,13 +97,17 @@ wxString CInputManager::getCandidate(const wxString& currentInput,
 }
 // 現在の入力値と条件値から次の候補を取得
 wxString CInputManager::getNextCandidate(const wxString& currentInput,
-        vector<wxString>& items, const wxString& predicte)
+        vector<wxString>& items, const wxString& predicte, bool canLoop)
 {
+    wxString firstFoundItem = "";
     bool isFoundCurrentInput = false;
     for (int i = 0; i < (int) items.size(); i++){
         wxString value = items[items.size() - i - 1];
-        if (isFoundCurrentInput){
-            if (predicte == "" || value.find(predicte) == 0){
+        if (predicte == "" || value.find(predicte) == 0){
+            if (firstFoundItem == ""){
+                firstFoundItem = value;
+            }
+            if (isFoundCurrentInput){
                 return value;
             }
         }
@@ -110,19 +115,45 @@ wxString CInputManager::getNextCandidate(const wxString& currentInput,
             isFoundCurrentInput = true;
         }
     }
+    if (canLoop){
+        return firstFoundItem;
+    }
     return "";
 }
 // 履歴の取得
-wxString CInputManager::getHistory(const wxString& currentInput)
+wxString CInputManager::getHistory()
 {
-    if (m_inputHistory.size() > 0){
-        wxString content = getNextCandidate(currentInput, m_inputHistory, "");
-        if (content != ""){
-            return content;
-        }
-        return m_inputHistory[m_inputHistory.size() - 1];
+    if (m_inputHistory.size() > m_historyIndex){
+        wxString history = m_inputHistory[m_inputHistory.size() - m_historyIndex
+                - 1];
+        m_historyIndex++;
+        return history;
     }
-    return currentInput;
+    if (m_inputHistory.size() != 0){
+        return m_inputHistory[0];
+    }
+    return "";
 }
-
+// 一つ前の履歴の取得
+wxString CInputManager::getHistoryBefore()
+{
+    if (m_historyIndex > 1){
+        m_historyIndex--;
+        wxString history =
+                m_inputHistory[m_inputHistory.size() - m_historyIndex];
+        return history;
+    }
+    m_historyIndex = 0;
+    return m_currentInput;
+}
+// 履歴取得位置のリセット
+void CInputManager::resetIndex()
+{
+    m_historyIndex = 0;
+}
+// 現在の入力文字の設定
+void CInputManager::setCurrentInput(wxString value)
+{
+    m_currentInput = value;
+}
 } /* namespace CornStarch */
