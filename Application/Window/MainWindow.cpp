@@ -198,6 +198,9 @@ void CMainWindow::registerService()
     CChatServiceBase* contents = m_view->getNewServiceFromDialog();
     if (contents != NULL){
         m_serviceHolder->addNewService(contents, GetEventHandler());
+
+        // 表示の更新
+        updateAllView(contents->getId(), contents->getCurrentChannel());
     }
 }
 bool CMainWindow::invoke(const wxString& text)

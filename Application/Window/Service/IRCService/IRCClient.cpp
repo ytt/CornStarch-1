@@ -14,7 +14,7 @@ using namespace std;
 BEGIN_EVENT_TABLE(CIRCClient, wxEvtHandler)
 EVT_SOCKET(SOCKET_ID, CIRCClient::onSocketEvent)
 END_EVENT_TABLE()
-CIRCClient::CIRCClient() :
+CIRCClient::CIRCClient() :m_conenctTask(NULL),
         m_receiveTask(NULL), m_sendTask(NULL), m_isConnectedToIRCService(false)
 {
     m_commandQueue = new wxMessageQueue<wxString>();

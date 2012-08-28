@@ -8,7 +8,7 @@ namespace CornStarch
 
 CChatServiceBase::CChatServiceBase(void) :
         m_handler(NULL), m_channel(NULL), m_user(NULL), m_nickTable(NULL), m_connect(
-                NULL), m_state(DISCONNECT)
+                NULL), m_state(DISCONNECT),m_isAutoConnect(true)
 {
 }
 

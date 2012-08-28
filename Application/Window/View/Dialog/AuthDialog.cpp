@@ -227,6 +227,7 @@ CChatServiceBase* CAuthDialog::getNewService(void) const
         service->setName(getServiceName());
         service->setHost(getHostName());
         service->setPort(getPort());
+        service->setAutoConnect(isStartSoon());
         service->registerUser(getName(), getPass());
         return service;
     }

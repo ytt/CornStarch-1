@@ -39,8 +39,8 @@ protected:
     // ID
     int m_id;
 
-    // 接続されているか
-    //bool m_isConnected;
+    // 開始後すぐに接続するか
+    bool m_isAutoConnect;
     // チャットの種類
     CHAT_TYPE m_type;
     // 接続状態
@@ -132,7 +132,15 @@ public:
     {
         return m_user;
     }
+    bool isAutoConnect() const
+    {
+        return m_isAutoConnect;
+    }
 
+    void setAutoConnect(bool isAutoConnect)
+    {
+        m_isAutoConnect = isAutoConnect;
+    }
     // 初期化を行う
     virtual void init(wxEvtHandler* handler) = 0;
 
@@ -258,6 +266,8 @@ public:
     // ユーザ情報更新ストリームの受信
     void onGetUserStream(const wxString& userName,const wxString& nick);
 }
+
+
 
 
 

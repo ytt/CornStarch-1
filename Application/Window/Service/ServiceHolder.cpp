@@ -56,8 +56,9 @@ void CServiceHolder::addNewService(CChatServiceBase* service,
     service->init(hander);
     m_services.insert(
             map<int, CChatServiceBase*>::value_type(service->getId(), service));
-
-    service->connect();
+    if (service->isAutoConnect()){
+        service->connect();
+    }
 }
 
 // チャンネルを削除する
