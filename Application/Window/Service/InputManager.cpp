@@ -115,7 +115,7 @@ wxString CInputManager::getNextCandidate(const wxString& currentInput,
             isFoundCurrentInput = true;
         }
     }
-    if (canLoop){
+    if (canLoop &&isFoundCurrentInput){
         return firstFoundItem;
     }
     return "";
