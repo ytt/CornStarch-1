@@ -36,13 +36,14 @@ void CPaneMsg::init(wxWindow* parent)
     // 画面の初期化
     Create(parent, CPaneMsg::PANE_MSG_ID, wxEmptyString, wxDefaultPosition,
             wxDefaultSize,
-            wxRE_MULTILINE | wxRE_READONLY |  wxVSCROLL /*|wxTE_DONTWRAP*/);
+            wxRE_MULTILINE | wxRE_READONLY |  wxVSCROLL );
 
     // フォント設定
     this->SetFont(wxFont(10, wxDEFAULT, wxNORMAL, wxNORMAL));
 
     this->setNavigateHaldler();
 
+    GetCaret()->Hide();
 }
 void CPaneMsg::OnScroll(wxScrollWinEvent &event)
 {
@@ -61,10 +62,12 @@ void CPaneMsg::OnScroll(wxScrollWinEvent &event)
 void CPaneMsg::clearUnreadBackgroundColor()
 {
     int index = this->GetLastPosition();
-    this->SetStyle(0, index, wxTextAttr(wxNullColour, *wxWHITE));
+
+    this->SetStyle(0, index, wxTextAttr(wxNullColour, wxSystemSettings::GetColour(wxSYS_COLOUR_MENU)));
 }
 void CPaneMsg::pushLog(const CMessage* messageLog)
 {
+    GetCaret()->Hide();
     this->MoveEnd();
     CLogTextCtrl::pushLog(messageLog);
     if (m_isScrollingBack == false){

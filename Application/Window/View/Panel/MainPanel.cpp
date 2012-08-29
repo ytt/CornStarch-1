@@ -7,8 +7,8 @@ namespace CornStarch
 ;
 
 CMainPanel::CMainPanel(void) :
-        m_msgPane(NULL), m_memBox(NULL), m_channelPane(NULL), m_postPane(NULL), m_recordPane(
-                NULL),m_msgTabTargetPane(NULL)
+         m_memBox(NULL), m_channelPane(NULL), m_postPane(NULL), m_recordPane(
+                NULL), m_msgTabTargetPane(NULL), m_messagePane(NULL)
 {
 }
 
@@ -24,11 +24,6 @@ void CMainPanel::init(wxWindow* parent)
     // 分割ウィンドウを作成する
     CSplitPanel::init(parent);
 
-    // メッセージ表示ペインの初期化
-    if (m_msgPane == NULL){
-        m_msgPane = new CPaneMsg();
-        m_msgPane->init(getMsgPane());
-    }
 
     // メンバー表示ペインの初期化
     if (m_memBox == NULL){
@@ -58,7 +53,11 @@ void CMainPanel::init(wxWindow* parent)
         m_msgTabTargetPane = new CFocusTargetCtrl();
         m_msgTabTargetPane->init(getTabTargetPane());
     }
+    if (m_messagePane == NULL){
+        m_messagePane = new CPaneMessage();
+        m_messagePane->init(getMsgPane());
 
+    }
     // 分割ウィンドウにセットする
     split();
 
@@ -68,15 +67,20 @@ void CMainPanel::init(wxWindow* parent)
 void CMainPanel::displayMessages(const vector<CMessage*>& messages,
         const CNickTable& nickTable)
 {
-    m_msgPane->Show(false);
-    m_msgPane->displayMessages(messages, nickTable);
-    m_msgPane->Show(true);
+    m_messagePane->Show(false);
+    m_messagePane->displayMessages(messages, nickTable);
+    m_messagePane->Show(true);
+//    m_msgPane->Show(false);
+//    m_msgPane->displayMessages(messages, nickTable);
+//    m_msgPane->Show(true);
 
 }
 void CMainPanel::addMessage(const CMessage* message)
 {
-    m_msgPane->pushLog(message);
-    m_msgPane->clearUnreadBackgroundColor();
+    m_messagePane->pushLog(message);
+    m_messagePane->clearUnreadBackgroundColor();
+//    m_msgPane->pushLog(message);
+//    m_msgPane->clearUnreadBackgroundColor();
 }
 
 void CMainPanel::addUnreadMessage(const CChatMessage* message)
@@ -104,7 +108,8 @@ void CMainPanel::displayChannels(
 // メッセージペインをクリアする。
 void CMainPanel::clearMessages(void)
 {
-    m_msgPane->Clear();
+    m_messagePane->clear();
+    //m_msgPane->Clear();
 }
 
 // メンバーペインをクリアする
@@ -176,12 +181,14 @@ wxWindowID CMainPanel::getMemPaneID(void) const
     return m_memBox->GetId();
 }
 // 一つ先のチャンネルを選択します。
-void CMainPanel::selectNextChannel(){
+void CMainPanel::selectNextChannel()
+{
     m_channelPane->selectNextChannel();
 }
 
 // 一つ前のチャンネルを選択します。
-void CMainPanel::selectPreviousChannel(){
+void CMainPanel::selectPreviousChannel()
+{
     m_channelPane->selectPreviousChannel();
 }
 //////////////////////////////////////////////////////////////////////
@@ -189,7 +196,7 @@ void CMainPanel::selectPreviousChannel(){
 // 画面分割を行う
 void CMainPanel::split(void)
 {
-    m_spMsg->SplitHorizontally(m_msgPane, m_postPane);
+    m_spMsg->SplitHorizontally(m_messagePane, m_postPane);
     m_spMsgTabTarget->SplitHorizontally(m_spMsg, m_msgTabTargetPane);
     m_spHorL->SplitHorizontally(m_spMsgTabTarget, m_recordPane);
     m_spHorR->SplitHorizontally(m_memBox, m_channelPane);

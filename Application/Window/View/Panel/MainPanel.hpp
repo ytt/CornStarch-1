@@ -6,6 +6,7 @@
 #include "Pane/PaneCn.hpp"
 #include "Pane/PaneMember.hpp"
 #include "Pane/FocusTargetCtrl.hpp"
+#include "Pane/PaneMessage.hpp"
 #include <wx/sizer.h>
 #include "../../Service/NickTable.hpp"
 
@@ -17,12 +18,11 @@ class CMainPanel: public CSplitPanel
 {
 private:
     CFocusTargetCtrl* m_msgTabTargetPane; // タブ受付のペイン
-    CPaneMsg* m_msgPane; // メッセージ表示ペイン
     CPanePost* m_postPane; // メッセージ投稿ペイン
     CPaneRecord* m_recordPane; // メッセージ一覧表示ペイン
     CPaneCn* m_channelPane; // チャンネル表示ペイン
     CPaneMember* m_memBox; // メンバ表示用リストボックス
-
+    CPaneMessage* m_messagePane;
 public:
     CMainPanel(void);
     ~CMainPanel(void);

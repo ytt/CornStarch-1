@@ -37,6 +37,8 @@ void CMainWindow::init(void)
     // viewの初期化
     m_view = new CMainView();
     m_view->init(this);
+    this->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOW ) );
+
     SetMenuBar(m_view->getMenuBar()); // メニューバー
 
     // ログ保持部の初期化
