@@ -24,7 +24,7 @@ class CPaneMessage : public wxNotebook
     wxPanel* m_panel2;
     wxPanel* m_panel3;
 
-
+    bool isFilterPassed(const CMessage* message,const vector<IFilter*>& filters );
 public:
     void init(wxWindow* parent);
     CPaneMessage();

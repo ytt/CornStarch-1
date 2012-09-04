@@ -56,6 +56,7 @@ void CPaneRecord::displayLogs(const vector<CMessage*>& logs,
         }
     }
     this->ShowPosition(this->GetLastPosition());
+    GetCaret()->Hide();
 }
 
 //////////////////////////////////////////////////////////////////////

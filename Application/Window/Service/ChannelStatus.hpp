@@ -1,24 +1,23 @@
 ﻿#pragma once
-//#include "MessageVec.hpp"
 #include "MemberVec.hpp"
 #include "Message/MessageHolder.hpp"
 #include "Message/ChatMessage.hpp"
-
+#include "Filter/IFilter.hpp"
+using namespace std;
 namespace CornStarch
 {
 ;
-
 // チャンネルの内部状態(誰がいるかやメッセージなど)を管理
 class CChannelStatus
 {
 private:
     wxString m_topic; // トピック
-    //CMessageVec* m_messages; // メッセージ一覧
     CMemberVec* m_members; // メンバー一覧
-    wxString m_channelName;
-    int m_unreadCount;
+    wxString m_channelName; // チャンネル名
+    int m_unreadCount; // 未読数
     CMessageHolder* m_logHolder;
     bool m_isLoaded;
+
 
 public:
     CChannelStatus(void);

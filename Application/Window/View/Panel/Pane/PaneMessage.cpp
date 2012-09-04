@@ -64,7 +64,7 @@ void CPaneMessage::init(wxWindow* parent)
 }
 
 void CPaneMessage::displayMessages(const std::vector<CMessage*>& messages,
-        const CNickTable& nickTable,const CServiceConfiguration* configuration)
+        const CNickTable& nickTable, const CServiceConfiguration* configuration)
 {
 
     this->Freeze();
@@ -77,25 +77,38 @@ void CPaneMessage::displayMessages(const std::vector<CMessage*>& messages,
     int size = (int) messages.size();
     for (int i = 0; i < size; i++){
         CMessage* log = messages[i];
-        wxString nickName = nickTable.getNickname(log->getUserName());
-        log->setNick(nickName);
-        pushLog(log);
+        vector<IFilter*> filters = configuration->getFilters(
+                log->getChannelName());
+        if (isFilterPassed(log,filters)){
+            wxString nickName = nickTable.getNickname(log->getUserName());
+            log->setNick(nickName);
+            pushLog(log);
+        }
     }
     this->Thaw();
     m_allLogCtrl->ShowPosition(m_allLogCtrl->GetLastPosition());
     m_chatLogCtrl->ShowPosition(m_chatLogCtrl->GetLastPosition());
     m_chatLogCtrl->ShowPosition(m_chatLogCtrl->GetLastPosition());
 }
+bool CPaneMessage::isFilterPassed(const CMessage* message,
+        const vector<IFilter*>& filters)
+{
+    vector<IFilter*>::const_iterator it = filters.begin();
+    while (it != filters.end()){
+        if ((*it)->isValid(message) == false){
+            return false;
+        }
+        it++;
+    }
+    return true;
+}
 
 void CPaneMessage::pushLog(const CMessage* log)
 {
     m_allLogCtrl->pushLog(log);
-    if(typeid(*log) == typeid(CChatMessage))
-    {
+    if (typeid(*log) == typeid(CChatMessage)){
         m_chatLogCtrl->pushLog(log);
-    }
-    else
-    {
+    } else{
         m_systemLogCtrl->pushLog(log);
     }
 }
