@@ -96,6 +96,10 @@ BEGIN_EVENT_TABLE(CMainWindow, wxFrame)
     EVT_MENU(CMenuPart::MENU_SERVER_ADD, CMainWindow::onServiceRegister) // サーバの登録
     EVT_MENU(CMenuPart::MENU_SERVER_DELETE, CMainWindow::onDeleteService) // サーバの削除
     EVT_MENU(CMenuPart::MENU_SERVER_NICK_CHANGE, CMainWindow::onNickChange) // ニックネーム変更
+
+    EVT_MENU(CMenuPart::MENU_VIEW_ZOOM, CMainWindow::onZoom) // チャンネルに参加
+    EVT_MENU(CMenuPart::MENU_VIEW_SHRINK, CMainWindow::onShrink) // チャンネルから離脱
+
     EVT_MENU(CMenuPart::MENU_CHANNEL_JOIN, CMainWindow::onJoin) // チャンネルに参加
     EVT_MENU(CMenuPart::MENU_CHANNEL_PART, CMainWindow::onPart) // チャンネルから離脱
     EVT_MENU(CMenuPart::MENU_CHANNEL_TOPIC_CHANGE, CMainWindow::onChangeTopic) // トピック変更

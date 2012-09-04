@@ -37,7 +37,7 @@ void CMainWindow::init(void)
     // viewの初期化
     m_view = new CMainView();
     m_view->init(this);
-    this->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOW ) );
+    this->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW));
 
     SetMenuBar(m_view->getMenuBar()); // メニューバー
 
@@ -110,7 +110,7 @@ void CMainWindow::updateMessageView(int connectionId, const wxString& channel)
 
         // メッセージを表示
         m_view->displayMessages(service->getLogs(channel),
-                service->getNickTable(),service->getConfiguration());
+                service->getNickTable(), service->getConfiguration());
 
         // 未読リセット
         CChannelStatus* channelStatus = service->getChannel(channel);
@@ -455,6 +455,43 @@ void CMainWindow::onChannelSelected(CChannelSelectEvent& event)
     // 投稿ペインにフォーカス
     m_view->setFocusPostPane();
 }
+// 拡大
+void CMainWindow::onZoom(wxCommandEvent& event)
+{
+    map<int, CChatServiceBase*> services = m_serviceHolder->getServices();
+    map<int, CChatServiceBase*>::iterator it = services.begin();
+    while (it != services.end()){
+        CServiceConfiguration* configuration = (*it).second->getConfiguration();
+        configuration->setFontSize(configuration->getFontSize() + 2);
+        it++;
+    }
+
+    CChatServiceBase* service = m_serviceHolder->getService(
+            m_serviceHolder->getCurrentServiceId());
+    if (service != NULL){
+        updateMessageView(m_serviceHolder->getCurrentServiceId(),
+                service->getCurrentChannel());
+    }
+}
+// 縮小
+void CMainWindow::onShrink(wxCommandEvent& event)
+{
+    map<int, CChatServiceBase*> services = m_serviceHolder->getServices();
+    map<int, CChatServiceBase*>::iterator it = services.begin();
+    while (it != services.end()){
+        CServiceConfiguration* configuration = (*it).second->getConfiguration();
+        configuration->setFontSize(configuration->getFontSize() - 2);
+        it++;
+    }
+
+    CChatServiceBase* service = m_serviceHolder->getService(
+            m_serviceHolder->getCurrentServiceId());
+    if (service != NULL){
+        updateMessageView(m_serviceHolder->getCurrentServiceId(),
+                service->getCurrentChannel());
+    }
+}
+
 // ポストペインでキーを押した時
 void CMainWindow::onKeyDownOnPostPane(wxKeyEvent& event)
 {

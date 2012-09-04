@@ -76,6 +76,7 @@ void CPaneMsg::pushLog(const CMessage* messageLog)
 }
 void CPaneMsg::pushLog(const CChatMessage* messageLog)
 {
+    drawDateLine(messageLog->getTime("%Y/%m/%d(%a)"));
     wxString name = messageLog->getNick();
     wxString body = messageLog->getBody();
     wxString channel = messageLog->getChannelName();
@@ -95,7 +96,6 @@ void CPaneMsg::pushLog(const CChatMessage* messageLog)
     }
     writeColoredText(body, *wxBLACK);
 
-    drawDateLine(messageLog->getTime("%Y/%m/%d(%a)"));
 }
 
 
@@ -111,8 +111,8 @@ void CPaneMsg::drawDateLine(const wxString& now)
     }
 
     this->Newline();
-    this->Newline();
     AppendText("------" + now + "--------");
+    this->Newline();
     this->Newline();
     m_lastDrawDateLine = now;
 }

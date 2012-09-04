@@ -23,7 +23,7 @@ void CMainMenuBar::init(void)
     // 【ファイル】
     m_menuFile = new CMenuFile();
     m_menuFile->init();
-    // 【ファイル】
+    // 【編集】
     m_menuEdit = new CMenuEdit();
     m_menuEdit->init();
     // 【登録】
@@ -37,10 +37,13 @@ void CMainMenuBar::init(void)
     // 【更新】
     m_menuUpdate = new CMenuUpdate();
     m_menuUpdate->init();
-
+    // 【表示】
+    m_menuView = new CMenuView();
+    m_menuView->init();
     // メニューバーに項目を追加する
     Append(m_menuFile, m_menuFile->getTitle());
     Append(m_menuEdit, m_menuEdit->getTitle());
+    Append(m_menuView, m_menuView->getTitle());
     Append(m_menuServer, m_menuServer->getTitle());
     Append(m_menuChannel, m_menuChannel->getTitle());
     Append(m_menuUpdate, m_menuUpdate->getTitle());
