@@ -8,12 +8,13 @@ namespace CornStarch
 
 CChatServiceBase::CChatServiceBase(void) :
         m_handler(NULL), m_channel(NULL), m_user(NULL), m_nickTable(NULL), m_connect(
-                NULL), m_state(DISCONNECT),m_isAutoConnect(true)
+                NULL), m_state(DISCONNECT)
 {
 }
 
 CChatServiceBase::~CChatServiceBase(void)
 {
+    delete m_configuration;
     delete m_connect;
     delete m_channel;
     delete m_user;
@@ -104,7 +105,6 @@ wxString CChatServiceBase::getCurrentChannel(void) const
 CChatMessage* CChatServiceBase::generateMessage(const wxString& body)
 {
     // コンテンツの更新
-
     CResponseData data(-1, m_user->getUserName(), body,
             m_user->getChannelName(), time(NULL));
     CChatMessage* log = new CChatMessage();

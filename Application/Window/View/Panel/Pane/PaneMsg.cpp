@@ -11,7 +11,7 @@ namespace CornStarch
 {
 ;
 
-const int CPaneMsg::PANE_MSG_ID = 10000;
+//const int CPaneMsg::PANE_MSG_ID = 10000;
 // イベントテーブル
 BEGIN_EVENT_TABLE(CPaneMsg, CLinkableRichTextCtrl) //
 EVT_SCROLLWIN( CPaneMsg::OnScroll)
@@ -20,7 +20,7 @@ END_EVENT_TABLE()
 
 const wxColour CPaneMsg::COLOR_LIGHT_YELLOW = wxColour(255, 255, 180);
 CPaneMsg::CPaneMsg(void) :
-        m_beforeScroolHeight(0), m_isScrollingBack(false)
+        m_beforeScroolHeight(0), m_isScrollingBack(false),m_lastDrawDateLine("")
 {
 }
 
@@ -34,12 +34,12 @@ CPaneMsg::~CPaneMsg(void)
 void CPaneMsg::init(wxWindow* parent)
 {
     // 画面の初期化
-    Create(parent, CPaneMsg::PANE_MSG_ID, wxEmptyString, wxDefaultPosition,
+    Create(parent, wxID_ANY, wxEmptyString, wxDefaultPosition,
             wxDefaultSize,
             wxRE_MULTILINE | wxRE_READONLY |  wxVSCROLL );
 
     // フォント設定
-    this->SetFont(wxFont(10, wxDEFAULT, wxNORMAL, wxNORMAL));
+    this->SetFont(wxFont(12, wxDEFAULT, wxNORMAL, wxNORMAL));
 
     this->setNavigateHaldler();
 
@@ -94,44 +94,34 @@ void CPaneMsg::pushLog(const CChatMessage* messageLog)
         writeColoredText("(" + name + ") : ", COLOR_BLUE); // 名前を青で表示
     }
     writeColoredText(body, *wxBLACK);
+
+    drawDateLine(messageLog->getTime("%Y/%m/%d(%a)"));
 }
 
-// メッセージを表示する
-void CPaneMsg::displayMessages(const vector<CMessage*>& messages,
-        const CNickTable& nickTable)
-{
-    m_isScrollingBack = false;
-    m_beforeScroolHeight = 0;
-
-    this->Freeze();
-    this->Clear();
-    GetCaret()->Hide();
-    int size = (int) messages.size();
-    for (int i = 0; i < size; i++){
-        CMessage* log = messages[i];
-        wxString nickName = nickTable.getNickname(log->getUserName());
-        log->setNick(nickName);
-        pushLog(log);
-        if (i < size - 1){
-            drawDateLine(messages[i]->getTime("%Y/%m/%d(%a)"),
-                    messages[i + 1]->getTime("%Y/%m/%d(%a)"));
-        }
-    }
-    this->Thaw();
-    this->ShowPosition(this->GetLastPosition());
-}
 
 // 必要に応じて日付変更線を描画
-void CPaneMsg::drawDateLine(const wxString& now, const wxString& next)
+void CPaneMsg::drawDateLine(const wxString& now)
 {
-    if (now == next){
+    if(m_lastDrawDateLine=="")
+    {
+        m_lastDrawDateLine = now;
+    }
+    if (now == m_lastDrawDateLine){
         return;
     }
 
     this->Newline();
-    AppendText("------" + next + "--------");
     this->Newline();
+    AppendText("------" + now + "--------");
     this->Newline();
+    m_lastDrawDateLine = now;
 }
 
+void CPaneMsg::setConfiguration(const CServiceConfiguration* configuration)
+{
+    m_configuration = configuration;
+
+    // フォント設定
+    this->SetFont(wxFont(m_configuration->getFontSize(), wxDEFAULT, wxNORMAL, wxNORMAL));
+}
 }

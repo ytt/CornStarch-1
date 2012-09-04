@@ -85,11 +85,10 @@ private:
     // 終了
     void onQuit(wxCommandEvent& event);
 
+    // コピー
+    void onCopy(wxCommandEvent& event);
     // 検索
     void onFind(wxCommandEvent& event);
-
-    // 全てを選択
-    void onSelectAll(wxCommandEvent& event);
 
     // 　サービス登録
     void onServiceRegister(wxCommandEvent& event);

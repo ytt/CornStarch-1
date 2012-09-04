@@ -31,7 +31,7 @@ public:
     virtual ~CPaneMessage();
 
     void displayMessages(const std::vector<CMessage*>& messages,
-        const CNickTable& nickTable);
+        const CNickTable& nickTable,const CServiceConfiguration* configuration);
     void clear();
     void pushLog(const CMessage* log);
     void clearUnreadBackgroundColor();

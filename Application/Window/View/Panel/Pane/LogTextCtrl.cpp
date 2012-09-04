@@ -89,7 +89,6 @@ void CLogTextCtrl::pushLog(const CPartMessage* partLog)
 // メンバー情報更新ログを表示
 void CLogTextCtrl::pushLog(const CMemberMessage* memberLog)
 {
-    //CMemberData member = memberLog.getLog();
     writeColoredText(
             memberLog->getNick() + "がニックネームを" + memberLog->getNickName()
                     + "に変更しました", COLOR_GREEN);
@@ -98,7 +97,6 @@ void CLogTextCtrl::pushLog(const CMemberMessage* memberLog)
 // トピック変更ログを表示
 void CLogTextCtrl::pushLog(const CTopicMessage* topicLog)
 {
-    //CChannelData channel = topicLog.getLog();
     writeColoredText(
             topicLog->getChannelName() + "のトピックが" + topicLog->getTopic()
                     + "に変更されました", COLOR_GREEN);

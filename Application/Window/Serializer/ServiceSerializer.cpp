@@ -1,4 +1,6 @@
 ﻿#include "ServiceSerializer.hpp"
+#include "../Service/ServiceConfiguration.hpp"
+
 #ifndef _WIN32
 
 using namespace std;
@@ -128,6 +130,7 @@ CChatServiceBase* CServiceSerializer::newService(wxXmlNode* node,
     service->setName(name);
     service->setPort(port);
     service->setHost(host);
+    service->setConfiguration(new CServiceConfiguration());
     service->setSavedChannels(channels);
     service->registerUserBasiscEncoded(user, pass);
     service->connect();

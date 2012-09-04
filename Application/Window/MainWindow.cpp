@@ -79,8 +79,8 @@ void CMainWindow::onFind(wxCommandEvent& event)
 {
 
 }
-// 全てを選択
-void CMainWindow::onSelectAll(wxCommandEvent& event)
+// コピー
+void CMainWindow::onCopy(wxCommandEvent& event)
 {
 
 }
@@ -110,7 +110,7 @@ void CMainWindow::updateMessageView(int connectionId, const wxString& channel)
 
         // メッセージを表示
         m_view->displayMessages(service->getLogs(channel),
-                service->getNickTable());
+                service->getNickTable(),service->getConfiguration());
 
         // 未読リセット
         CChannelStatus* channelStatus = service->getChannel(channel);

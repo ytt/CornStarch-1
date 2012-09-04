@@ -56,7 +56,7 @@ void CServiceHolder::addNewService(CChatServiceBase* service,
     service->init(hander);
     m_services.insert(
             map<int, CChatServiceBase*>::value_type(service->getId(), service));
-    if (service->isAutoConnect()){
+    if (service->getConfiguration()->isAutoConnect()){
         service->connect();
     }
 }

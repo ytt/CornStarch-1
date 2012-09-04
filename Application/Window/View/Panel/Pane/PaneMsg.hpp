@@ -7,6 +7,7 @@
 #include <map>
 #include "../../../Service/NickTable.hpp"
 #include "LogTextCtrl.hpp"
+#include "../../../Service/ServiceConfiguration.hpp"
 
 namespace CornStarch
 {;
@@ -14,12 +15,16 @@ namespace CornStarch
 // メッセージ表示用ペイン
 class CPaneMsg : public CLogTextCtrl
 {
-    static const int PANE_MSG_ID;
     static const wxColour COLOR_LIGHT_YELLOW;
 
-
+    // 現在スクロールしているか
     bool m_isScrollingBack;
+    // 前回のスクロール位置
     int m_beforeScroolHeight;
+    // 最後に書き込んだ日付
+    wxString m_lastDrawDateLine;
+    // 表示設定
+    const CServiceConfiguration* m_configuration;
 protected:
 
     void OnScroll(wxScrollWinEvent &event);
@@ -29,21 +34,18 @@ protected:
     void pushLog(const CChatMessage* messageLog);
 public:
     void pushLog(const CMessage* log);
-
     CPaneMsg(void);
     ~CPaneMsg(void);
-
     // 初期化を行う
     void init(wxWindow* parent);
-    // メッセージを再描画する
-    void displayMessages(const std::vector<CMessage*>& messages,
-        const CNickTable& nickTable);
-
+    // 未読背景のリセット
     void clearUnreadBackgroundColor();
-private:
 
+    // 表示コンフィグの設定
+    void setConfiguration(const CServiceConfiguration* configuration);
+private:
     // 必要に応じて日付変更線を描画
-    void drawDateLine(const wxString& now, const wxString& next);
+    void drawDateLine(const wxString& now);
 };
 
 }

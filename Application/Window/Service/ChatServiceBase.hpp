@@ -5,6 +5,7 @@
 #include "IConnection.hpp"
 #include "ICommandInvoker.hpp"
 #include "Message/ChatMessage.hpp"
+#include "ServiceConfiguration.hpp"
 
 namespace CornStarch
 {
@@ -34,13 +35,13 @@ protected:
     IUser* m_user; // ユーザ情報
     CNickTable* m_nickTable; // ニックネームテーブル
 
+    CServiceConfiguration* m_configuration; // サービスの設定項目
     // 名前
     wxString m_name;
     // ID
     int m_id;
 
-    // 開始後すぐに接続するか
-    bool m_isAutoConnect;
+
     // チャットの種類
     CHAT_TYPE m_type;
     // 接続状態
@@ -100,7 +101,7 @@ public:
     {
         return m_connect->getHost();
     }
-    // コマンドインヴォーカーの取得。
+    // コマンドの取得。
     ICommandInvoker* getCommandInvoker() const
     {
         return m_commandInvoker;
@@ -126,20 +127,19 @@ public:
     {
         return m_type;
     }
+    CServiceConfiguration* getConfiguration() const
+     {
+         return m_configuration;
+     }
 
+     void setConfiguration(CServiceConfiguration* configuration)
+     {
+         m_configuration = configuration;
+     }
     // ユーザーの取得
     IUser* getUser() const
     {
         return m_user;
-    }
-    bool isAutoConnect() const
-    {
-        return m_isAutoConnect;
-    }
-
-    void setAutoConnect(bool isAutoConnect)
-    {
-        m_isAutoConnect = isAutoConnect;
     }
     // 初期化を行う
     virtual void init(wxEvtHandler* handler) = 0;

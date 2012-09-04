@@ -65,22 +65,17 @@ void CMainPanel::init(wxWindow* parent)
 
 // メッセージペインにメッセージを表示
 void CMainPanel::displayMessages(const vector<CMessage*>& messages,
-        const CNickTable& nickTable)
+        const CNickTable& nickTable,const CServiceConfiguration* configuration)
 {
     m_messagePane->Show(false);
-    m_messagePane->displayMessages(messages, nickTable);
+    m_messagePane->displayMessages(messages, nickTable,configuration);
     m_messagePane->Show(true);
-//    m_msgPane->Show(false);
-//    m_msgPane->displayMessages(messages, nickTable);
-//    m_msgPane->Show(true);
 
 }
 void CMainPanel::addMessage(const CMessage* message)
 {
     m_messagePane->pushLog(message);
     m_messagePane->clearUnreadBackgroundColor();
-//    m_msgPane->pushLog(message);
-//    m_msgPane->clearUnreadBackgroundColor();
 }
 
 void CMainPanel::addUnreadMessage(const CChatMessage* message)

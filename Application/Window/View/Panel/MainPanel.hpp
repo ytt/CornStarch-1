@@ -32,7 +32,7 @@ public:
 
     // メッセージペインにメッセージを表示
     void displayMessages(const std::vector<CMessage*>& messages,
-            const CNickTable& nickTable);
+            const CNickTable& nickTable,const CServiceConfiguration* configuration);
     // メッセージペインにメッセージを表示
     void addMessage(const CMessage* message);
 

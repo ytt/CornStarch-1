@@ -7,6 +7,7 @@
 #include <wx/checkbox.h>
 #include "../../Service/ChatServiceBase.hpp"
 
+#include <wx/richtext/richtextctrl.h>
 namespace CornStarch
 {
 ;

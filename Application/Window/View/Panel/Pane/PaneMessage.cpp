@@ -64,14 +64,16 @@ void CPaneMessage::init(wxWindow* parent)
 }
 
 void CPaneMessage::displayMessages(const std::vector<CMessage*>& messages,
-        const CNickTable& nickTable)
+        const CNickTable& nickTable,const CServiceConfiguration* configuration)
 {
 
     this->Freeze();
     m_allLogCtrl->Clear();
     m_chatLogCtrl->Clear();
     m_systemLogCtrl->Clear();
-
+    m_allLogCtrl->setConfiguration(configuration);
+    m_chatLogCtrl->setConfiguration(configuration);
+    m_systemLogCtrl->setConfiguration(configuration);
     int size = (int) messages.size();
     for (int i = 0; i < size; i++){
         CMessage* log = messages[i];
@@ -80,6 +82,9 @@ void CPaneMessage::displayMessages(const std::vector<CMessage*>& messages,
         pushLog(log);
     }
     this->Thaw();
+    m_allLogCtrl->ShowPosition(m_allLogCtrl->GetLastPosition());
+    m_chatLogCtrl->ShowPosition(m_chatLogCtrl->GetLastPosition());
+    m_chatLogCtrl->ShowPosition(m_chatLogCtrl->GetLastPosition());
 }
 
 void CPaneMessage::pushLog(const CMessage* log)

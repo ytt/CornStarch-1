@@ -33,6 +33,7 @@ void CAuthDialog::init(wxWindow* parent, const wxString& title)
     wxBoxSizer* bSizer9;
     bSizer9 = new wxBoxSizer(wxVERTICAL);
 
+
     wxBoxSizer* bSizer;
     bSizer = new wxBoxSizer(wxHORIZONTAL);
 
@@ -227,7 +228,8 @@ CChatServiceBase* CAuthDialog::getNewService(void) const
         service->setName(getServiceName());
         service->setHost(getHostName());
         service->setPort(getPort());
-        service->setAutoConnect(isStartSoon());
+        service->setConfiguration(new CServiceConfiguration());
+        service->getConfiguration()->setAutoConnect(isStartSoon());
         service->registerUser(getName(), getPass());
         return service;
     }
