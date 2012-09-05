@@ -48,6 +48,7 @@ CChatServiceBase* CServiceHolder::getService(int serviceId) const
     }
     return NULL;
 }
+// 新規サービスの追加
 void CServiceHolder::addNewService(CChatServiceBase* service,
         wxEvtHandler* hander)
 {

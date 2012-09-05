@@ -44,7 +44,7 @@ public:
 
     // メッセージ一覧を表示する
     void displayMessages(const std::vector<CMessage*>& messages,
-            const CNickTable& nickTable,const CServiceConfiguration* configuration);
+            const CNickTable& nickTable,const wxString& channelName,const CServiceConfiguration* configuration);
 
     // メッセージ一覧を表示する
     void addMessage(const CMessage* message);

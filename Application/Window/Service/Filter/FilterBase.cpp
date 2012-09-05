@@ -4,7 +4,7 @@
 namespace CornStarch
 {
 
-CFilterBase::CFilterBase()
+CFilterBase::CFilterBase():m_isAntiFilter(false)
 {
 
 }

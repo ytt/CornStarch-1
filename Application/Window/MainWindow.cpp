@@ -110,7 +110,7 @@ void CMainWindow::updateMessageView(int connectionId, const wxString& channel)
 
         // メッセージを表示
         m_view->displayMessages(service->getLogs(channel),
-                service->getNickTable(), service->getConfiguration());
+                service->getNickTable(), channel, service->getConfiguration());
 
         // 未読リセット
         CChannelStatus* channelStatus = service->getChannel(channel);
@@ -664,8 +664,13 @@ void CMainWindow::onGetChannels(CGetChannelEvent& event)
             event.getConnectionId());
     if (contents != NULL){
         // チャンネルの追加
-        contents->onGetChannels(event.getChannels());
-
+        vector<CChannelData*> channels = event.getChannels();
+        contents->onGetChannels(channels);
+        vector<CChannelData*>::iterator it = channels.begin();
+        while (it != channels.end()){
+            contents->getConfiguration()->addDefaultFilter((*it)->m_name);
+            it++;
+        }
         // 表示の更新
         updateChannelView(event.getConnectionId(),
                 contents->getCurrentChannel());
@@ -682,6 +687,7 @@ void CMainWindow::onJoinChannel(CJoinEvent& event)
     CChatServiceBase* contents = m_serviceHolder->getService(
             event.getConnectionId());
     contents->onJoinChannel(event.GetString());
+
 }
 
 // チャンネル離脱時

@@ -22,7 +22,7 @@ private:
     CPaneRecord* m_recordPane; // メッセージ一覧表示ペイン
     CPaneCn* m_channelPane; // チャンネル表示ペイン
     CPaneMember* m_memBox; // メンバ表示用リストボックス
-    CPaneMessage* m_messagePane;
+    CPaneMessage* m_messagePane; //メッセージ表示用ペイン
 public:
     CMainPanel(void);
     ~CMainPanel(void);
@@ -32,7 +32,7 @@ public:
 
     // メッセージペインにメッセージを表示
     void displayMessages(const std::vector<CMessage*>& messages,
-            const CNickTable& nickTable,const CServiceConfiguration* configuration);
+            const CNickTable& nickTable,const wxString& channelName,const CServiceConfiguration* configuration);
     // メッセージペインにメッセージを表示
     void addMessage(const CMessage* message);
 

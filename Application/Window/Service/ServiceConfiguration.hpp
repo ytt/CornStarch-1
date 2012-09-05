@@ -22,7 +22,8 @@ public:
     CServiceConfiguration();
     virtual ~CServiceConfiguration();
 
-    vector<IFilter*> getFilters(wxString channelName) const
+    void addDefaultFilter(const wxString& channelName);
+    vector<IFilter*> getFilters(const wxString& channelName) const
     {
         map<wxString, vector<IFilter*> >::const_iterator it = m_filters.find(
                 channelName);
@@ -51,6 +52,7 @@ public:
     {
         m_fontSize = fontSize;
     }
+
 };
 
 } /* namespace CornStarch */

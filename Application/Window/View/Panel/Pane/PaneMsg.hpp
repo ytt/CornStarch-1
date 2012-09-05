@@ -10,10 +10,11 @@
 #include "../../../Service/ServiceConfiguration.hpp"
 
 namespace CornStarch
-{;
+{
+;
 
 // メッセージ表示用ペイン
-class CPaneMsg : public CLogTextCtrl
+class CPaneMsg: public CLogTextCtrl
 {
     static const wxColour COLOR_LIGHT_YELLOW;
 
@@ -25,11 +26,17 @@ class CPaneMsg : public CLogTextCtrl
     wxString m_lastDrawDateLine;
     // 表示設定
     const CServiceConfiguration* m_configuration;
-protected:
 
+    // フィルター
+    const IFilter* m_filter;
+//    // フィルターに通るか
+//    bool isFilterPassed(const CMessage* message,const vector<IFilter*>& filters );
+protected:
+    // スクロールしたときのイベント
     void OnScroll(wxScrollWinEvent &event);
     // wxWindowイベントを処理させたいクラスに利用するマクロ
-    DECLARE_EVENT_TABLE();
+DECLARE_EVENT_TABLE()
+    ;
 
     void pushLog(const CChatMessage* messageLog);
 public:
@@ -41,6 +48,10 @@ public:
     // 未読背景のリセット
     void clearUnreadBackgroundColor();
 
+    void setFilter(const IFilter* filter)
+    {
+        m_filter = filter;
+    }
     // 表示コンフィグの設定
     void setConfiguration(const CServiceConfiguration* configuration);
 private:

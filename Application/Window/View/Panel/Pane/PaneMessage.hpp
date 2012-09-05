@@ -11,27 +11,24 @@
 #include "../../../Service/NickTable.hpp"
 #include "LogTextCtrl.hpp"
 #include "PaneMsg.hpp"
+#include "../../../Service/Filter/AllFilter.hpp"
 
 namespace CornStarch
 {
 class CPaneMessage : public wxNotebook
 {
     CPaneMsg* m_allLogCtrl;
-    CPaneMsg* m_systemLogCtrl;
-    CPaneMsg* m_chatLogCtrl;
+    CAllFilter* m_allFilter;
+    vector<CPaneMsg*> m_messagePanels;
 
-    wxPanel* m_panel1;
-    wxPanel* m_panel2;
-    wxPanel* m_panel3;
-
-    bool isFilterPassed(const CMessage* message,const vector<IFilter*>& filters );
+    CPaneMsg* createPage(const IFilter* filter, const CServiceConfiguration* configuration);
 public:
     void init(wxWindow* parent);
     CPaneMessage();
     virtual ~CPaneMessage();
 
     void displayMessages(const std::vector<CMessage*>& messages,
-        const CNickTable& nickTable,const CServiceConfiguration* configuration);
+        const CNickTable& nickTable,const wxString& channelName,const CServiceConfiguration* configuration);
     void clear();
     void pushLog(const CMessage* log);
     void clearUnreadBackgroundColor();

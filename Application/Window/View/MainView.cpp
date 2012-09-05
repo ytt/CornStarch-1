@@ -83,9 +83,9 @@ void CMainView::selectPreviousChannel(){
 }
 // メッセージ一覧を表示する
 void CMainView::displayMessages(const vector<CMessage*>& messages,
-        const CNickTable& nickTable,const CServiceConfiguration* configuration)
+        const CNickTable& nickTable,const wxString& channelName,const CServiceConfiguration* configuration)
 {
-    m_panel->displayMessages(messages, nickTable,configuration);
+    m_panel->displayMessages(messages, nickTable,channelName,configuration);
 }
 void CMainView::addMessage(const CMessage* message)
 {

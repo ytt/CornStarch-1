@@ -13,6 +13,7 @@ public:
     IFilter(){};
     virtual ~IFilter(){};
     virtual bool isValid(const CMessage* message) const = 0;
+    virtual wxString getName() const = 0;
 };
 
 } /* namespace CornStarch */

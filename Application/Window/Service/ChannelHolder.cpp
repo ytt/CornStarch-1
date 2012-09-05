@@ -27,9 +27,6 @@ void CChannelHolder::init(void)
 void CChannelHolder::setChannels(const vector<CChannelData*>& channels)
 {
     m_isLoaded = true;
-    // チャンネル一覧を空にする
-    //deleteChannels();
-
     size_t size = channels.size();
     for (size_t i = 0; i < size; i++){
 
@@ -81,8 +78,6 @@ bool CChannelHolder::hasReceivedChannel(void) const
 // チャンネルを追加する
 void CChannelHolder::setChannel(const wxString& channelName,const wxString& topic)
 {
-    //wxString name = channelName;
-    //wxString topic = channel.m_topic;
 
     // チャンネルが存在するとき、トピックの更新のみ行う
     if (m_channels.find(channelName) != m_channels.end()){

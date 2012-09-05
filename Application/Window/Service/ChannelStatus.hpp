@@ -15,8 +15,8 @@ private:
     CMemberVec* m_members; // メンバー一覧
     wxString m_channelName; // チャンネル名
     int m_unreadCount; // 未読数
-    CMessageHolder* m_logHolder;
-    bool m_isLoaded;
+    CMessageHolder* m_messageHolder; // メッセージホルダー
+    bool m_isLoaded; // 読み込まれたか。
 
 
 public:

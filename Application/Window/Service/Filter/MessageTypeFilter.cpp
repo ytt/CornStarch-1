@@ -14,7 +14,8 @@ CMessageTypeFilter::~CMessageTypeFilter()
 
 bool CMessageTypeFilter::isValid(const CMessage* message)const
 {
-    if (wxString(typeid ( *message ).name()) == m_typeInfoName)
+    wxString typeName =wxString(typeid ( *message ).name());
+    if (typeName == m_typeInfoName)
     {
         return !isAntiFilter();
     }

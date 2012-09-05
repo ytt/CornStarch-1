@@ -18,10 +18,13 @@ class CServiceHolder
 public:
     CServiceHolder();
     virtual ~CServiceHolder();
+    // サービスの削除
     void deleteService(int serviceId);
+    // チャンネルの削除
     void deleteChannel(int serviceId, wxString channel);
+    // 新規サービスの追加
     void addNewService(CChatServiceBase* service, wxEvtHandler* hander);
-
+    // サービスの取得
     CChatServiceBase* getService(int serviceId) const;
 
     map<int, CChatServiceBase*> getServices() const
@@ -48,8 +51,9 @@ public:
     {
         m_uniqueServiceId = uniqueServiceId;
     }
-
+    // 設定の読み込み
     void load(wxEvtHandler* handler);
+    // 設定の書き込み
     void save();
 };
 

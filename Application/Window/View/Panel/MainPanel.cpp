@@ -65,10 +65,10 @@ void CMainPanel::init(wxWindow* parent)
 
 // メッセージペインにメッセージを表示
 void CMainPanel::displayMessages(const vector<CMessage*>& messages,
-        const CNickTable& nickTable,const CServiceConfiguration* configuration)
+        const CNickTable& nickTable,const wxString& channelName,const CServiceConfiguration* configuration)
 {
     m_messagePane->Show(false);
-    m_messagePane->displayMessages(messages, nickTable,configuration);
+    m_messagePane->displayMessages(messages, nickTable,channelName,configuration);
     m_messagePane->Show(true);
 
 }

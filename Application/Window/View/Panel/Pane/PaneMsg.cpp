@@ -10,7 +10,6 @@ using namespace std;
 namespace CornStarch
 {
 ;
-
 //const int CPaneMsg::PANE_MSG_ID = 10000;
 // イベントテーブル
 BEGIN_EVENT_TABLE(CPaneMsg, CLinkableRichTextCtrl) //
@@ -20,7 +19,8 @@ END_EVENT_TABLE()
 
 const wxColour CPaneMsg::COLOR_LIGHT_YELLOW = wxColour(255, 255, 180);
 CPaneMsg::CPaneMsg(void) :
-        m_beforeScroolHeight(0), m_isScrollingBack(false),m_lastDrawDateLine("")
+        m_beforeScroolHeight(0), m_isScrollingBack(false), m_lastDrawDateLine(
+                "")
 {
 }
 
@@ -34,9 +34,8 @@ CPaneMsg::~CPaneMsg(void)
 void CPaneMsg::init(wxWindow* parent)
 {
     // 画面の初期化
-    Create(parent, wxID_ANY, wxEmptyString, wxDefaultPosition,
-            wxDefaultSize,
-            wxRE_MULTILINE | wxRE_READONLY |  wxVSCROLL );
+    Create(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize,
+            wxRE_MULTILINE | wxRE_READONLY | wxVSCROLL);
 
     // フォント設定
     this->SetFont(wxFont(12, wxDEFAULT, wxNORMAL, wxNORMAL));
@@ -63,17 +62,36 @@ void CPaneMsg::clearUnreadBackgroundColor()
 {
     int index = this->GetLastPosition();
 
-    this->SetStyle(0, index, wxTextAttr(wxNullColour, wxSystemSettings::GetColour(wxSYS_COLOUR_MENU)));
+    this->SetStyle(0, index,
+            wxTextAttr(wxNullColour,
+                    wxSystemSettings::GetColour(wxSYS_COLOUR_MENU)));
 }
 void CPaneMsg::pushLog(const CMessage* messageLog)
 {
-    GetCaret()->Hide();
-    this->MoveEnd();
-    CLogTextCtrl::pushLog(messageLog);
-    if (m_isScrollingBack == false){
-        this->ShowPosition(this->GetLastPosition());
+//    vector<IFilter*> filters = m_configuration->getFilters(
+//            messageLog->getChannelName());
+    if (m_filter->isValid(messageLog)){
+        GetCaret()->Hide();
+        this->MoveEnd();
+        CLogTextCtrl::pushLog(messageLog);
+        if (m_isScrollingBack == false){
+            this->ShowPosition(this->GetLastPosition());
+        }
     }
 }
+//bool CPaneMsg::isFilterPassed(const CMessage* message,
+//        const vector<IFilter*>& filters)
+//{
+//    vector<IFilter*>::const_iterator it = filters.begin();
+//    while (it != filters.end()){
+//        if ((*it)->isValid(message) == false){
+//            return false;
+//        }
+//        it++;
+//    }
+//    return true;
+//}
+
 void CPaneMsg::pushLog(const CChatMessage* messageLog)
 {
     drawDateLine(messageLog->getTime("%Y/%m/%d(%a)"));
@@ -98,12 +116,10 @@ void CPaneMsg::pushLog(const CChatMessage* messageLog)
 
 }
 
-
 // 必要に応じて日付変更線を描画
 void CPaneMsg::drawDateLine(const wxString& now)
 {
-    if(m_lastDrawDateLine=="")
-    {
+    if (m_lastDrawDateLine == ""){
         m_lastDrawDateLine = now;
     }
     if (now == m_lastDrawDateLine){
@@ -119,9 +135,12 @@ void CPaneMsg::drawDateLine(const wxString& now)
 
 void CPaneMsg::setConfiguration(const CServiceConfiguration* configuration)
 {
-    m_configuration = configuration;
-
-    // フォント設定
-    this->SetFont(wxFont(m_configuration->getFontSize(), wxDEFAULT, wxNORMAL, wxNORMAL));
+    if (configuration != NULL){
+        m_configuration = configuration;
+        // フォント設定
+        this->SetFont(
+                wxFont(m_configuration->getFontSize(), wxDEFAULT, wxNORMAL,
+                        wxNORMAL));
+    }
 }
 }

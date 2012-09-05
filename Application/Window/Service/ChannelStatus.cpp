@@ -14,7 +14,7 @@ CChannelStatus::CChannelStatus(void) :
 
 CChannelStatus::~CChannelStatus(void)
 {
-    delete m_logHolder;
+    delete m_messageHolder;
     delete m_members;
 }
 
@@ -23,8 +23,8 @@ CChannelStatus::~CChannelStatus(void)
 // 初期化を行う
 void CChannelStatus::init(void)
 {
-    m_logHolder = new CMessageHolder();
-    m_logHolder->setOriginalSource(true);
+    m_messageHolder = new CMessageHolder();
+    m_messageHolder->setOriginalSource(true);
     m_members = new CMemberVec();
 }
 
@@ -43,7 +43,7 @@ wxString CChannelStatus::getTopic(void) const
 // メッセージ一覧を取得する
 vector<CMessage*> CChannelStatus::getLog(void) const
 {
-    return m_logHolder->getLogs();
+    return m_messageHolder->getLogs();
 }
 
 // メンバー一覧を取得する
@@ -55,7 +55,7 @@ vector<CMemberData*> CChannelStatus::getMembers(void) const
 // メッセージを追加する
 void CChannelStatus::pushLog(CMessage* log)
 {
-    m_logHolder->pushLog(log);
+    m_messageHolder->pushLog(log);
 }
 
 // メンバーを追加する
@@ -86,7 +86,7 @@ void CChannelStatus::setMessages(const vector<CMessage*>& messages)
                 }
             }
         }
-        m_logHolder->setLogs(messages);
+        m_messageHolder->setLogs(messages);
         m_isLoaded = true;
     }
 }
@@ -111,7 +111,7 @@ bool CChannelStatus::hasReceivedMember(void) const
 // ID不明かつ同じ投稿内容のメッセージがあるか
 bool CChannelStatus::hasSameMessage(const CChatMessage* message) const
 {
-    vector<CMessage*> logs = m_logHolder->getLogs();
+    vector<CMessage*> logs = m_messageHolder->getLogs();
     size_t length = logs.size();
     for (size_t i = 0; i < length; i++){
 
@@ -133,7 +133,7 @@ void CChannelStatus::updateMessageId(const CChatMessage* message)
         return;
     }
 
-    vector<CMessage*> logs = m_logHolder->getLogs();
+    vector<CMessage*> logs = m_messageHolder->getLogs();
     size_t length = logs.size();
     for (size_t i = 0; i < length; i++){
 
@@ -164,7 +164,7 @@ void CChannelStatus::clearUnreadCount()
 {
     if (m_isLoaded){
         m_unreadCount = 0;
-        vector<CMessage*> logs = m_logHolder->getLogs();
+        vector<CMessage*> logs = m_messageHolder->getLogs();
         vector<CMessage*>::iterator it = logs.begin();
         while (it != logs.end()){
             CChatMessage* message = dynamic_cast<CChatMessage*>(*it);
