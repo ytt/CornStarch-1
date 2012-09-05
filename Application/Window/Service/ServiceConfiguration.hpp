@@ -16,22 +16,21 @@ class CServiceConfiguration
     // 文字サイズ
     int m_fontSize;
     // フィルター
-    map<wxString, vector<IFilter*> > m_filters;
+    map<wxString, vector<IFilter*>*> m_filters;
 
 public:
     CServiceConfiguration();
     virtual ~CServiceConfiguration();
 
     void addDefaultFilter(const wxString& channelName);
-    vector<IFilter*> getFilters(const wxString& channelName) const
+    vector<IFilter*>* getFilters(const wxString& channelName) const
     {
-        map<wxString, vector<IFilter*> >::const_iterator it = m_filters.find(
+        map<wxString, vector<IFilter*>*>::const_iterator it = m_filters.find(
                 channelName);
         if (it != m_filters.end()){
             return (*it).second;
         }
-        vector<IFilter*> emptyVector;
-        return emptyVector;
+        return NULL;
     }
 
     bool isAutoConnect() const
@@ -52,6 +51,10 @@ public:
     {
         m_fontSize = fontSize;
     }
+    // フィルターの追加
+    void addFilter(const wxString& channelName, IFilter* filter);
+    // フィルターの削除
+    void removeFilter(const wxString& channelName, const wxString filterName);
 
 };
 

@@ -87,6 +87,7 @@ void CMainView::displayMessages(const vector<CMessage*>& messages,
 {
     m_panel->displayMessages(messages, nickTable,channelName,configuration);
 }
+
 void CMainView::addMessage(const CMessage* message)
 {
     m_panel->addMessage(message);

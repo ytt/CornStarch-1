@@ -15,7 +15,6 @@ void CPaneMessage::init(wxWindow* parent)
 {
     Create(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
 
-
     m_allFilter = new CAllFilter();
     m_allFilter->setName("All");
     m_allLogCtrl = createPage(m_allFilter, NULL);
@@ -46,8 +45,11 @@ void CPaneMessage::displayMessages(const std::vector<CMessage*>& messages,
         const CNickTable& nickTable, const wxString& channelName,
         const CServiceConfiguration* configuration)
 {
+    vector<IFilter*>* filters = configuration->getFilters(channelName);
+    if (filters == NULL){
+        return;
+    }
     this->Freeze();
-    vector<IFilter*> filters = configuration->getFilters(channelName);
     m_messagePanels.clear();
     m_messagePanels.push_back(m_allLogCtrl);
     m_allLogCtrl->Clear();
@@ -55,14 +57,12 @@ void CPaneMessage::displayMessages(const std::vector<CMessage*>& messages,
     while (this->GetPageCount() != 1){
         this->DeletePage(1);
     }
-    vector<IFilter*>::iterator itFilter = filters.begin();
-    while (itFilter != filters.end()){
-        CPaneMsg* msgPanel =createPage(*itFilter, configuration);
+    vector<IFilter*>::iterator itFilter = filters->begin();
+    while (itFilter != filters->end()){
+        CPaneMsg* msgPanel = createPage(*itFilter, configuration);
         m_messagePanels.push_back(msgPanel);
         itFilter++;
     }
-    this->Refresh();
-    this->Update();
 
     int size = (int) messages.size();
     for (int i = 0; i < size; i++){

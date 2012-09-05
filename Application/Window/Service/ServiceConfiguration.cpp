@@ -15,36 +15,67 @@ CServiceConfiguration::CServiceConfiguration() :
 
 CServiceConfiguration::~CServiceConfiguration()
 {
-    map<wxString, vector<IFilter*> >::iterator it = m_filters.begin();
+    map<wxString, vector<IFilter*>* >::iterator it = m_filters.begin();
     while (it != m_filters.end()){
-        int size = (int) (*it).second.size();
+        int size = (int) (*it).second->size();
         for (int i = 0; i < size; i++){
-            delete (*it).second[i];
+            delete (*(*it).second)[i];
         }
+        delete (*it).second;
         ++it;
     }
 }
 void CServiceConfiguration::addDefaultFilter(const wxString& channelName)
 {
-    map<wxString, vector<IFilter*> >::const_iterator it = m_filters.find(
+    map<wxString, vector<IFilter*>* >::const_iterator it = m_filters.find(
             channelName);
     if (it == m_filters.end()){
-        vector<IFilter*> filters;
+        vector<IFilter*>* filters = new vector<IFilter*>();
 
         CMessageTypeFilter* filterChat = new CMessageTypeFilter();
         filterChat->setName("Chat");
-        filterChat->setTypeInfoName(wxString(typeid (CChatMessage).name()));
-        filters.push_back(filterChat);
+        filterChat->setTypeInfoName(wxString(typeid(CChatMessage).name()));
+        filters->push_back(filterChat);
 
         CMessageTypeFilter* filterSystem = new CMessageTypeFilter();
         filterSystem->setName("System");
-        filterSystem->setTypeInfoName(wxString(typeid (CChatMessage).name()));
+        filterSystem->setTypeInfoName(wxString(typeid(CChatMessage).name()));
         filterSystem->setAntiFilter(true);
-        filters.push_back(filterSystem);
+        filters->push_back(filterSystem);
 
         m_filters.insert(
-                map<wxString, vector<IFilter*> >::value_type(channelName,
+                map<wxString, vector<IFilter*>* >::value_type(channelName,
                         filters));
     }
+}
+
+void CServiceConfiguration::addFilter(const wxString& channelName,
+        IFilter* filter)
+{
+//    map<wxString, vector<IFilter*> >::const_iterator it = m_filters.find(
+//            channelName);
+//    if (it != m_filters.end()){
+//        vector<IFilter*> filtesrs =(*it).second;
+//
+//    }
+}
+void CServiceConfiguration::removeFilter(const wxString& channelName,
+        const wxString filterName)
+{
+//    map<wxString, vector<IFilter*> >::const_iterator it = m_filters.find(
+//            channelName);
+//    if (it != m_filters.end()){
+//        vector<IFilter*>::iterator itFilter = (*it).second.begin();
+//        while(itFilter != (*it).second.end())
+//        {
+//            if((*itFilter)->getName() == channelName)
+//            {
+//                delete (*itFilter);
+//                (*it).second.erase(itFilter)
+//                break;
+//            }
+//            itFilter++;
+//        }
+//    }
 }
 } /* namespace CornStarch */

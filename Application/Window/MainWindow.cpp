@@ -66,7 +66,7 @@ void CMainWindow::initHandle(void)
     this->Connect(m_view->getPostPaneID(), wxEVT_COMMAND_TEXT_ENTER,
             wxCommandEventHandler(CMainWindow::onEnter));
 
-//    // テキスト入力時
+    // テキスト入力時
     this->Connect(m_view->getPostPaneID(), wxEVT_COMMAND_TEXT_UPDATED,
             wxCommandEventHandler(CMainWindow::onTextUpdated));
 
@@ -265,6 +265,7 @@ void CMainWindow::onPart(wxCommandEvent& event)
         return;
     }
 
+    // チャンネル名のベクターを作成
     vector<wxString> channelNames;
     vector<CChannelStatus*> channels = contents->getChannels();
     vector<CChannelStatus*>::iterator it = channels.begin();
@@ -324,7 +325,28 @@ void CMainWindow::onAddTab(wxCommandEvent& event)
 // タブの削除
 void CMainWindow::onRemoveTab(wxCommandEvent& event)
 {
+    CChatServiceBase* contents = m_serviceHolder->getService(
+            m_serviceHolder->getCurrentServiceId());
+    if (contents == NULL || contents->getCurrentChannel() == ""){
+        return;
+    }
+    vector<IFilter*>* filters = contents->getConfiguration()->getFilters(
+            contents->getCurrentChannel());
 
+    vector<wxString> filterNames;
+    vector<IFilter*>::iterator it = filters->begin();
+    while (it != filters->end()){
+        filterNames.push_back((*it)->getName());
+        it++;
+    }
+
+    // ダイアログを表示
+    CSelectionDialog dialog;
+    dialog.init(this, "タブ名を指定", "チャンネル名：", contents->getCurrentChannel(),
+            "タブ名：", filterNames);
+    if (dialog.ShowModal() == wxID_OK){
+        contents->getConfiguration()->removeFilter(contents->getCurrentChannel(), dialog.getValue());
+    }
 }
 // 次の未読チャンネルを選択。
 void CMainWindow::onMoveToUnread(wxCommandEvent& event)
