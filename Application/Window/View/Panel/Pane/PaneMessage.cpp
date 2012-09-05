@@ -46,6 +46,7 @@ void CPaneMessage::displayMessages(const std::vector<CMessage*>& messages,
         const CNickTable& nickTable, const wxString& channelName,
         const CServiceConfiguration* configuration)
 {
+    this->Freeze();
     vector<IFilter*> filters = configuration->getFilters(channelName);
     m_messagePanels.clear();
     m_messagePanels.push_back(m_allLogCtrl);
@@ -70,6 +71,7 @@ void CPaneMessage::displayMessages(const std::vector<CMessage*>& messages,
         log->setNick(nickName);
         pushLog(log);
     }
+    this->Thaw();
     vector<CPaneMsg*>::iterator it = m_messagePanels.begin();
     while (it != m_messagePanels.end()){
         (*it)->ShowPosition((*it)->GetLastPosition());
