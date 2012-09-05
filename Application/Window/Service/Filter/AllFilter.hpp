@@ -6,7 +6,7 @@
 #include "FilterBase.hpp"
 namespace CornStarch
 {
-
+// 全てを通すフィルタ
 class CAllFilter:public CFilterBase
 {
 public:

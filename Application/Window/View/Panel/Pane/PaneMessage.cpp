@@ -92,7 +92,6 @@ void CPaneMessage::clearUnreadBackgroundColor()
         (*it)->clearUnreadBackgroundColor();
         it++;
     }
-
 }
 void CPaneMessage::clear()
 {

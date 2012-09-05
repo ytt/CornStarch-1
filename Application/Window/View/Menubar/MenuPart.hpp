@@ -26,6 +26,9 @@ public:
         MENU_CHANNEL_JOIN,
         MENU_CHANNEL_PART,
         MENU_CHANNEL_TOPIC_CHANGE,
+
+        MENU_CHANNEL_ADD_TAB,
+        MENU_CHANNEL_REMOVE_TAB,
     };
 
 protected:

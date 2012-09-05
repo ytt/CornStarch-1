@@ -4,7 +4,7 @@
 #include "FilterBase.hpp"
 namespace CornStarch
 {
-
+// メッセージタイプでのフィルタ
 class CMessageTypeFilter:public CFilterBase
 {
     wxString m_typeInfoName;

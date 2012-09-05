@@ -103,6 +103,8 @@ BEGIN_EVENT_TABLE(CMainWindow, wxFrame)
     EVT_MENU(CMenuPart::MENU_CHANNEL_JOIN, CMainWindow::onJoin) // チャンネルに参加
     EVT_MENU(CMenuPart::MENU_CHANNEL_PART, CMainWindow::onPart) // チャンネルから離脱
     EVT_MENU(CMenuPart::MENU_CHANNEL_TOPIC_CHANGE, CMainWindow::onChangeTopic) // トピック変更
+    EVT_MENU(CMenuPart::MENU_CHANNEL_ADD_TAB, CMainWindow::onAddTab) // タブの追加
+    EVT_MENU(CMenuPart::MENU_CHANNEL_REMOVE_TAB, CMainWindow::onRemoveTab) // タブの削除
 
     EVT_MENU(CMenuPart::MENU_SERVER_MOVETO_UNREAD, CMainWindow::onMoveToUnread) // 未読へ移動
     EVT_MENU(CMenuPart::MENU_UPDATE, CMainWindow::onUpdateDisplay) // 更新

@@ -4,10 +4,12 @@
 
 namespace CornStarch
 {
-
+// フィルターの基底クラス
 class CFilterBase:public IFilter
 {
+    // フィルタ名
     wxString m_name;
+    // フィルタが有効時でないときのフィルタ
     bool m_isAntiFilter;
 
 public:

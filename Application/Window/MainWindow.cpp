@@ -5,6 +5,7 @@
 #include "View/Dialog/AuthDialog.hpp"
 #include "View/Dialog/NickChangeDialog.hpp"
 #include "View/Dialog/ChannelDialog.hpp"
+#include "View/Dialog/SelectionDialog.hpp"
 
 using namespace std;
 
@@ -263,11 +264,21 @@ void CMainWindow::onPart(wxCommandEvent& event)
     if (!contents->IsConnected()){
         return;
     }
+
+    vector<wxString> channelNames;
+    vector<CChannelStatus*> channels = contents->getChannels();
+    vector<CChannelStatus*>::iterator it = channels.begin();
+    while (it != channels.end()){
+        channelNames.push_back((*it)->getChannelName());
+        it++;
+    }
+
     // ダイアログを表示
-    CChannelDialog dialog;
-    dialog.init(this, "チャンネル名を指定", contents->getName());
+    CSelectionDialog dialog;
+    dialog.init(this, "チャンネル名を指定", "サーバー名：", contents->getName(), "チャンネル名：",
+            channelNames);
     if (dialog.ShowModal() == wxID_OK){
-        contents->partChannel(dialog.getChannelName());
+        contents->partChannel(dialog.getValue());
     }
 }
 
@@ -304,11 +315,23 @@ void CMainWindow::onFocusNextText(wxThreadEvent& event)
             m_inputManager->getAutoCompletionText(m_view->getTextPostPane(),
                     service, getCommandList()));
 }
+// タブの追加
+void CMainWindow::onAddTab(wxCommandEvent& event)
+{
+
+}
+
+// タブの削除
+void CMainWindow::onRemoveTab(wxCommandEvent& event)
+{
+
+}
 // 次の未読チャンネルを選択。
 void CMainWindow::onMoveToUnread(wxCommandEvent& event)
 {
     moveToUnread();
 }
+
 void CMainWindow::moveToUnread()
 {
     map<int, CChatServiceBase*> services = m_serviceHolder->getServices();
@@ -537,7 +560,9 @@ void CMainWindow::onChannelRightClicked(CChannelSelectEvent& event)
         if (service->IsConnected()){
             menu.Append(Id_Disconnect, "サーバの切断");
         }
-        menu.AppendSeparator();
+        if (service->IsConnected()){
+            menu.AppendSeparator();
+        }
     }
     if (service->IsConnected()){
         menu.Append(Id_AddChannel, "チャンネルの追加");

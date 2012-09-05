@@ -13,7 +13,7 @@ namespace CornStarch
 ;
 
 // ビューコントローラとなるウィンドウクラス
-class CMainWindow: public wxFrame,public CClientCommandInvoker
+class CMainWindow: public wxFrame, public CClientCommandInvoker
 {
 private:
 
@@ -71,7 +71,7 @@ private:
     void showAddChannleDialog(int serviceId);
 
     // トピック変更ダイアログを表示する
-    void showChangeTopicDialog(int serviceId,wxString channelName);
+    void showChangeTopicDialog(int serviceId, wxString channelName);
 
     // ニックネーム変更ダイアログを表示する。
     void showChangeNicknameDialog(int serviceId);
@@ -88,7 +88,7 @@ private:
     // 拡大
     void onZoom(wxCommandEvent& event);
     // 縮小
-        void onShrink(wxCommandEvent& event);
+    void onShrink(wxCommandEvent& event);
     // コピー
     void onCopy(wxCommandEvent& event);
     // 検索
@@ -117,6 +117,12 @@ private:
 
     // 未読移動
     void onMoveToUnread(wxCommandEvent& event);
+
+    // タブの追加
+    void onAddTab(wxCommandEvent& event);
+
+    // タブの削除
+    void onRemoveTab(wxCommandEvent& event);
 private:
     // 画面系
 
