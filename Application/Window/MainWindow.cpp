@@ -6,6 +6,7 @@
 #include "View/Dialog/NickChangeDialog.hpp"
 #include "View/Dialog/ChannelDialog.hpp"
 #include "View/Dialog/SelectionDialog.hpp"
+#include "View/Dialog/FilterDialog.hpp"
 
 using namespace std;
 
@@ -319,7 +320,30 @@ void CMainWindow::onFocusNextText(wxThreadEvent& event)
 // タブの追加
 void CMainWindow::onAddTab(wxCommandEvent& event)
 {
+    CChatServiceBase* contents = m_serviceHolder->getService(
+               m_serviceHolder->getCurrentServiceId());
+       if (contents == NULL || contents->getCurrentChannel() == ""){
+           return;
+       }
+       CChannelStatus* channel = contents->getChannel(contents->getCurrentChannel());
 
+       vector<wxString> userNames;
+       vector<CMemberData*> members = channel->getMembers();
+       vector<CMemberData*>::iterator it = members.begin();
+       while (it != members.end()){
+           userNames.push_back((*it)->m_nick);
+           it++;
+       }
+
+       // ダイアログを表示
+       CFilterDialog dialog;
+       dialog.init(this, contents->getCurrentChannel(), userNames);
+       if (dialog.ShowModal() == wxID_OK){
+           contents->getConfiguration()->addFilter(
+                   contents->getCurrentChannel(), dialog.getFilter());
+           updateMessageView(m_serviceHolder->getCurrentServiceId(),
+                   contents->getCurrentChannel());
+       }
 }
 
 // タブの削除
