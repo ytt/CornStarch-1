@@ -345,7 +345,10 @@ void CMainWindow::onRemoveTab(wxCommandEvent& event)
     dialog.init(this, "タブ名を指定", "チャンネル名：", contents->getCurrentChannel(),
             "タブ名：", filterNames);
     if (dialog.ShowModal() == wxID_OK){
-        contents->getConfiguration()->removeFilter(contents->getCurrentChannel(), dialog.getValue());
+        contents->getConfiguration()->removeFilter(
+                contents->getCurrentChannel(), dialog.getValue());
+        updateMessageView(m_serviceHolder->getCurrentServiceId(),
+                contents->getCurrentChannel());
     }
 }
 // 次の未読チャンネルを選択。
