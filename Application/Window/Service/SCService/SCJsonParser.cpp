@@ -279,9 +279,9 @@ CSCMessageType::SC_MESSAGE_TYPE CSCJsonParser::getStreamType(const value& val) c
     if (str == "message"){ // メッセージが投稿
         return CSCMessageType::MESSAGE;
     } else if (str == "delete_subscribing"){ // チャンネルにメンバー参加
-        return CSCMessageType::JOIN;
-    } else if (str == "subscribing"){ // チャンネルからメンバー離脱
         return CSCMessageType::PART;
+    } else if (str == "subscribing"){ // チャンネルからメンバー離脱
+        return CSCMessageType::JOIN;
     } else if (str == "channel"){ // チャンネル情報更新
         return CSCMessageType::TOPIC;
     } else if (str == "user"){ // ユーザ情報変更

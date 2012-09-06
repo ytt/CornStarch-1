@@ -85,7 +85,7 @@ void CMainWindow::onFind(wxCommandEvent& event)
 void CMainWindow::onCopy(wxCommandEvent& event)
 {
     wxWindow* focus = wxWindow::FindFocus();
-    CPaneMsg* paneMsg = dynamic_cast<CPaneMsg*>(focus);
+    wxRichTextCtrl* paneMsg = dynamic_cast<wxRichTextCtrl*>(focus);
     if(paneMsg != NULL)
     {
         paneMsg->Copy();
@@ -95,7 +95,7 @@ void CMainWindow::onCopy(wxCommandEvent& event)
 void CMainWindow::onSelectAll(wxCommandEvent& event)
 {
     wxWindow* focus = wxWindow::FindFocus();
-    CPaneMsg* paneMsg = dynamic_cast<CPaneMsg*>(focus);
+    wxRichTextCtrl* paneMsg = dynamic_cast<wxRichTextCtrl*>(focus);
     if(paneMsg != NULL)
     {
         paneMsg->SelectAll();
