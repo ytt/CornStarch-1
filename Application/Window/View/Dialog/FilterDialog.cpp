@@ -1,9 +1,21 @@
 #include "FilterDialog.hpp"
 #include "../../Service/Filter/UserNameFilter.hpp"
+#include "../../Service/Filter/MessageTypeFilter.hpp"
+#include "../../Service/Message/ChatMessage.hpp"
+#include "../../Service/Message/InviteMessage.hpp"
+#include "../../Service/Message/JoinMessage.hpp"
+#include "../../Service/Message/PartMessage.hpp"
+#include "../../Service/Message/TopicMessage.hpp"
+#include "../../Service/Message/MemberMessage.hpp"
 
 namespace CornStarch
 {
-
+BEGIN_EVENT_TABLE(CFilterDialog, wxEvtHandler) // Event宣言
+EVT_CHOICE(CHOICE_ID, CFilterDialog::onChoiceChanged)
+EVT_BUTTON( wxID_OK,CFilterDialog::onOKCancel)
+EVT_BUTTON( wxID_CANCEL,CFilterDialog::onClickCancel)
+EVT_CLOSE( CFilterDialog::onClose)
+END_EVENT_TABLE()
 CFilterDialog::CFilterDialog()
 {
 }
@@ -44,7 +56,8 @@ void CFilterDialog::init(wxWindow* parent, const wxString& channelName,
     m_staticTextName->Wrap(-1);
     bSizerName->Add(m_staticTextName, 0, wxALIGN_CENTER, 5);
 
-    m_textCtrlName=  new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_textCtrlName = new wxTextCtrl(this, wxID_ANY, wxEmptyString,
+            wxDefaultPosition, wxDefaultSize, 0);
 
     bSizerName->Add(m_textCtrlName, 0, wxALL, 5);
 
@@ -59,28 +72,45 @@ void CFilterDialog::init(wxWindow* parent, const wxString& channelName,
     bSizer12->Add(m_staticText2, 0, wxALIGN_CENTER, 5);
     wxString m_choiceTypeChoices[] = { wxT("ユーザー"), wxT("メッセージ") };
     int m_choiceTypeNChoices = sizeof(m_choiceTypeChoices) / sizeof(wxString);
-    m_choiceType = new wxChoice(this, wxID_ANY, wxDefaultPosition,
+    m_choiceType = new wxChoice(this, CHOICE_ID, wxDefaultPosition,
             wxDefaultSize, m_choiceTypeNChoices, m_choiceTypeChoices, 0);
-    m_choiceType->SetSelection(0);
     bSizer12->Add(m_choiceType, 0, wxALIGN_CENTER, 5);
 
     bSizer9->Add(bSizer12, 1, 0, 5);
 
-    wxBoxSizer* bSizer16;
-    bSizer16 = new wxBoxSizer(wxHORIZONTAL);
+    bSizerTarget = new wxBoxSizer(wxHORIZONTAL);
 
     wxStaticText* m_staticTextTarget = new wxStaticText(this, wxID_ANY,
             wxT("対象："), wxDefaultPosition, wxSize(100, -1), wxALIGN_RIGHT);
     m_staticTextTarget->Wrap(-1);
-    bSizer16->Add(m_staticTextTarget, 0, wxALIGN_CENTER_VERTICAL, 5);
+    bSizerTarget->Add(m_staticTextTarget, 0, wxALIGN_CENTER_VERTICAL, 5);
 
     wxString* m_choiceUsers = &choices[0];
     m_comboBoxTarget = new wxComboBox(this, wxID_ANY, wxEmptyString,
             wxDefaultPosition, wxDefaultSize, choices.size(), m_choiceUsers, 0);
-    bSizer16->Add(m_comboBoxTarget, 0, wxALIGN_CENTER, 5);
+    bSizerTarget->Add(m_comboBoxTarget, 0, wxALIGN_CENTER, 5);
 
-    bSizer9->Add(bSizer16, 1, wxEXPAND, 5);
+    bSizer9->Add(bSizerTarget, 1, wxEXPAND, 5);
 
+    bSizerType = new wxBoxSizer(wxHORIZONTAL);
+
+    wxStaticText* m_staticTextMessageType = new wxStaticText(this, wxID_ANY,
+            wxT("タイプ："), wxDefaultPosition, wxSize(100, -1), wxALIGN_RIGHT);
+    m_staticTextMessageType->Wrap(-1);
+    bSizerType->Add(m_staticTextMessageType, 0, wxALIGN_CENTER_VERTICAL, 5);
+
+    wxString m_choiceMessageTypeChoices[] = { wxT("チャット"), wxT("参加"), wxT("離脱"),
+            wxT("ニックネーム"), wxT("トピック") };
+    int m_choiceMessageTypeNChoices = sizeof(m_choiceMessageTypeChoices)
+            / sizeof(wxString);
+    m_choiceTargetMessageType = new wxChoice(this, wxID_ANY, wxDefaultPosition,
+            wxDefaultSize, m_choiceMessageTypeNChoices,
+            m_choiceMessageTypeChoices, 0);
+    m_choiceTargetMessageType->SetSelection(0);
+    bSizerType->Add(m_choiceTargetMessageType, 0, wxALIGN_CENTER, 5);
+
+    bSizer9->Add(bSizerType, 1, wxEXPAND, 5);
+    bSizerType->Show(false);
     wxBoxSizer* bSizer17;
     bSizer17 = new wxBoxSizer(wxHORIZONTAL);
 
@@ -96,6 +126,7 @@ void CFilterDialog::init(wxWindow* parent, const wxString& channelName,
 
     bSizer9->Add(bSizer17, 1, wxEXPAND, 5);
 
+    m_choiceType->SetSelection(0);
 // タイトルバーで消した時の挙動
     SetEscapeId(wxID_CANCEL);
 // 基本ボタン
@@ -107,26 +138,80 @@ void CFilterDialog::init(wxWindow* parent, const wxString& channelName,
 
     this->Centre(wxBOTH);
 }
+
+// ダイアログが閉じられたときのイベントです。
+void CFilterDialog::onClose(wxCloseEvent& event)
+{
+    wxDialog::EndModal(wxID_CANCEL);
+}
+// Cancelボタンが押された時のイベントです。
+void CFilterDialog::onClickCancel(wxCommandEvent& event)
+{
+    wxDialog::EndModal(wxID_CANCEL);
+}
+// OKボタンが押された時のイベントです。
+void CFilterDialog::onOKCancel(wxCommandEvent& event)
+{
+    wxDialog::EndModal(wxID_OK);
+}
 // 選択した要素を取得する
 IFilter* CFilterDialog::getFilter(void) const
 {
     if (validateDialogResult()){
-        CUserNameFilter* filter = new CUserNameFilter();
-        filter->setName(m_textCtrlName->GetValue());
-        filter->setUserName(m_comboBoxTarget->GetValue());
-        filter->setAntiFilter(m_checkBoxIsAnti->IsChecked());
-        return filter;
+        if (m_choiceType->GetStringSelection() == "ユーザー"){
+            CUserNameFilter* filter = new CUserNameFilter();
+            filter->setName(m_textCtrlName->GetValue());
+            filter->setUserName(m_comboBoxTarget->GetValue());
+            filter->setAntiFilter(m_checkBoxIsAnti->IsChecked());
+            return filter;
+        } else{
+            CMessageTypeFilter* filter = new CMessageTypeFilter();
+            filter->setName(m_textCtrlName->GetValue());
+            filter->setTypeInfoName(
+                    getMessageTypeInfo(
+                            m_choiceTargetMessageType->GetStringSelection()));
+            filter->setAntiFilter(m_checkBoxIsAnti->IsChecked());
+            return filter;
+        }
     }
     return NULL;
 }
+
+// チョイスが変更されたときのイベントです。
+void CFilterDialog::onChoiceChanged(wxCommandEvent &event)
+{
+    bSizerTarget->Show(false);
+    bSizerType->Show(false);
+    if (m_choiceType->GetStringSelection() == "ユーザー"){
+        bSizerTarget->Show(true);
+    } else{
+        bSizerType->Show(true);
+    }
+    this->Layout();
+}
+
+wxString CFilterDialog::getMessageTypeInfo(const wxString& text) const
+{
+    if (text == "チャット"){
+        return typeid(CChatMessage).name();
+    } else if (text == "参加"){
+        return typeid(CJoinMessage).name();
+    } else if (text == "離脱"){
+        return typeid(CPartMessage).name();
+    } else if (text == "トピック"){
+        return typeid(CTopicMessage).name();
+    } else if (text == "ニックネーム"){
+        return typeid(CMemberMessage).name();
+    }
+    return "";
+}
 bool CFilterDialog::validateDialogResult() const
 {
-    if (m_textCtrlName->GetValue()== ""){
+    if (m_textCtrlName->GetValue() == ""){
         wxMessageBox("名前を入力してください");
         return false;
     }
     return true;
 }
-
 
 } /* namespace CornStarch */
