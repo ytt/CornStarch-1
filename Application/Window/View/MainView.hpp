@@ -37,14 +37,15 @@ public:
     wxWindowID getMemPaneID(void) const;
 
     // 指定したチャンネルを選択済み項目にする
-    void setSelectedChannel(int serviceId,const wxString& channelName);
+    void setSelectedChannel(int serviceId, const wxString& channelName);
 
     // 投稿ペインにフォーカスを与える。
     void setFocusPostPane(void);
 
     // メッセージ一覧を表示する
     void displayMessages(const std::vector<CMessage*>& messages,
-            const CNickTable& nickTable,const wxString& channelName,const CServiceConfiguration* configuration);
+            const CNickTable& nickTable, const wxString& channelName,
+            const CServiceConfiguration* configuration);
 
     // メッセージ一覧を表示する
     void addMessage(const CMessage* message);
@@ -71,7 +72,8 @@ public:
     void clearPostPaneText(void);
 
     // ログ一覧にログを表示する
-    void displayLogs(const std::vector<CMessage*>& logs,const CServiceHolder* services);
+    void displayLogs(const std::vector<CMessage*>& logs,
+            const CServiceHolder* services);
 
     // 一つ先のチャンネルを選択します。
     void selectNextChannel();
@@ -81,6 +83,12 @@ public:
 
     // 投稿ペインに文字を設定する。
     void setTextPostPane(const wxString& value);
+
+    // 次のタブを選択
+    void selectNextTab();
+
+    // 前のタブを選択
+    void selectPreviousTab();
 
     // 投稿ペインに文字を取得する
     wxString getTextPostPane() const;

@@ -25,13 +25,6 @@ wxString CMenuPart::getTitle(void)
 
 /////////////////////////////////
 
-
-// メニュー項目に要素を追加する
-void CMenuPart::append(int itemid, const wxString& text, const wxString& help, wxItemKind kind)
-{
-    this->Append(itemid, text, help, kind);
-}
-
 // タイトルをセットする
 void CMenuPart::setTitle(const wxString& title)
 {

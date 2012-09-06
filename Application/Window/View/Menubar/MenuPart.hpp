@@ -21,6 +21,8 @@ public:
 
         MENU_VIEW_ZOOM,
         MENU_VIEW_SHRINK,
+        MENU_VIEW_SELECT_NEXT_TAB,
+        MENU_VIEW_SELECT_PREVOUS_TAB,
 
         MENU_UPDATE,
         MENU_CHANNEL_JOIN,

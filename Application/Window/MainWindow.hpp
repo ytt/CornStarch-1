@@ -123,6 +123,12 @@ private:
 
     // タブの削除
     void onRemoveTab(wxCommandEvent& event);
+
+    // 次のタブを選択
+    void onSelectNextTab(wxCommandEvent& event);
+
+    // 前のタブを選択
+    void onSelectPreviousTab(wxCommandEvent& event);
 private:
     // 画面系
 

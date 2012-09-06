@@ -17,20 +17,27 @@ namespace CornStarch
 {
 class CPaneMessage : public wxNotebook
 {
+    // 「全て表示」用ペイン
     CPaneMsg* m_allLogCtrl;
+    // 「全て表示」用フィルター
     CAllFilter* m_allFilter;
+    // すべての表示用ペインを保持
     vector<CPaneMsg*> m_messagePanels;
-
-    CPaneMsg* createPage(const IFilter* filter, const CServiceConfiguration* configuration);
+    // タブの作成
+    CPaneMsg* createTab(const IFilter* filter, const CServiceConfiguration* configuration);
 public:
-    void init(wxWindow* parent);
     CPaneMessage();
     virtual ~CPaneMessage();
-
+    // 初期化
+    void init(wxWindow* parent);
+    // メッセージの表示
     void displayMessages(const std::vector<CMessage*>& messages,
         const CNickTable& nickTable,const wxString& channelName,const CServiceConfiguration* configuration);
+    // 文字のクリア
     void clear();
-    void pushLog(const CMessage* log);
+    // メッセージの追加
+    void pushLog(const CMessage* message);
+    // 背景のクリア
     void clearUnreadBackgroundColor();
 };
 

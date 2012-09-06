@@ -321,31 +321,42 @@ void CMainWindow::onFocusNextText(wxThreadEvent& event)
 void CMainWindow::onAddTab(wxCommandEvent& event)
 {
     CChatServiceBase* contents = m_serviceHolder->getService(
-               m_serviceHolder->getCurrentServiceId());
-       if (contents == NULL || contents->getCurrentChannel() == ""){
-           return;
-       }
-       CChannelStatus* channel = contents->getChannel(contents->getCurrentChannel());
+            m_serviceHolder->getCurrentServiceId());
+    if (contents == NULL || contents->getCurrentChannel() == ""){
+        return;
+    }
+    CChannelStatus* channel = contents->getChannel(
+            contents->getCurrentChannel());
 
-       vector<wxString> userNames;
-       vector<CMemberData*> members = channel->getMembers();
-       vector<CMemberData*>::iterator it = members.begin();
-       while (it != members.end()){
-           userNames.push_back((*it)->m_nick);
-           it++;
-       }
+    vector<wxString> userNames;
+    vector<CMemberData*> members = channel->getMembers();
+    vector<CMemberData*>::iterator it = members.begin();
+    while (it != members.end()){
+        userNames.push_back((*it)->m_nick);
+        it++;
+    }
 
-       // ダイアログを表示
-       CFilterDialog dialog;
-       dialog.init(this, contents->getCurrentChannel(), userNames);
-       if (dialog.ShowModal() == wxID_OK){
-           contents->getConfiguration()->addFilter(
-                   contents->getCurrentChannel(), dialog.getFilter());
-           updateMessageView(m_serviceHolder->getCurrentServiceId(),
-                   contents->getCurrentChannel());
-       }
+    // ダイアログを表示
+    CFilterDialog dialog;
+    dialog.init(this, contents->getCurrentChannel(), userNames);
+    if (dialog.ShowModal() == wxID_OK){
+        contents->getConfiguration()->addFilter(contents->getCurrentChannel(),
+                dialog.getFilter());
+        updateMessageView(m_serviceHolder->getCurrentServiceId(),
+                contents->getCurrentChannel());
+    }
+}
+// 次のタブを選択
+void CMainWindow::onSelectNextTab(wxCommandEvent& event)
+{
+    m_view->selectNextTab();
 }
 
+// 前のタブを選択
+void CMainWindow::onSelectPreviousTab(wxCommandEvent& event)
+{
+    m_view->selectPreviousTab();
+}
 // タブの削除
 void CMainWindow::onRemoveTab(wxCommandEvent& event)
 {
@@ -357,6 +368,7 @@ void CMainWindow::onRemoveTab(wxCommandEvent& event)
     vector<IFilter*>* filters = contents->getConfiguration()->getFilters(
             contents->getCurrentChannel());
 
+    // フィルター名の取得
     vector<wxString> filterNames;
     vector<IFilter*>::iterator it = filters->begin();
     while (it != filters->end()){

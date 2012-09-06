@@ -4,7 +4,7 @@ namespace CornStarch
 {;
 
 CMainMenuBar::CMainMenuBar(void)
-    : m_menuFile(NULL), m_menuEdit(NULL), m_menuServer(NULL), m_menuChannel(NULL), m_menuUpdate(NULL)
+    : m_menuFile(NULL), m_menuEdit(NULL), m_menuServer(NULL), m_menuChannel(NULL)
 {
 }
 
@@ -34,9 +34,6 @@ void CMainMenuBar::init(void)
     m_menuChannel = new CMenuChannel();
     m_menuChannel->init();
 
-    // 【更新】
-    m_menuUpdate = new CMenuUpdate();
-    m_menuUpdate->init();
     // 【表示】
     m_menuView = new CMenuView();
     m_menuView->init();
@@ -46,7 +43,6 @@ void CMainMenuBar::init(void)
     Append(m_menuView, m_menuView->getTitle());
     Append(m_menuServer, m_menuServer->getTitle());
     Append(m_menuChannel, m_menuChannel->getTitle());
-    Append(m_menuUpdate, m_menuUpdate->getTitle());
 }
 
 }

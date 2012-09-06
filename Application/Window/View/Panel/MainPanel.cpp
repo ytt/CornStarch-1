@@ -7,7 +7,7 @@ namespace CornStarch
 ;
 
 CMainPanel::CMainPanel(void) :
-         m_memBox(NULL), m_channelPane(NULL), m_postPane(NULL), m_recordPane(
+        m_memBox(NULL), m_channelPane(NULL), m_postPane(NULL), m_recordPane(
                 NULL), m_msgTabTargetPane(NULL), m_messagePane(NULL)
 {
 }
@@ -23,7 +23,6 @@ void CMainPanel::init(wxWindow* parent)
 {
     // 分割ウィンドウを作成する
     CSplitPanel::init(parent);
-
 
     // メンバー表示ペインの初期化
     if (m_memBox == NULL){
@@ -65,10 +64,12 @@ void CMainPanel::init(wxWindow* parent)
 
 // メッセージペインにメッセージを表示
 void CMainPanel::displayMessages(const vector<CMessage*>& messages,
-        const CNickTable& nickTable,const wxString& channelName,const CServiceConfiguration* configuration)
+        const CNickTable& nickTable, const wxString& channelName,
+        const CServiceConfiguration* configuration)
 {
     m_messagePane->Show(false);
-    m_messagePane->displayMessages(messages, nickTable,channelName,configuration);
+    m_messagePane->displayMessages(messages, nickTable, channelName,
+            configuration);
     m_messagePane->Show(true);
 
 }
@@ -185,6 +186,17 @@ void CMainPanel::selectNextChannel()
 void CMainPanel::selectPreviousChannel()
 {
     m_channelPane->selectPreviousChannel();
+}
+
+// 次のタブを選択
+void CMainPanel::selectNextTab()
+{
+    m_messagePane->AdvanceSelection();
+}
+// 前のタブを選択
+void CMainPanel::selectPreviousTab()
+{
+    m_messagePane->AdvanceSelection(false);
 }
 //////////////////////////////////////////////////////////////////////
 

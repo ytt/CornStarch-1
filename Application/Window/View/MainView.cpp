@@ -7,7 +7,7 @@ namespace CornStarch
 ;
 
 CMainView::CMainView(void) :
-        m_menuBar(NULL), m_panel(NULL),m_notifier(NULL)
+        m_menuBar(NULL), m_panel(NULL), m_notifier(NULL)
 {
 }
 
@@ -67,25 +67,28 @@ wxWindowID CMainView::getMemPaneID(void) const
 }
 
 // 指定したチャンネルを選択済み項目にする
-void CMainView::setSelectedChannel(int serviceId,const wxString& channelName)
+void CMainView::setSelectedChannel(int serviceId, const wxString& channelName)
 {
-    m_panel->selectedChannel(serviceId,channelName);
+    m_panel->selectedChannel(serviceId, channelName);
 }
 
 // 一つ先のチャンネルを選択します。
-void CMainView::selectNextChannel(){
+void CMainView::selectNextChannel()
+{
     m_panel->selectNextChannel();
 }
 
 // 一つ前のチャンネルを選択します。
-void CMainView::selectPreviousChannel(){
+void CMainView::selectPreviousChannel()
+{
     m_panel->selectPreviousChannel();
 }
 // メッセージ一覧を表示する
 void CMainView::displayMessages(const vector<CMessage*>& messages,
-        const CNickTable& nickTable,const wxString& channelName,const CServiceConfiguration* configuration)
+        const CNickTable& nickTable, const wxString& channelName,
+        const CServiceConfiguration* configuration)
 {
-    m_panel->displayMessages(messages, nickTable,channelName,configuration);
+    m_panel->displayMessages(messages, nickTable, channelName, configuration);
 }
 
 void CMainView::addMessage(const CMessage* message)
@@ -118,9 +121,10 @@ void CMainView::clearPostPaneText(void)
 }
 
 // ログ一覧にログを表示する
-void CMainView::displayLogs(const std::vector<CMessage*>& logs,const CServiceHolder* services)
+void CMainView::displayLogs(const std::vector<CMessage*>& logs,
+        const CServiceHolder* services)
 {
-    m_panel->displayLogs(logs,services);
+    m_panel->displayLogs(logs, services);
 }
 
 // メッセージ一覧をクリアします。
@@ -174,5 +178,14 @@ void CMainView::messageNotify(const wxString& title, const wxString& message)
 {
     m_notifier->messageNotify(title, message);
 }
-
+// 次のタブを選択
+void CMainView::selectNextTab()
+{
+    m_panel->selectNextTab();
+}
+// 前のタブを選択
+void CMainView::selectPreviousTab()
+{
+    m_panel->selectPreviousTab();
+}
 }

@@ -69,7 +69,13 @@ public:
 
     // 一つ前のチャンネルを選択します。
     void selectPreviousChannel();
-public:
+
+    // 次のタブを選択
+    void selectNextTab();
+    // 前のタブを選択
+    void selectPreviousTab();
+
+
     // 投稿ペインの文字列をクリアする
     void clearPostPaneText(void);
 

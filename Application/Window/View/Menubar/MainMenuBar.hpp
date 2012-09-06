@@ -2,7 +2,6 @@
 #include "MenuFile.hpp"
 #include "MenuServer.hpp"
 #include "MenuChannel.hpp"
-#include "MenuUpdate.hpp"
 #include "MenuEdit.hpp"
 #include "MenuView.hpp"
 
@@ -17,7 +16,6 @@ private:
     CMenuEdit* m_menuEdit; // 編集
     CMenuServer* m_menuServer; // サーバ
     CMenuChannel* m_menuChannel; // チャンネル
-    CMenuUpdate* m_menuUpdate; // 更新
     CMenuView* m_menuView; // 表示
 
 public:

@@ -17,11 +17,11 @@ void CPaneMessage::init(wxWindow* parent)
 
     m_allFilter = new CAllFilter();
     m_allFilter->setName("All");
-    m_allLogCtrl = createPage(m_allFilter, NULL);
+    m_allLogCtrl = createTab(m_allFilter, NULL);
 
 }
 
-CPaneMsg* CPaneMessage::createPage(const IFilter* filter,
+CPaneMsg* CPaneMessage::createTab(const IFilter* filter,
         const CServiceConfiguration* configuration)
 {
     wxPanel* panel = new wxPanel(this, wxID_ANY, wxDefaultPosition,
@@ -59,7 +59,7 @@ void CPaneMessage::displayMessages(const std::vector<CMessage*>& messages,
     }
     vector<IFilter*>::iterator itFilter = filters->begin();
     while (itFilter != filters->end()){
-        CPaneMsg* msgPanel = createPage(*itFilter, configuration);
+        CPaneMsg* msgPanel = createTab(*itFilter, configuration);
         m_messagePanels.push_back(msgPanel);
         itFilter++;
     }
