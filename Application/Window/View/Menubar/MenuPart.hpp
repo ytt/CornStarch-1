@@ -45,9 +45,6 @@ public:
 
 protected:
 
-    // メニュー項目に要素を追加する
-    void append(int itemid, const wxString& text = wxEmptyString,
-        const wxString& help = wxEmptyString, wxItemKind kind = wxITEM_NORMAL);
 
     // タイトルをセットする
     void setTitle(const wxString& title);

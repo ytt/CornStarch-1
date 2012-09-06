@@ -90,7 +90,8 @@ BEGIN_EVENT_TABLE(CMainWindow, wxFrame)
 
     // メニューバー
     EVT_MENU(wxID_EXIT, CMainWindow::onQuit) // 終了
-    EVT_MENU(wxID_COPY, CMainWindow::onCopy) // 終了
+    EVT_MENU(wxID_COPY, CMainWindow::onCopy) // コピー
+    EVT_MENU(wxID_SELECTALL, CMainWindow::onSelectAll) // 全てを選択
     EVT_MENU(CMenuPart::MENU_EDIT_FIND, CMainWindow::onFind) // 検索
 
     EVT_MENU(CMenuPart::MENU_SERVER_ADD, CMainWindow::onServiceRegister) // サーバの登録

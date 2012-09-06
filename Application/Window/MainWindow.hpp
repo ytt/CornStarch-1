@@ -91,6 +91,8 @@ private:
     void onShrink(wxCommandEvent& event);
     // コピー
     void onCopy(wxCommandEvent& event);
+    // 全てを選択
+    void onSelectAll(wxCommandEvent& event);
     // 検索
     void onFind(wxCommandEvent& event);
 

@@ -16,7 +16,6 @@ void CMenuEdit::init(void)
 {
     setTitle(wxT("編集(&E)"));
 
-
     Append(wxID_UNDO, _("取り消す\tCtrl+Z"));
     Append(wxID_REDO, _("やり直す\tCtrl+Y"));
     AppendSeparator();
@@ -28,8 +27,7 @@ void CMenuEdit::init(void)
     Append(wxID_SELECTALL, _("全て選択\tCtrl+A"));
 
     AppendSeparator();
-    append(CMenuPart::MENU_EDIT_FIND,
-        wxT("検索\tCtrl+F"));
+    Append(CMenuPart::MENU_EDIT_FIND, wxT("検索\tCtrl+F"));
 }
 
 } /* namespace CornStarch */

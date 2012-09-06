@@ -23,18 +23,32 @@ void CFilterDialog::init(wxWindow* parent, const wxString& channelName,
     wxBoxSizer* bSizer;
     bSizer = new wxBoxSizer(wxHORIZONTAL);
 
-    wxStaticText* m_staticText1 = new wxStaticText(this,
-            wxID_ANY, wxT("チャンネル："), wxPoint(-1, -1), wxSize(100, -1),
-            wxALIGN_RIGHT);
+    wxStaticText* m_staticText1 = new wxStaticText(this, wxID_ANY,
+            wxT("チャンネル："), wxPoint(-1, -1), wxSize(100, -1), wxALIGN_RIGHT);
     m_staticText1->Wrap(-1);
     bSizer->Add(m_staticText1, 0, wxALIGN_CENTER, 5);
 
-    wxStaticText* m_staticTextChannel = new wxStaticText(this, wxID_ANY, channelName,
-            wxDefaultPosition, wxDefaultSize, 0);
+    wxStaticText* m_staticTextChannel = new wxStaticText(this, wxID_ANY,
+            channelName, wxDefaultPosition, wxDefaultSize, 0);
     m_staticTextChannel->Wrap(-1);
     bSizer->Add(m_staticTextChannel, 0, wxALL, 5);
 
     bSizer9->Add(bSizer, 1, wxEXPAND, 5);
+
+    wxBoxSizer* bSizerName;
+    bSizerName = new wxBoxSizer(wxHORIZONTAL);
+
+    wxStaticText* m_staticTextName = new wxStaticText(this, wxID_ANY,
+            wxT("フィルター名："), wxPoint(-1, -1), wxSize(100, -1),
+            wxALIGN_RIGHT);
+    m_staticTextName->Wrap(-1);
+    bSizerName->Add(m_staticTextName, 0, wxALIGN_CENTER, 5);
+
+    m_textCtrlName=  new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+
+    bSizerName->Add(m_textCtrlName, 0, wxALL, 5);
+
+    bSizer9->Add(bSizerName, 1, wxEXPAND, 5);
 
     wxBoxSizer* bSizer12;
     bSizer12 = new wxBoxSizer(wxHORIZONTAL);
@@ -61,10 +75,9 @@ void CFilterDialog::init(wxWindow* parent, const wxString& channelName,
     bSizer16->Add(m_staticTextTarget, 0, wxALIGN_CENTER_VERTICAL, 5);
 
     wxString* m_choiceUsers = &choices[0];
-    m_choiceTarget = new wxChoice(this, wxID_ANY, wxDefaultPosition,
-            wxDefaultSize, choices.size(), m_choiceUsers, 0);
-    m_choiceTarget->SetSelection(0);
-    bSizer16->Add(m_choiceTarget, 0, wxALIGN_CENTER, 5);
+    m_comboBoxTarget = new wxComboBox(this, wxID_ANY, wxEmptyString,
+            wxDefaultPosition, wxDefaultSize, choices.size(), m_choiceUsers, 0);
+    bSizer16->Add(m_comboBoxTarget, 0, wxALIGN_CENTER, 5);
 
     bSizer9->Add(bSizer16, 1, wxEXPAND, 5);
 
@@ -97,10 +110,23 @@ void CFilterDialog::init(wxWindow* parent, const wxString& channelName,
 // 選択した要素を取得する
 IFilter* CFilterDialog::getFilter(void) const
 {
-    CUserNameFilter* filter = new CUserNameFilter();
-    filter->setName(m_choiceTarget->GetStringSelection());
-    filter->setUserName(m_choiceTarget->GetStringSelection());
-    filter->setAntiFilter(m_checkBoxIsAnti->IsChecked());
-    return filter;
+    if (validateDialogResult()){
+        CUserNameFilter* filter = new CUserNameFilter();
+        filter->setName(m_textCtrlName->GetValue());
+        filter->setUserName(m_comboBoxTarget->GetValue());
+        filter->setAntiFilter(m_checkBoxIsAnti->IsChecked());
+        return filter;
+    }
+    return NULL;
 }
+bool CFilterDialog::validateDialogResult() const
+{
+    if (m_textCtrlName->GetValue()== ""){
+        wxMessageBox("名前を入力してください");
+        return false;
+    }
+    return true;
+}
+
+
 } /* namespace CornStarch */

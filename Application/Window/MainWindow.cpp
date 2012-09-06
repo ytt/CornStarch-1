@@ -84,7 +84,22 @@ void CMainWindow::onFind(wxCommandEvent& event)
 // コピー
 void CMainWindow::onCopy(wxCommandEvent& event)
 {
-
+    wxWindow* focus = wxWindow::FindFocus();
+    CPaneMsg* paneMsg = dynamic_cast<CPaneMsg*>(focus);
+    if(paneMsg != NULL)
+    {
+        paneMsg->Copy();
+    }
+}
+// 全てを選択
+void CMainWindow::onSelectAll(wxCommandEvent& event)
+{
+    wxWindow* focus = wxWindow::FindFocus();
+    CPaneMsg* paneMsg = dynamic_cast<CPaneMsg*>(focus);
+    if(paneMsg != NULL)
+    {
+        paneMsg->SelectAll();
+    }
 }
 // ポストペインの文字が変更された
 void CMainWindow::onTextUpdated(wxCommandEvent& event)
@@ -340,10 +355,13 @@ void CMainWindow::onAddTab(wxCommandEvent& event)
     CFilterDialog dialog;
     dialog.init(this, contents->getCurrentChannel(), userNames);
     if (dialog.ShowModal() == wxID_OK){
-        contents->getConfiguration()->addFilter(contents->getCurrentChannel(),
-                dialog.getFilter());
-        updateMessageView(m_serviceHolder->getCurrentServiceId(),
-                contents->getCurrentChannel());
+        IFilter* filter = dialog.getFilter();
+        if (filter != NULL){
+            contents->getConfiguration()->addFilter(
+                    contents->getCurrentChannel(), filter);
+            updateMessageView(m_serviceHolder->getCurrentServiceId(),
+                    contents->getCurrentChannel());
+        }
     }
 }
 // 次のタブを選択
