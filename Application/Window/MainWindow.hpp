@@ -85,6 +85,10 @@ private:
     // 終了
     void onQuit(wxCommandEvent& event);
 
+    // 保存
+    void onSave(wxCommandEvent& event);
+    // 読み込み
+    void onLoad(wxCommandEvent& event);
     // 拡大
     void onZoom(wxCommandEvent& event);
     // 縮小

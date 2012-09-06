@@ -55,6 +55,11 @@ public:
     void load(wxEvtHandler* handler);
     // 設定の書き込み
     void save();
+
+    // サービスの保存
+    void exportService(const wxString& path);
+    // サービスの読み込み
+    void importService();
 };
 
 } /* namespace CornStarch */

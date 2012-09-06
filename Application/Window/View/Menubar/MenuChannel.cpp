@@ -21,8 +21,8 @@ void CMenuChannel::init(void)
     Append(MENU_CHANNEL_PART, wxT("チャンネルから離脱\tCTRL+L"));
     Append(MENU_CHANNEL_TOPIC_CHANGE, wxT("トピックを変更\tCTRL+T"));
     AppendSeparator();
-    Append(MENU_CHANNEL_ADD_TAB, wxT("タブの追加"));
-    Append(MENU_CHANNEL_REMOVE_TAB, wxT("タブの削除"));
+    Append(MENU_CHANNEL_ADD_TAB, wxT("タブの追加\tCTRL+Tab"));
+    Append(MENU_CHANNEL_REMOVE_TAB, wxT("タブの削除\tCTRL+Shift+Tab"));
 }
 
 }

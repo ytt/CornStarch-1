@@ -11,6 +11,8 @@ public:
     // メニュー番号
     enum MENU{
         MENU_FILE_QUIT = 100,
+        MENU_FILE_SAVE,
+        MENU_FILE_LOAD,
         MENU_EDIT_SELECT_ALL,
         MENU_EDIT_FIND,
 

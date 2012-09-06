@@ -47,11 +47,12 @@ void CMainPanel::init(wxWindow* parent)
         m_recordPane = new CPaneRecord();
         m_recordPane->init(getRecordPane());
     }
-
+    // タブ受取り用ペイン
     if (m_msgTabTargetPane == NULL){
         m_msgTabTargetPane = new CFocusTargetCtrl();
         m_msgTabTargetPane->init(getTabTargetPane());
     }
+    // メッセージ用ペイン
     if (m_messagePane == NULL){
         m_messagePane = new CPaneMessage();
         m_messagePane->init(getMsgPane());

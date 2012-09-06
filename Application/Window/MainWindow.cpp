@@ -1,6 +1,8 @@
 ﻿#include "DefineEventTable.hpp" // イベントテーブル
 #include "MainWindow.hpp"
 #include <wx/defs.h>
+#include <wx/filedlg.h>
+#include <wx/wfstream.h>
 #include "View/Dialog/ChangeTopicDialog.hpp"
 #include "View/Dialog/AuthDialog.hpp"
 #include "View/Dialog/NickChangeDialog.hpp"
@@ -86,8 +88,7 @@ void CMainWindow::onCopy(wxCommandEvent& event)
 {
     wxWindow* focus = wxWindow::FindFocus();
     wxRichTextCtrl* paneMsg = dynamic_cast<wxRichTextCtrl*>(focus);
-    if(paneMsg != NULL)
-    {
+    if (paneMsg != NULL){
         paneMsg->Copy();
     }
 }
@@ -96,8 +97,7 @@ void CMainWindow::onSelectAll(wxCommandEvent& event)
 {
     wxWindow* focus = wxWindow::FindFocus();
     wxRichTextCtrl* paneMsg = dynamic_cast<wxRichTextCtrl*>(focus);
-    if(paneMsg != NULL)
-    {
+    if (paneMsg != NULL){
         paneMsg->SelectAll();
     }
 }
@@ -557,6 +557,25 @@ void CMainWindow::onChannelSelected(CChannelSelectEvent& event)
     // 投稿ペインにフォーカス
     m_view->setFocusPostPane();
 }
+
+// 保存
+void CMainWindow::onSave(wxCommandEvent& event)
+{
+    wxFileDialog saveFileDialog(this, _("Export"), "", "",
+            "CornStarch Config (*.csconf)|*.csconf",
+            wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+    if (saveFileDialog.ShowModal() == wxID_CANCEL){
+        return; // the user changed idea...
+    }
+
+    m_serviceHolder->exportService(saveFileDialog.GetPath());
+}
+// 読み込み
+void CMainWindow::onLoad(wxCommandEvent& event)
+{
+    m_serviceHolder->importService();
+}
+
 // 拡大
 void CMainWindow::onZoom(wxCommandEvent& event)
 {

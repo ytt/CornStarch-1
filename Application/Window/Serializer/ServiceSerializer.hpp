@@ -7,7 +7,8 @@
 #include <sys/stat.h>
 
 namespace CornStarch
-{;
+{
+;
 
 // サービスのシリアライズを行うクラス
 class CServiceSerializer
@@ -22,22 +23,25 @@ public:
 
     // 初期化を行う
     void init(void);
-
     // サービスを受け取り、ファイルに保存する
-    void saveService(const std::map<int,CChatServiceBase*>& services);
+    void saveService(const std::map<int, CChatServiceBase*>& services,
+            const wxString& path = "");
 
     // 保存されたサービス情報を基に、vectorにpushする
-    void loadService(wxEvtHandler* handler, std::map<int,CChatServiceBase*>& services,
-        int& serviceId);
+    void loadService(wxEvtHandler* handler,
+            std::map<int, CChatServiceBase*>& services, int& serviceId);
 
 private:
-    void createNode(wxXmlNode* parent,wxString name,wxString content);
+    void createNode(wxXmlNode* parent, wxString name, wxString content);
     // XMLNodeからサービスを作成する
-    CChatServiceBase* newService(wxXmlNode* node, wxEvtHandler* handler, 
-        int& serviceId);
+    CChatServiceBase* newService(wxXmlNode* node, wxEvtHandler* handler,
+            int& serviceId);
 
     // サービス情報をRootノードに追加
     void addServiceToRoot(wxXmlNode* root, const CChatServiceBase* service);
+    // 設定をサービスノードに追加
+    void addServiceConfiguration(wxXmlNode* root,
+            const CChatServiceBase* service);
 };
 
 }

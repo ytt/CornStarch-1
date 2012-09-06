@@ -1,6 +1,10 @@
-﻿#include "ServiceSerializer.hpp"
+﻿#include <wx/filedlg.h>
+#include <wx/wxprec.h>
+#include <wx/wx.h>
+#include "ServiceSerializer.hpp"
 #include "../Service/ServiceConfiguration.hpp"
-
+#include "../Service/Filter/UserNameFilter.hpp"
+#include "../Service/Filter/MessageTypeFilter.hpp"
 #ifndef _WIN32
 
 using namespace std;
@@ -29,10 +33,9 @@ void CServiceSerializer::init(void)
 {
     m_doc = new wxXmlDocument();
 }
-
 // サービスを受け取り、ファイルに保存する
 void CServiceSerializer::saveService(
-        const map<int, CChatServiceBase*>& services)
+        const map<int, CChatServiceBase*>& services, const wxString& path)
 {
     wxXmlNode* root = new wxXmlNode(wxXML_ELEMENT_NODE, "root");
 
@@ -45,8 +48,12 @@ void CServiceSerializer::saveService(
     }
 
     m_doc->SetRoot(root);
-    m_doc->Save(PATH);
-    chmod(PATH, S_IRUSR | S_IWUSR);
+    if (path == ""){
+        m_doc->Save(PATH);
+        chmod(PATH, S_IRUSR | S_IWUSR);
+    } else{
+        m_doc->Save(path);
+    }
 }
 
 // 保存されたサービス情報を基に、vectorにpushする
@@ -159,7 +166,7 @@ void CServiceSerializer::addServiceToRoot(wxXmlNode* root,
     createNode(serverRoot, "name", service->getName());
     createNode(serverRoot, "host", service->getHost());
     wxString portString;
-    portString<<service->getPort();
+    portString << service->getPort();
     createNode(serverRoot, "port", portString);
 
     createNode(serverRoot, "user", service->getUser()->getUserName());
@@ -180,8 +187,63 @@ void CServiceSerializer::addServiceToRoot(wxXmlNode* root,
             it++;
         }
     }
+    addServiceConfiguration(serverRoot, service);
+}
+// 設定をサービスノードに追加
+void CServiceSerializer::addServiceConfiguration(wxXmlNode* root,
+        const CChatServiceBase* service)
+{
+    wxXmlNode* parentNode = new wxXmlNode(root, wxXML_ELEMENT_NODE,
+            "configuration");
+    // 自動接続
+    wxString autoString;
+    autoString << service->getConfiguration()->isAutoConnect();
+    createNode(parentNode, "isAuto", autoString);
+    // フォントサイズ
+    wxString fontString;
+    fontString << service->getConfiguration()->getFontSize();
+    createNode(parentNode, "fontsize", fontString);
+
+    // フィルター一覧
+    wxXmlNode* filtersNode = new wxXmlNode(parentNode, wxXML_ELEMENT_NODE,
+            "filters");
+    vector<CChannelStatus*> channels = service->getChannels();
+    vector<CChannelStatus*>::iterator it = channels.begin();
+    while (it != channels.end()){
+
+        wxXmlNode* channelNode = new wxXmlNode(parentNode, wxXML_ELEMENT_NODE,
+                "channel");
+        channelNode->SetAttributes(
+                new wxXmlAttribute("name", (*it)->getChannelName()));
+
+        // フィルター
+        vector<IFilter*>* filters = service->getConfiguration()->getFilters(
+                (*it)->getChannelName());
+        vector<IFilter*>::iterator itFilter = filters->begin();
+        while (itFilter != filters->end()){
+            wxXmlNode* filterNode = new wxXmlNode(channelNode,
+                    wxXML_ELEMENT_NODE, "filter");
+
+            createNode(filterNode, "type", typeid(*(*itFilter)).name());
+            createNode(filterNode, "name", (*itFilter)->getName());
+            wxString isAntiString;
+            isAntiString << (*itFilter)->isAntiFilter();
+            createNode(filterNode, "isAnti", isAntiString);
+            if (typeid(*(*itFilter)) == typeid(CMessageTypeFilter)){
+                CMessageTypeFilter* filter =
+                        dynamic_cast<CMessageTypeFilter*>(*itFilter);
+                createNode(filterNode, "target", filter->getTypeInfoName());
+            } else if (typeid(*(*itFilter)) == typeid(CUserNameFilter)){
+                CUserNameFilter* filter =
+                        dynamic_cast<CUserNameFilter*>(*itFilter);
+                createNode(filterNode, "target", filter->getUserName());
+            }
+            itFilter++;
+        }
+
+        it++;
+    }
 
 }
-
 }
 #endif

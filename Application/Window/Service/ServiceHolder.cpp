@@ -25,6 +25,7 @@ void CServiceHolder::deleteChannel(int serviceId, wxString channel)
         contents->partChannel(channel);
     }
 }
+// サービスの読み込み
 void CServiceHolder::load(wxEvtHandler* handler)
 {
     // シリアライズされたサービスを読み込み
@@ -32,12 +33,31 @@ void CServiceHolder::load(wxEvtHandler* handler)
     serializer.init();
     serializer.loadService(handler, m_services, m_uniqueServiceId);
 }
+// サービスの保存
 void CServiceHolder::save()
 {
     // ファイルに保存
     CServiceSerializer serializer;
     serializer.init();
     serializer.saveService(m_services);
+}
+
+
+// サービスの保存
+void CServiceHolder::exportService(const wxString& path)
+{
+    // ファイルに保存
+    CServiceSerializer serializer;
+    serializer.init();
+    serializer.saveService(m_services,path);
+}
+// サービスの保存
+void CServiceHolder::importService()
+{
+    // ファイルに保存
+    CServiceSerializer serializer;
+    serializer.init();
+    //serializer.exportService(m_services);
 }
 // IDからサービスを取得する
 CChatServiceBase* CServiceHolder::getService(int serviceId) const
