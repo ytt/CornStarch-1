@@ -1,12 +1,11 @@
 ﻿#include "MainNotifier.hpp"
-
 namespace CornStarch
 {
 ;
 
 CMainNotifier::CMainNotifier(void)
 #ifdef _WIN32
-           :m_taskbar(NULL)
+:m_taskbar(NULL)
 #endif
 {
 }
@@ -36,6 +35,14 @@ void CMainNotifier::messageNotify(const wxString& title,
 #ifdef _WIN32
     m_taskbar->ShowBalloon(title, message, 15000, wxICON_INFORMATION);
 #else
+    wxString replacedTitle = title;
+    replacedTitle.Replace("\\","\\\\");
+    replacedTitle.Replace("\"","\\\"");
+    wxString replacedMessage = message;
+    replacedMessage.Replace("\\","\\\\");
+    replacedMessage.Replace("\"","\\\"");
+    system(wxString::Format("/usr/local/bin/growlnotify -t \"%s\" -a CornStarch -m \"%s\"", replacedTitle,replacedMessage));
+
 
 #endif
 }

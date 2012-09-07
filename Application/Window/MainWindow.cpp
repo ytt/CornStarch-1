@@ -878,7 +878,8 @@ void CMainWindow::onMsgStream(CStreamEvent<CChatMessage>& event)
     }
     // 通知があったとき && 自分以外の人から
     if (service->isUserCalled(message->getBody()) && !isMyPost){
-        m_view->messageNotify("通知", "呼ばれました");
+        m_view->messageNotify(wxString::Format("CornStarch[%s]",message->getChannelName()), wxString::Format("%s: %s",message->getNick(),message->getBody()));
+        RequestUserAttention(wxUSER_ATTENTION_ERROR);
     }
     service->onGetMessageStream(message);
     // メッセージをログ一覧に表示
