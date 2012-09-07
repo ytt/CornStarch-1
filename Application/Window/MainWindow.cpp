@@ -424,7 +424,7 @@ void CMainWindow::moveToUnread()
         vector<CChannelStatus*> channels = service->getChannels();
         vector<CChannelStatus*>::iterator channel = channels.begin();
         while (channel != channels.end()){
-            if ((*channel)->getUnreadCount() != 0 && serviceId == 0){
+            if ((*channel)->getUnreadCount() != 0 && serviceId == -1){
                 // 未読ノードを初めて見つける
                 serviceId = service->getId();
                 channelName = (*channel)->getChannelName();
@@ -565,7 +565,7 @@ void CMainWindow::onSave(wxCommandEvent& event)
             "CornStarch Config (*.csconf)|*.csconf",
             wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
     if (saveFileDialog.ShowModal() == wxID_CANCEL){
-        return; // the user changed idea...
+        return;
     }
 
     m_serviceHolder->exportService(saveFileDialog.GetPath());
@@ -573,7 +573,13 @@ void CMainWindow::onSave(wxCommandEvent& event)
 // 読み込み
 void CMainWindow::onLoad(wxCommandEvent& event)
 {
-    m_serviceHolder->importService();
+    wxFileDialog openFileDialog(this, _("Import"), "", "",
+            "CornStarch Config (*.csconf)|*.csconf", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+
+    if (openFileDialog.ShowModal() == wxID_CANCEL){
+        return;
+    }
+    m_serviceHolder->importService(GetEventHandler(),openFileDialog.GetPath());
 }
 
 // 拡大

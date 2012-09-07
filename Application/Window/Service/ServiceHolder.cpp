@@ -11,6 +11,10 @@ CServiceHolder::CServiceHolder() :
 
 CServiceHolder::~CServiceHolder()
 {
+    deleteServices();
+}
+void CServiceHolder::deleteServices()
+{
     map<int, CChatServiceBase*>::iterator it = m_services.begin();
     while (it != m_services.end()){
         delete (*it).second;
@@ -42,22 +46,25 @@ void CServiceHolder::save()
     serializer.saveService(m_services);
 }
 
-
 // サービスの保存
 void CServiceHolder::exportService(const wxString& path)
 {
     // ファイルに保存
     CServiceSerializer serializer;
     serializer.init();
-    serializer.saveService(m_services,path);
+    serializer.saveService(m_services, path);
 }
-// サービスの保存
-void CServiceHolder::importService()
+// サービスの読み込み
+void CServiceHolder::importService(wxEvtHandler* handler, const wxString& path)
 {
-    // ファイルに保存
+    deleteServices();
+    m_services.clear();
+    m_uniqueServiceId = 0;
+    m_currentServiceId = 0;
+    // ファイルから読み込み
     CServiceSerializer serializer;
     serializer.init();
-    //serializer.exportService(m_services);
+    serializer.loadService(handler, m_services, m_currentServiceId, path);
 }
 // IDからサービスを取得する
 CChatServiceBase* CServiceHolder::getService(int serviceId) const

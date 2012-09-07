@@ -61,7 +61,7 @@ void CLinkableRichTextCtrl::writeLinkableText(const wxString& content)
 #ifndef _WIN32
             if(url.find("//")==0)
             {
-                linkUrl = "smb:"+ url;
+                url = "smb:"+ url;
             }
 #endif
             this->BeginUnderline();

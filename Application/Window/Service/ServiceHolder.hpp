@@ -18,6 +18,8 @@ class CServiceHolder
 public:
     CServiceHolder();
     virtual ~CServiceHolder();
+    // サービス一覧の削除
+    void deleteServices();
     // サービスの削除
     void deleteService(int serviceId);
     // チャンネルの削除
@@ -59,7 +61,7 @@ public:
     // サービスの保存
     void exportService(const wxString& path);
     // サービスの読み込み
-    void importService();
+    void importService(wxEvtHandler* handler,const wxString& path);
 };
 
 } /* namespace CornStarch */

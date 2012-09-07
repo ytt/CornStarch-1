@@ -59,15 +59,21 @@ void CServiceSerializer::saveService(
 
 // 保存されたサービス情報を基に、vectorにpushする
 void CServiceSerializer::loadService(wxEvtHandler* handler,
-        map<int, CChatServiceBase*>& services, int& serviceId)
+        map<int, CChatServiceBase*>& services, int& serviceId,
+        const wxString& path)
 {
+    wxString location = path;
+    if (path == ""){
+        location = PATH;
+    }
+
     // ファイルが存在しない時
-    if (!wxFileExists(PATH)){
+    if (!wxFileExists(location)){
         return;
     }
 
     // ファイルの読み込みに失敗
-    if (!m_doc->Load(PATH)){
+    if (!m_doc->Load(location)){
         return;
     }
 
@@ -146,7 +152,9 @@ CChatServiceBase* CServiceSerializer::deserializeServce(wxXmlNode* node,
     service->setConfiguration(configuration);
     service->setSavedChannels(channels);
     service->registerUserBasiscEncoded(user, pass);
-    service->connect();
+    if (configuration->isAutoConnect()){
+        service->connect();
+    }
     return service;
 }
 
@@ -310,7 +318,6 @@ void CServiceSerializer::serializeConfiguration(wxXmlNode* root,
         vector<IFilter*>* filters = service->getConfiguration()->getFilters(
                 (*it)->getChannelName());
         vector<IFilter*>::reverse_iterator itFilter = filters->rbegin();
-        //vector<IFilter*>::iterator itFilter = filters->begin();
         while (itFilter != filters->rend()){
             wxXmlNode* filterNode = new wxXmlNode(channelNode,
                     wxXML_ELEMENT_NODE, "filter");

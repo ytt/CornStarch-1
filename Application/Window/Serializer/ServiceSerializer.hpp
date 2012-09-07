@@ -29,7 +29,7 @@ public:
 
     // 保存されたサービス情報を基に、vectorにpushする
     void loadService(wxEvtHandler* handler,
-            std::map<int, CChatServiceBase*>& services, int& serviceId);
+            std::map<int, CChatServiceBase*>& services, int& serviceId, const wxString& path = "");
 
 private:
     void createNode(wxXmlNode* parent, wxString name, wxString content);
