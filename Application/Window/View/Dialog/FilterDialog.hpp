@@ -6,6 +6,9 @@
 #include <wx/stattext.h>
 #include <vector>
 #include <wx/combobox.h>
+#include <wx/calctrl.h>
+#include <wx/datectrl.h>
+#include <wx/dateevt.h>
 #include "../../Service/Filter/IFilter.hpp"
 using namespace std;
 namespace CornStarch
@@ -18,13 +21,14 @@ DECLARE_EVENT_TABLE()
     {
         CHOICE_ID = 501
     };
-    wxChoice* m_choiceType;
-    wxComboBox* m_comboBoxTarget;
-    wxChoice* m_choiceTargetMessageType;
-
-    wxCheckBox* m_checkBoxIsAnti;
+    wxChoice* m_choiceType; // 種類選択
+    wxComboBox* m_comboBoxTarget; // 対象ユーザー
+    wxChoice* m_choiceTargetMessageType; // メッセージタイプ
+    wxCalendarCtrl* m_caldenr;
+    wxCheckBox* m_checkBoxIsAnti; // 逆条件下
     wxTextCtrl* m_textCtrlName; // フィルター名入力欄
 
+    wxBoxSizer* bSizerDate;
     wxBoxSizer* bSizerTarget;
     wxBoxSizer* bSizerType;
     bool validateDialogResult() const; // 入力値の検証

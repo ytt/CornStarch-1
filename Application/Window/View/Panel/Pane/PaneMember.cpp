@@ -23,7 +23,7 @@ void CPaneMember::init(wxWindow* parent)
 {
     // スクロールバー(水平、垂直を必要に応じて)、ソート
     Create(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL,
-        wxLB_NEEDED_SB | wxLB_SORT | wxLB_HSCROLL);
+        wxLB_NEEDED_SB | wxLB_SORT );
 }
 
 // メンバーを表示する

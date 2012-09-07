@@ -1,6 +1,7 @@
 #include "FilterDialog.hpp"
 #include "../../Service/Filter/UserNameFilter.hpp"
 #include "../../Service/Filter/MessageTypeFilter.hpp"
+#include "../../Service/Filter/DateTimeFilter.hpp"
 #include "../../Service/Message/ChatMessage.hpp"
 #include "../../Service/Message/InviteMessage.hpp"
 #include "../../Service/Message/JoinMessage.hpp"
@@ -70,7 +71,7 @@ void CFilterDialog::init(wxWindow* parent, const wxString& channelName,
             wxDefaultPosition, wxSize(100, -1), wxALIGN_RIGHT);
     m_staticText2->Wrap(-1);
     bSizer12->Add(m_staticText2, 0, wxALIGN_CENTER, 5);
-    wxString m_choiceTypeChoices[] = { wxT("ユーザー"), wxT("メッセージ") };
+    wxString m_choiceTypeChoices[] = { wxT("ユーザー"), wxT("メッセージ"), wxT("日付") };
     int m_choiceTypeNChoices = sizeof(m_choiceTypeChoices) / sizeof(wxString);
     m_choiceType = new wxChoice(this, CHOICE_ID, wxDefaultPosition,
             wxDefaultSize, m_choiceTypeNChoices, m_choiceTypeChoices, 0);
@@ -78,6 +79,7 @@ void CFilterDialog::init(wxWindow* parent, const wxString& channelName,
 
     bSizer9->Add(bSizer12, 1, 0, 5);
 
+    // ユーザー
     bSizerTarget = new wxBoxSizer(wxHORIZONTAL);
 
     wxStaticText* m_staticTextTarget = new wxStaticText(this, wxID_ANY,
@@ -92,6 +94,7 @@ void CFilterDialog::init(wxWindow* parent, const wxString& channelName,
 
     bSizer9->Add(bSizerTarget, 1, wxEXPAND, 5);
 
+    // メッセージタイプ
     bSizerType = new wxBoxSizer(wxHORIZONTAL);
 
     wxStaticText* m_staticTextMessageType = new wxStaticText(this, wxID_ANY,
@@ -111,6 +114,22 @@ void CFilterDialog::init(wxWindow* parent, const wxString& channelName,
 
     bSizer9->Add(bSizerType, 1, wxEXPAND, 5);
     bSizerType->Show(false);
+
+    // カレンダー
+    bSizerDate = new wxBoxSizer(wxHORIZONTAL);
+
+    wxStaticText* m_staticTextCalender = new wxStaticText(this, wxID_ANY,
+            wxT("タイプ："), wxDefaultPosition, wxSize(100, -1), wxALIGN_RIGHT);
+    m_staticTextCalender->Wrap(-1);
+    bSizerDate->Add(m_staticTextCalender, 0, wxALIGN_CENTER_VERTICAL, 5);
+    //m_datePicker1 = new wxDatePickerCtrl( this, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DEFAULT| wxDP_SPIN);
+    //bSizerDate->Add( m_datePicker1, 0, wxALL, 5 );
+    m_caldenr = new wxCalendarCtrl(this, wxID_ANY);
+    bSizerDate->Add( m_caldenr, 0, wxALL, 5 );
+
+    bSizer9->Add(bSizerDate, 1, wxEXPAND, 5);
+    bSizerDate->Show(false);
+    // 逆条件
     wxBoxSizer* bSizer17;
     bSizer17 = new wxBoxSizer(wxHORIZONTAL);
 
@@ -134,6 +153,9 @@ void CFilterDialog::init(wxWindow* parent, const wxString& channelName,
     bSizer9->Add(buttonSizer, 0, wxALIGN_RIGHT, 0);
 
     this->SetSizer(bSizer9);
+//
+//    this->Fit();
+//    this->SetSize(DoGetBestSize());
     this->Layout();
 
     this->Centre(wxBOTH);
@@ -164,12 +186,18 @@ IFilter* CFilterDialog::getFilter(void) const
             filter->setUserName(m_comboBoxTarget->GetValue());
             filter->setAntiFilter(m_checkBoxIsAnti->IsChecked());
             return filter;
-        } else{
+        } else if(m_choiceType->GetStringSelection() == "メッセージ"){
             CMessageTypeFilter* filter = new CMessageTypeFilter();
             filter->setName(m_textCtrlName->GetValue());
             filter->setTypeInfoName(
                     getMessageTypeInfo(
                             m_choiceTargetMessageType->GetStringSelection()));
+            filter->setAntiFilter(m_checkBoxIsAnti->IsChecked());
+            return filter;
+        }else if(m_choiceType->GetStringSelection() == "日付"){
+            CDateTimeFilter* filter = new CDateTimeFilter();
+            filter->setName(m_textCtrlName->GetValue());
+            filter->setDate(m_caldenr->GetDate());
             filter->setAntiFilter(m_checkBoxIsAnti->IsChecked());
             return filter;
         }
@@ -182,11 +210,19 @@ void CFilterDialog::onChoiceChanged(wxCommandEvent &event)
 {
     bSizerTarget->Show(false);
     bSizerType->Show(false);
+    bSizerDate->Show(false);
     if (m_choiceType->GetStringSelection() == "ユーザー"){
         bSizerTarget->Show(true);
-    } else{
+        this->SetSize(400, 200);
+    } else if (m_choiceType->GetStringSelection() == "メッセージ"){
         bSizerType->Show(true);
+        this->SetSize(400, 200);
+    } else if (m_choiceType->GetStringSelection() == "日付"){
+        bSizerDate->Show(true);
+        this->SetSize(400, 400);
     }
+//    this->Fit();
+//    this->SetSize(DoGetBestSize());
     this->Layout();
 }
 
