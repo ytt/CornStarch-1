@@ -57,6 +57,12 @@ void CServiceConfiguration::addFilter(const wxString& channelName,
     if (it != m_filters.end()){
         vector<IFilter*>* filtesrs = (*it).second;
         filtesrs->push_back(filter);
+    } else{
+        vector<IFilter*>* filters = new vector<IFilter*>();
+        filters->push_back(filter);
+        m_filters.insert(
+                map<wxString, vector<IFilter*>*>::value_type(channelName,
+                        filters));
     }
 }
 void CServiceConfiguration::removeFilter(const wxString& channelName,

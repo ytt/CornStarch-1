@@ -34,13 +34,14 @@ public:
 private:
     void createNode(wxXmlNode* parent, wxString name, wxString content);
     // XMLNodeからサービスを作成する
-    CChatServiceBase* newService(wxXmlNode* node, wxEvtHandler* handler,
+    CChatServiceBase* deserializeServce(wxXmlNode* node, wxEvtHandler* handler,
             int& serviceId);
-
+    // XMLノードから設定を作成する
+    CServiceConfiguration* deserializeConfiguration(const wxXmlNode* node);
     // サービス情報をRootノードに追加
-    void addServiceToRoot(wxXmlNode* root, const CChatServiceBase* service);
+    void serializeService(wxXmlNode* root, const CChatServiceBase* service);
     // 設定をサービスノードに追加
-    void addServiceConfiguration(wxXmlNode* root,
+    void serializeConfiguration(wxXmlNode* root,
             const CChatServiceBase* service);
 };
 

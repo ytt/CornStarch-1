@@ -5,6 +5,7 @@
 #include "../Service/ServiceConfiguration.hpp"
 #include "../Service/Filter/UserNameFilter.hpp"
 #include "../Service/Filter/MessageTypeFilter.hpp"
+#include "../Service/Filter/DateTimeFilter.hpp"
 #ifndef _WIN32
 
 using namespace std;
@@ -44,7 +45,7 @@ void CServiceSerializer::saveService(
     for (it = services.rbegin(); it != services.rend(); it++){
 
         // サービス情報をRootノードに追加
-        addServiceToRoot(root, it->second);
+        serializeService(root, it->second);
     }
 
     m_doc->SetRoot(root);
@@ -75,7 +76,8 @@ void CServiceSerializer::loadService(wxEvtHandler* handler,
     while (child){
 
         // サービスを作成して追加
-        CChatServiceBase* service = newService(child, handler, serviceId);
+        CChatServiceBase* service = deserializeServce(child, handler,
+                serviceId);
         services.insert(
                 map<int, CChatServiceBase*>::value_type(service->getId(),
                         service));
@@ -89,7 +91,7 @@ void CServiceSerializer::loadService(wxEvtHandler* handler,
 //////////////////////////////////////////////////////////////////////
 
 // XMLNodeからサービスを作成する
-CChatServiceBase* CServiceSerializer::newService(wxXmlNode* node,
+CChatServiceBase* CServiceSerializer::deserializeServce(wxXmlNode* node,
         wxEvtHandler* handler, int& serviceId)
 {
     // サービス作成
@@ -104,6 +106,7 @@ CChatServiceBase* CServiceSerializer::newService(wxXmlNode* node,
     wxXmlNode* status = node->GetChildren();
     wxString nick, name, pass, host, user;
     long port;
+    CServiceConfiguration* configuration = NULL;
     vector<wxString> channels;
     while (status){
 
@@ -119,8 +122,9 @@ CChatServiceBase* CServiceSerializer::newService(wxXmlNode* node,
             host = status->GetNodeContent();
         } else if (tag == "port"){
             status->GetNodeContent().ToLong(&port);
-        }
-        if (tag == "channels"){
+        } else if (tag == "configuration"){
+            configuration = deserializeConfiguration(status);
+        } else if (tag == "channels"){
             wxXmlNode* channel = status->GetChildren();
             while (channel){
                 channels.push_back(channel->GetNodeContent());
@@ -130,19 +134,105 @@ CChatServiceBase* CServiceSerializer::newService(wxXmlNode* node,
         // 次のタグへ
         status = status->GetNext();
     }
-
+    if (configuration == NULL){
+        configuration = new CServiceConfiguration();
+    }
     // サービスのパラメータを代入
     service->setId(serviceId);
     service->init(handler);
     service->setName(name);
     service->setPort(port);
     service->setHost(host);
-    service->setConfiguration(new CServiceConfiguration());
+    service->setConfiguration(configuration);
     service->setSavedChannels(channels);
     service->registerUserBasiscEncoded(user, pass);
     service->connect();
     return service;
 }
+
+CServiceConfiguration* CServiceSerializer::deserializeConfiguration(
+        const wxXmlNode* node)
+{
+    CServiceConfiguration* configuration = new CServiceConfiguration();
+
+    wxXmlNode* child = node->GetChildren();
+    while (child){
+        if (child->GetName() == "isAuto"){
+            // 自動接続
+            configuration->setAutoConnect(child->GetNodeContent() == "1");
+        }
+        if (child->GetName() == "fontsize"){
+            // フォントサイズ
+            long size;
+            child->GetNodeContent().ToLong(&size);
+            configuration->setFontSize(size);
+        }
+        if (child->GetName() == "filters"){
+            // フィルター
+            wxXmlNode* filterNode = child->GetChildren();
+
+            while (filterNode){
+                wxString channelName = filterNode->GetAttribute("name", "");
+                wxXmlNode* filterChild = filterNode->GetChildren();
+                CFilterBase* filter = NULL;
+                bool isAnti;
+                wxString filterName;
+                wxString filterValue;
+
+                while (filterChild){
+                    wxXmlNode* filterElement = filterChild->GetChildren();
+                    while (filterElement){
+                        if (filterElement->GetName() == "name"){
+                            filterName = filterElement->GetNodeContent();
+                        } else if (filterElement->GetName() == "isAnti"){
+                            isAnti = (filterElement->GetNodeContent() == "1");
+                        } else if (filterElement->GetName() == "target"){
+                            filterValue = filterElement->GetNodeContent();
+                        } else if (filterElement->GetName() == "type"){
+                            // typeidからのインスタンス生成
+                            if (filterElement->GetNodeContent()
+                                    == typeid(CUserNameFilter).name()){
+                                CUserNameFilter* nameFilter =
+                                        new CUserNameFilter();
+                                nameFilter->setUserName(filterValue);
+                                filter = nameFilter;
+
+                            } else if (filterElement->GetNodeContent()
+                                    == typeid(CMessageTypeFilter).name()){
+                                CMessageTypeFilter* nameFilter =
+                                        new CMessageTypeFilter();
+                                nameFilter->setTypeInfoName(filterValue);
+                                filter = nameFilter;
+                            } else if (filterElement->GetNodeContent()
+                                    == typeid(CDateTimeFilter).name()){
+
+                                long time;
+                                filterValue.ToLong(&time);
+                                CDateTimeFilter* nameFilter =
+                                        new CDateTimeFilter();
+                                nameFilter->setDate(wxDateTime((time_t) time));
+                                filter = nameFilter;
+                            }
+                        }
+                        filterElement = filterElement->GetNext();
+
+                    }
+                    filterChild = filterChild->GetNext();
+                    if (filter != NULL){
+                        filter->setAntiFilter(isAnti);
+                        filter->setName(filterName);
+                        configuration->addFilter(channelName, filter);
+                    }
+                }
+
+                filterNode = filterNode->GetNext();
+            }
+        }
+        child = child->GetNext();
+    }
+    return configuration;
+}
+
 void CServiceSerializer::createNode(wxXmlNode* parent, wxString name,
         wxString content)
 {
@@ -150,7 +240,7 @@ void CServiceSerializer::createNode(wxXmlNode* parent, wxString name,
     new wxXmlNode(server1, wxXML_TEXT_NODE, "text", content);
 }
 // サービス情報をRootノードに追加
-void CServiceSerializer::addServiceToRoot(wxXmlNode* root,
+void CServiceSerializer::serializeService(wxXmlNode* root,
         const CChatServiceBase* service)
 {
     wxXmlNode* serverRoot;
@@ -187,10 +277,10 @@ void CServiceSerializer::addServiceToRoot(wxXmlNode* root,
             it++;
         }
     }
-    addServiceConfiguration(serverRoot, service);
+    serializeConfiguration(serverRoot, service);
 }
 // 設定をサービスノードに追加
-void CServiceSerializer::addServiceConfiguration(wxXmlNode* root,
+void CServiceSerializer::serializeConfiguration(wxXmlNode* root,
         const CChatServiceBase* service)
 {
     wxXmlNode* parentNode = new wxXmlNode(root, wxXML_ELEMENT_NODE,
@@ -211,7 +301,7 @@ void CServiceSerializer::addServiceConfiguration(wxXmlNode* root,
     vector<CChannelStatus*>::iterator it = channels.begin();
     while (it != channels.end()){
 
-        wxXmlNode* channelNode = new wxXmlNode(parentNode, wxXML_ELEMENT_NODE,
+        wxXmlNode* channelNode = new wxXmlNode(filtersNode, wxXML_ELEMENT_NODE,
                 "channel");
         channelNode->SetAttributes(
                 new wxXmlAttribute("name", (*it)->getChannelName()));
@@ -219,8 +309,9 @@ void CServiceSerializer::addServiceConfiguration(wxXmlNode* root,
         // フィルター
         vector<IFilter*>* filters = service->getConfiguration()->getFilters(
                 (*it)->getChannelName());
-        vector<IFilter*>::iterator itFilter = filters->begin();
-        while (itFilter != filters->end()){
+        vector<IFilter*>::reverse_iterator itFilter = filters->rbegin();
+        //vector<IFilter*>::iterator itFilter = filters->begin();
+        while (itFilter != filters->rend()){
             wxXmlNode* filterNode = new wxXmlNode(channelNode,
                     wxXML_ELEMENT_NODE, "filter");
 
@@ -230,13 +321,22 @@ void CServiceSerializer::addServiceConfiguration(wxXmlNode* root,
             isAntiString << (*itFilter)->isAntiFilter();
             createNode(filterNode, "isAnti", isAntiString);
             if (typeid(*(*itFilter)) == typeid(CMessageTypeFilter)){
+                // メッセージフィルター
                 CMessageTypeFilter* filter =
                         dynamic_cast<CMessageTypeFilter*>(*itFilter);
                 createNode(filterNode, "target", filter->getTypeInfoName());
             } else if (typeid(*(*itFilter)) == typeid(CUserNameFilter)){
+                // ユーザーフィルター
                 CUserNameFilter* filter =
                         dynamic_cast<CUserNameFilter*>(*itFilter);
                 createNode(filterNode, "target", filter->getUserName());
+            } else if (typeid(*(*itFilter)) == typeid(CDateTimeFilter)){
+                // 日付フィルター
+                CDateTimeFilter* filter =
+                        dynamic_cast<CDateTimeFilter*>(*itFilter);
+                wxString time;
+                time << filter->getDate().GetTicks();
+                createNode(filterNode, "target", time);
             }
             itFilter++;
         }
