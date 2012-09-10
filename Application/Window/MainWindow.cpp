@@ -81,7 +81,7 @@ void CMainWindow::initHandle(void)
 // 検索
 void CMainWindow::onFind(wxCommandEvent& event)
 {
-
+    m_view->showFindDialog();
 }
 // コピー
 void CMainWindow::onCopy(wxCommandEvent& event)
@@ -525,10 +525,12 @@ void CMainWindow::onMemberDoubleClicked(wxCommandEvent& event)
 }
 
 // メッセージをダブルクリックされた時
-void CMainWindow::onMessageControlDoubleClicked(CMessageControlDoubleClickedEvent& event)
+void CMainWindow::onMessageControlDoubleClicked(
+        CMessageControlDoubleClickedEvent& event)
 {
     int index = event.getIndex();
-    cout << index << endl;
+    CMessage* message = m_logHolder->getLogs()[index];
+    m_view->setSelectedChannel(message->getServiceId(), message->getChannelName());
 }
 
 // チャンネル選択時
@@ -550,12 +552,18 @@ void CMainWindow::onChannelSelected(CChannelSelectEvent& event)
 
     // サーバーIDとチャンネル名を取得
     wxString channel = event.getChannelName();
-    m_serviceHolder->setCurrentServiceId(event.getServerId());
+    selectChannel(event.getServerId(), channel);
+}
+// チャンネルを選択
+void CMainWindow::selectChannel(int serviceId, wxString channelName)
+{
+    CChatServiceBase* service = m_serviceHolder->getService(serviceId);
+    m_serviceHolder->setCurrentServiceId(serviceId);
     // コンテンツの更新
-    service->selectChannel(channel);
+    service->selectChannel(channelName);
 
     // 画面表示を更新
-    displayTitle(channel, service->getTopic(channel), event.getServerId());
+    displayTitle(channelName, service->getTopic(channelName), serviceId);
     updateMessageView(m_serviceHolder->getCurrentServiceId(),
             service->getCurrentChannel());
     updateMemberView(m_serviceHolder->getCurrentServiceId(),
@@ -564,7 +572,6 @@ void CMainWindow::onChannelSelected(CChannelSelectEvent& event)
     // 投稿ペインにフォーカス
     m_view->setFocusPostPane();
 }
-
 // 保存
 void CMainWindow::onSave(wxCommandEvent& event)
 {

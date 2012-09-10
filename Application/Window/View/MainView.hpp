@@ -3,6 +3,7 @@
 #include "Panel/MainPanel.hpp"
 #include "MainNotifier.hpp"
 #include "../Service/ChatServiceBase.hpp"
+#include "Dialog/FindDialog.hpp"
 #include <map>
 
 namespace CornStarch
@@ -16,7 +17,7 @@ private:
     CMainMenuBar* m_menuBar; // メニューバーを管理
     CMainPanel* m_panel; // 各ペインを管理
     CMainNotifier* m_notifier; // 通知を行う
-
+    CFindDialog* m_findDialog;
 public:
     CMainView(void);
     ~CMainView(void);
@@ -100,7 +101,8 @@ public:
 
 public:
     // ダイアログに関するメソッド
-
+    // 検索ダイアログを表示
+    void showFindDialog();
     // メッセージボックスを表示する
     void showMsgBox(const wxString& message);
 

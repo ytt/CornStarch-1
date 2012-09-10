@@ -150,6 +150,8 @@ private:
     // チャンネル選択時
     void onChannelSelected(CChannelSelectEvent& event);
 
+    // チャンネルを選択
+    void selectChannel(int serviceId,wxString channelName);
     // チャンネルペインを右クリック時
     void onChannelRightClicked(CChannelSelectEvent& event);
 

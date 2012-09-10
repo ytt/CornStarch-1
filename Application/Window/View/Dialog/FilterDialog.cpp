@@ -11,11 +11,8 @@
 
 namespace CornStarch
 {
-BEGIN_EVENT_TABLE(CFilterDialog, wxEvtHandler) // Event宣言
+BEGIN_EVENT_TABLE(CFilterDialog, wxDialog) // Event宣言
 EVT_CHOICE(CHOICE_ID, CFilterDialog::onChoiceChanged)
-EVT_BUTTON( wxID_OK,CFilterDialog::onOKCancel)
-EVT_BUTTON( wxID_CANCEL,CFilterDialog::onClickCancel)
-EVT_CLOSE( CFilterDialog::onClose)
 END_EVENT_TABLE()
 CFilterDialog::CFilterDialog()
 {
@@ -161,21 +158,6 @@ void CFilterDialog::init(wxWindow* parent, const wxString& channelName,
     this->Centre(wxBOTH);
 }
 
-// ダイアログが閉じられたときのイベントです。
-void CFilterDialog::onClose(wxCloseEvent& event)
-{
-    wxDialog::EndModal(wxID_CANCEL);
-}
-// Cancelボタンが押された時のイベントです。
-void CFilterDialog::onClickCancel(wxCommandEvent& event)
-{
-    wxDialog::EndModal(wxID_CANCEL);
-}
-// OKボタンが押された時のイベントです。
-void CFilterDialog::onOKCancel(wxCommandEvent& event)
-{
-    wxDialog::EndModal(wxID_OK);
-}
 // 選択した要素を取得する
 IFilter* CFilterDialog::getFilter(void) const
 {

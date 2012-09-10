@@ -111,7 +111,7 @@ void CPaneMsg::drawDateLine(const wxString& now)
     }
 
     this->Newline();
-    AppendText("------" + now + "--------");
+    writeColoredText("------" + now + "--------",*wxBLACK);
     this->Newline();
     this->Newline();
     m_lastDrawDateLine = now;

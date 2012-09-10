@@ -7,11 +7,8 @@ using namespace std;
 namespace CornStarch
 {
 ;
-BEGIN_EVENT_TABLE(CAuthDialog, wxEvtHandler) // Event宣言
+BEGIN_EVENT_TABLE(CAuthDialog, wxDialog) // Event宣言
 EVT_CHOICE(CHOICE_ID, CAuthDialog::onChoiceChanged)
-EVT_BUTTON( wxID_OK,CAuthDialog::onOKCancel)
-EVT_BUTTON( wxID_CANCEL,CAuthDialog::onClickCancel)
-EVT_CLOSE( CAuthDialog::onClose)
 END_EVENT_TABLE()
 
 CAuthDialog::CAuthDialog(void)
@@ -160,21 +157,6 @@ void CAuthDialog::onChoiceChanged(wxCommandEvent &event)
     }
 }
 
-// ダイアログが閉じられたときのイベントです。
-void CAuthDialog::onClose(wxCloseEvent& event)
-{
-    wxDialog::EndModal( wxID_CANCEL );
-}
-// Cancelボタンが押された時のイベントです。
-void CAuthDialog::onClickCancel(wxCommandEvent& event)
-{
-    wxDialog::EndModal(wxID_CANCEL);
-}
-// OKボタンが押された時のイベントです。
-void CAuthDialog::onOKCancel(wxCommandEvent& event)
-{
-    wxDialog::EndModal(wxID_OK);
-}
 // ユーザ名を取得する
 wxString CAuthDialog::getName(void) const
 {

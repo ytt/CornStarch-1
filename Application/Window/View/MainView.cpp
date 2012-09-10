@@ -7,7 +7,7 @@ namespace CornStarch
 ;
 
 CMainView::CMainView(void) :
-        m_menuBar(NULL), m_panel(NULL), m_notifier(NULL)
+        m_menuBar(NULL), m_panel(NULL), m_notifier(NULL), m_findDialog(NULL)
 {
 }
 
@@ -38,6 +38,10 @@ void CMainView::init(wxWindow* parent)
     if (m_notifier == NULL){
         m_notifier = new CMainNotifier();
         m_notifier->init(parent);
+    }
+    if (m_findDialog == NULL){
+        m_findDialog = new CFindDialog();
+        m_findDialog->init(parent);
     }
 }
 
@@ -154,6 +158,11 @@ CMainMenuBar* CMainView::getMenuBar(void) const
 }
 
 //////////////////////////////////////////////////////////////////////
+// 検索ダイアログを表示
+void CMainView::showFindDialog()
+{
+    m_findDialog->Show();
+}
 
 // メッセージボックスを表示する
 void CMainView::showMsgBox(const wxString& message)

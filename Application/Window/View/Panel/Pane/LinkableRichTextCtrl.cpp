@@ -32,6 +32,7 @@ void CLinkableRichTextCtrl::onNavigate(wxTextUrlEvent& event)
 }
 void CLinkableRichTextCtrl::writeLinkableText(const wxString& content)
 {
+    // キャレットをリンクの場所から移動
     vector<wxString> delimiter;
     delimiter.push_back("http");
     delimiter.push_back("//");
