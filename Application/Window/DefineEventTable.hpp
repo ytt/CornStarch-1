@@ -22,6 +22,7 @@ typedef void (wxEvtHandler::*InviteEvtFunc)(CStreamEvent<CInviteMessage>&);
 typedef void (wxEvtHandler::*KickEvtFunc)(CStreamEvent<CKickMessage>&);
 typedef void (wxEvtHandler::*JoinEvtFunc)(CJoinEvent&);
 typedef void (wxEvtHandler::*SelectEvtFunc)(CChannelSelectEvent&);
+typedef void (wxEvtHandler::*MessageControlDoubleClickedEvtFunc)(CMessageControlDoubleClickedEvent&);
 
 // define
 wxDEFINE_EVENT(myEVT_THREAD_GET_PING, CAuthEvent);
@@ -44,6 +45,8 @@ wxDEFINE_EVENT(myEVT_THREAD_DELETE_PART, CPartEvent);
 wxDEFINE_EVENT(myEVT_THREAD_POST_MESSAGE, wxThreadEvent);
 wxDEFINE_EVENT(myEVT_SELECT_TREE_NODE, CChannelSelectEvent);
 wxDEFINE_EVENT(myEVT_SELECT_TREE_NODE_RIGHT, CChannelSelectEvent);
+
+wxDEFINE_EVENT(myEVT_MESSAGE_CONTROL_DOUBLECLICKED, CMessageControlDoubleClickedEvent);
 wxDEFINE_EVENT(myEVT_FOCUSE_NEXT_INPUT_TEXT, wxThreadEvent);
 wxDEFINE_EVENT(myEVT_KEYDDOWN_ON_POSTPANE, wxKeyEvent);
 
@@ -62,6 +65,8 @@ wxDEFINE_EVENT(myEVT_KEYDDOWN_ON_POSTPANE, wxKeyEvent);
 #define getChPartStreamEventHandler(func) wxEVENT_HANDLER_CAST(GetChPartStreamEvtFunc, func)
 #define joinEventHandler(func) wxEVENT_HANDLER_CAST(JoinEvtFunc, func)
 #define selectEventHandler(func) wxEVENT_HANDLER_CAST(SelectEvtFunc, func)
+
+#define messageControlDoubleClickedEventHandler(func) wxEVENT_HANDLER_CAST(MessageControlDoubleClickedEvtFunc, func)
 #define inviteEventHandler(func) wxEVENT_HANDLER_CAST(InviteEvtFunc, func)
 #define kickEventHandler(func) wxEVENT_HANDLER_CAST(KickEvtFunc, func)
 
@@ -80,6 +85,7 @@ wxDEFINE_EVENT(myEVT_KEYDDOWN_ON_POSTPANE, wxKeyEvent);
 #define EVT_PUT_JOIN(evt, id, func) wx__DECLARE_EVT1(evt, id, joinEventHandler(func))
 #define EVT_SELECT_TREE_NODE(evt, id, func) wx__DECLARE_EVT1(evt, id, selectEventHandler(func))
 
+#define EVT_MESSAGE_CONTROL_DOUBLECLICKED(evt, id, func) wx__DECLARE_EVT1(evt, id, messageControlDoubleClickedEventHandler(func))
 #define EVT_KEYDDOWN_ON_POSTPANE(evt, id, func) wx__DECLARE_EVT1(evt, id, wxKeyEventHandler(func))
 #define EVT_FOCUSE_NEXT_INPUT_TEXT(evt, id, func) wx__DECLARE_EVT1(evt, id, wxThreadEventHandler(func))
 #define EVT_INVITE(evt, id, func) wx__DECLARE_EVT1(evt, id, inviteEventHandler(func))
@@ -135,7 +141,8 @@ BEGIN_EVENT_TABLE(CMainWindow, wxFrame)
     // チャンネルツリーの項目を選択
     EVT_SELECT_TREE_NODE(myEVT_SELECT_TREE_NODE, wxID_ANY, CMainWindow::onChannelSelected)
     EVT_SELECT_TREE_NODE(myEVT_SELECT_TREE_NODE_RIGHT, wxID_ANY, CMainWindow::onChannelRightClicked)
-
+    // メッセージペインでダブルクリック
+    EVT_MESSAGE_CONTROL_DOUBLECLICKED(myEVT_MESSAGE_CONTROL_DOUBLECLICKED, wxID_ANY, CMainWindow::onMessageControlDoubleClicked)
     // テキストボックスでTabを押してフォーカスを移動した
     EVT_FOCUSE_NEXT_INPUT_TEXT(myEVT_FOCUSE_NEXT_INPUT_TEXT, wxID_ANY, CMainWindow::onFocusNextText)
 

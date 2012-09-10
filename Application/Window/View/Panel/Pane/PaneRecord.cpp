@@ -5,7 +5,8 @@ using namespace std;
 namespace CornStarch
 {
 ;
-
+BEGIN_EVENT_TABLE(CPaneRecord, CLogTextCtrl) EVT_LEFT_DCLICK(CPaneRecord::onDoubleClicked)
+END_EVENT_TABLE()
 CPaneRecord::CPaneRecord(void)
 {
 }
@@ -21,7 +22,8 @@ const int CPaneRecord::PANE_RECEVE_ID = 10000;
 void CPaneRecord::init(wxWindow* parent)
 {
     // テキスト領域の作成
-    Create(parent, CPaneRecord::PANE_RECEVE_ID, wxEmptyString, wxDefaultPosition, wxDefaultSize,
+    Create(parent, CPaneRecord::PANE_RECEVE_ID, wxEmptyString,
+            wxDefaultPosition, wxDefaultSize,
             wxRE_MULTILINE | wxRE_READONLY | wxVSCROLL);
 
     setNavigateHaldler();
@@ -30,9 +32,35 @@ void CPaneRecord::init(wxWindow* parent)
     this->SetBackgroundColour(wxColour(200, 200, 200));
     GetCaret()->Hide();
 
-
+}
+void CPaneRecord::onDoubleClicked(wxMouseEvent& event)
+{
+    wxString value = GetValue();
+    int caretPosition = GetCaretPosition();
+    wxString valueByCurrentPosition = value.substr(0, caretPosition);
+    int count = valueByCurrentPosition.Replace("\n", "");
+    // イベント送信
+    CMessageControlDoubleClickedEvent* selectedEvent =
+            new CMessageControlDoubleClickedEvent();
+    selectedEvent->setIndex(count);
+    selectedEvent->SetEventType(myEVT_MESSAGE_CONTROL_DOUBLECLICKED); // イベントタイプ
+    wxQueueEvent(GetParent()->GetParent()->GetParent()->GetEventHandler(),
+            selectedEvent);
 }
 
+wxString CPaneRecord::getServiceNameFromSelectedText(const wxString lineText)
+{
+    int index = lineText.find("[");
+    return lineText.substr(0, index);
+}
+
+wxString CPaneRecord::getChannelNameFromSelectedText(const wxString lineText)
+{
+    int index = lineText.find("[") + 1;
+    int endIndex = lineText.find("]") - 1;
+    return lineText.SubString(index, endIndex);
+
+}
 // ログ一覧を表示
 void CPaneRecord::displayLogs(const vector<CMessage*>& logs,
         const CServiceHolder* services)
@@ -48,10 +76,7 @@ void CPaneRecord::displayLogs(const vector<CMessage*>& logs,
             wxString nickName = service->getNickTable().getNickname(
                     logs[i]->getUserName());
             logs[i]->setNick(nickName);
-            if (typeid(*logs[i]) == typeid(CChatMessage)){
-                writeColoredText("<" + logs[i]->getChannelName() + ">",
-                        *wxBLACK);
-            }
+            writeColoredText("[" + logs[i]->getChannelName() + "]", *wxBLACK);
             pushLog(logs[i]);
         }
     }

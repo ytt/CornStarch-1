@@ -10,7 +10,6 @@ using namespace std;
 namespace CornStarch
 {
 ;
-//const int CPaneMsg::PANE_MSG_ID = 10000;
 // イベントテーブル
 BEGIN_EVENT_TABLE(CPaneMsg, CLinkableRichTextCtrl) //
 EVT_SCROLLWIN( CPaneMsg::OnScroll)
@@ -68,8 +67,6 @@ void CPaneMsg::clearUnreadBackgroundColor()
 }
 void CPaneMsg::pushLog(const CMessage* messageLog)
 {
-//    vector<IFilter*> filters = m_configuration->getFilters(
-//            messageLog->getChannelName());
     if (m_filter->isValid(messageLog)){
         GetCaret()->Hide();
         this->MoveEnd();
@@ -79,19 +76,6 @@ void CPaneMsg::pushLog(const CMessage* messageLog)
         }
     }
 }
-//bool CPaneMsg::isFilterPassed(const CMessage* message,
-//        const vector<IFilter*>& filters)
-//{
-//    vector<IFilter*>::const_iterator it = filters.begin();
-//    while (it != filters.end()){
-//        if ((*it)->isValid(message) == false){
-//            return false;
-//        }
-//        it++;
-//    }
-//    return true;
-//}
-
 void CPaneMsg::pushLog(const CChatMessage* messageLog)
 {
     drawDateLine(messageLog->getTime("%Y/%m/%d(%a)"));

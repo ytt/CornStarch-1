@@ -1,4 +1,5 @@
 ﻿#include "MainNotifier.hpp"
+#include "../Service/StringUtility.hpp"
 namespace CornStarch
 {
 ;
@@ -35,15 +36,12 @@ void CMainNotifier::messageNotify(const wxString& title,
 #ifdef _WIN32
     m_taskbar->ShowBalloon(title, message, 15000, wxICON_INFORMATION);
 #else
-    wxString replacedTitle = title;
-    replacedTitle.Replace("\\","\\\\");
-    replacedTitle.Replace("\"","\\\"");
-    wxString replacedMessage = message;
-    replacedMessage.Replace("\\","\\\\");
-    replacedMessage.Replace("\"","\\\"");
-    system(wxString::Format("/usr/local/bin/growlnotify -t \"%s\" -a CornStarch -m \"%s\"", replacedTitle,replacedMessage));
-
-
+    wxString replacedTitle = CStringUtility::escape(title);
+    wxString replacedMessage = CStringUtility::escape(message);
+    system(
+            wxString::Format(
+                    "/usr/local/bin/growlnotify -t \"%s\" -a CornStarch -m \"%s\"",
+                    replacedTitle, replacedMessage));
 #endif
 }
 

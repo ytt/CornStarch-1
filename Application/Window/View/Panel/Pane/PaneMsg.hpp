@@ -29,8 +29,6 @@ class CPaneMsg: public CLogTextCtrl
 
     // フィルター
     const IFilter* m_filter;
-//    // フィルターに通るか
-//    bool isFilterPassed(const CMessage* message,const vector<IFilter*>& filters );
 protected:
     // スクロールしたときのイベント
     void OnScroll(wxScrollWinEvent &event);

@@ -57,7 +57,7 @@ void CLinkableRichTextCtrl::writeLinkableText(const wxString& content)
             } else{
                 url = content.substr(urlIndex);
             }
-            wxString linkUrl = url;
+            wxString linkUrl = CStringUtility::escape(url);
 #ifndef _WIN32
             if(url.find("//")==0)
             {

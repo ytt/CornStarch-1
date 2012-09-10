@@ -44,6 +44,12 @@ int CStringUtility::findAny(wxString str, vector<wxString>& delim,
         return wxString::npos;
     }
     return index;
-
+}
+wxString CStringUtility::escape(const wxString& content)
+{
+    wxString result =content;
+    result.Replace("\\","\\\\");
+    result.Replace("\"","\\\"");
+    return result;
 }
 }

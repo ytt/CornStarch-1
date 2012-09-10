@@ -13,6 +13,7 @@ namespace CornStarch {
     public:
         static vector<wxString> split(wxString str, wxString delim);
         static int findAny(wxString str, vector<wxString>& delim,int startIndex =0);
+        static wxString escape(const wxString& content);
     };
 }
 

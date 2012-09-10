@@ -161,6 +161,9 @@ private:
 
     // ポストペインでキーを押した時
     void onKeyDownOnPostPane(wxKeyEvent& event);
+
+    // メッセージをダブルクリックされた時
+    void onMessageControlDoubleClicked(CMessageControlDoubleClickedEvent& event);
 private:
     // 通信系
 

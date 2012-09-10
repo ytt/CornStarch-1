@@ -524,6 +524,13 @@ void CMainWindow::onMemberDoubleClicked(wxCommandEvent& event)
     //wxMessageBox("名前：" + name, event.GetString() + "のユーザ情報");
 }
 
+// メッセージをダブルクリックされた時
+void CMainWindow::onMessageControlDoubleClicked(CMessageControlDoubleClickedEvent& event)
+{
+    int index = event.getIndex();
+    cout << index << endl;
+}
+
 // チャンネル選択時
 void CMainWindow::onChannelSelected(CChannelSelectEvent& event)
 {
@@ -574,12 +581,13 @@ void CMainWindow::onSave(wxCommandEvent& event)
 void CMainWindow::onLoad(wxCommandEvent& event)
 {
     wxFileDialog openFileDialog(this, _("Import"), "", "",
-            "CornStarch Config (*.csconf)|*.csconf", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+            "CornStarch Config (*.csconf)|*.csconf",
+            wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 
     if (openFileDialog.ShowModal() == wxID_CANCEL){
         return;
     }
-    m_serviceHolder->importService(GetEventHandler(),openFileDialog.GetPath());
+    m_serviceHolder->importService(GetEventHandler(), openFileDialog.GetPath());
 }
 
 // 拡大
@@ -589,8 +597,10 @@ void CMainWindow::onZoom(wxCommandEvent& event)
     map<int, CChatServiceBase*>::iterator it = services.begin();
     while (it != services.end()){
         CServiceConfiguration* configuration = (*it).second->getConfiguration();
-        configuration->setFontSize(configuration->getFontSize() + 2);
-        it++;
+        if (configuration->getFontSize() <= 30){
+            configuration->setFontSize(configuration->getFontSize() + 2);
+            it++;
+        }
     }
 
     CChatServiceBase* service = m_serviceHolder->getService(
@@ -607,8 +617,10 @@ void CMainWindow::onShrink(wxCommandEvent& event)
     map<int, CChatServiceBase*>::iterator it = services.begin();
     while (it != services.end()){
         CServiceConfiguration* configuration = (*it).second->getConfiguration();
-        configuration->setFontSize(configuration->getFontSize() - 2);
-        it++;
+        if (configuration->getFontSize() >= 4){
+            configuration->setFontSize(configuration->getFontSize() - 2);
+            it++;
+        }
     }
 
     CChatServiceBase* service = m_serviceHolder->getService(
@@ -878,7 +890,10 @@ void CMainWindow::onMsgStream(CStreamEvent<CChatMessage>& event)
     }
     // 通知があったとき && 自分以外の人から
     if (service->isUserCalled(message->getBody()) && !isMyPost){
-        m_view->messageNotify(wxString::Format("CornStarch[%s]",message->getChannelName()), wxString::Format("%s: %s",message->getNick(),message->getBody()));
+        m_view->messageNotify(
+                wxString::Format("CornStarch[%s]", message->getChannelName()),
+                wxString::Format("%s: %s", message->getNick(),
+                        message->getBody()));
         RequestUserAttention(wxUSER_ATTENTION_ERROR);
     }
     service->onGetMessageStream(message);
