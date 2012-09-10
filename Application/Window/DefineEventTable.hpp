@@ -43,6 +43,7 @@ wxDEFINE_EVENT(myEVT_THREAD_KICK, CStreamEvent<CKickMessage>);
 wxDEFINE_EVENT(myEVT_THREAD_PUT_JOIN, CJoinEvent);
 wxDEFINE_EVENT(myEVT_THREAD_DELETE_PART, CPartEvent);
 wxDEFINE_EVENT(myEVT_THREAD_POST_MESSAGE, wxThreadEvent);
+wxDEFINE_EVENT(myEVT_FIND_REQUEST, wxCommandEvent);
 wxDEFINE_EVENT(myEVT_SELECT_TREE_NODE, CChannelSelectEvent);
 wxDEFINE_EVENT(myEVT_SELECT_TREE_NODE_RIGHT, CChannelSelectEvent);
 
@@ -88,6 +89,7 @@ wxDEFINE_EVENT(myEVT_KEYDDOWN_ON_POSTPANE, wxKeyEvent);
 #define EVT_MESSAGE_CONTROL_DOUBLECLICKED(evt, id, func) wx__DECLARE_EVT1(evt, id, messageControlDoubleClickedEventHandler(func))
 #define EVT_KEYDDOWN_ON_POSTPANE(evt, id, func) wx__DECLARE_EVT1(evt, id, wxKeyEventHandler(func))
 #define EVT_FOCUSE_NEXT_INPUT_TEXT(evt, id, func) wx__DECLARE_EVT1(evt, id, wxThreadEventHandler(func))
+#define EVT_FIND_REQUEST(evt, id, func) wx__DECLARE_EVT1(evt, id, wxCommandEventHandler(func))
 #define EVT_INVITE(evt, id, func) wx__DECLARE_EVT1(evt, id, inviteEventHandler(func))
 #define EVT_KICK(evt, id, func) wx__DECLARE_EVT1(evt, id, kickEventHandler(func))
 
@@ -146,6 +148,8 @@ BEGIN_EVENT_TABLE(CMainWindow, wxFrame)
     // テキストボックスでTabを押してフォーカスを移動した
     EVT_FOCUSE_NEXT_INPUT_TEXT(myEVT_FOCUSE_NEXT_INPUT_TEXT, wxID_ANY, CMainWindow::onFocusNextText)
 
+
+    EVT_FIND_REQUEST(myEVT_FIND_REQUEST, wxID_ANY, CMainWindow::onEnterFind)
     // テキストボックスでキーを押した
     EVT_KEYDDOWN_ON_POSTPANE(myEVT_KEYDDOWN_ON_POSTPANE, wxID_ANY, CMainWindow::onKeyDownOnPostPane)
 END_EVENT_TABLE();

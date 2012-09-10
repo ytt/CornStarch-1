@@ -34,14 +34,6 @@ DECLARE_EVENT_TABLE()
     bool validateDialogResult() const; // 入力値の検証
     void onChoiceChanged(wxCommandEvent &event); //タイプ変更時
 
-    // ダイアログが閉じられたときのイベントです。
-    void onClose(wxCloseEvent& event);
-
-    // Cancelボタンが押された時のイベントです。
-    void onClickCancel(wxCommandEvent& event);
-
-    // OKボタンが押された時のイベントです。
-    void onOKCancel(wxCommandEvent& event);
     wxString getMessageTypeInfo(const wxString& text) const; //タイプIDの取得
 public:
     CFilterDialog();

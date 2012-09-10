@@ -30,7 +30,8 @@ public:
 
     // 投稿ペインのIDを取得する
     wxWindowID getPostPaneID(void) const;
-
+    // 投稿ペインのIDを取得する
+    wxWindowID getFindPaneID(void) const;
     // チャンネルペインのIDを取得する
     wxWindowID getCnPaneID(void) const;
 

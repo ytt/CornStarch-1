@@ -11,16 +11,16 @@
 namespace CornStarch
 {
 
+wxDECLARE_EVENT(myEVT_FIND_REQUEST, wxCommandEvent);
 class CFindDialog: public wxDialog
 {
-    //DECLARE_EVENT_TABLE()
     enum
     {
         CHOICE_ID = 502
     };
 
     wxStaticText* m_staticText1;
-    wxSearchCtrl* m_searchCtrl1;
+    wxTextCtrl* m_searchCtrl1;
     wxStaticText* m_staticText2;
     wxChoice* m_choiceType;
     wxStaticText* m_staticText71;
@@ -29,6 +29,11 @@ public:
     CFindDialog();
     virtual ~CFindDialog();
     void init(wxWindow* parent);
+    // メンバーペインのIDを取得する
+    wxWindowID getFindPaneID(void) const;
+
+    void onFind(wxCommandEvent& event);
+
 };
 
 } /* namespace CornStarch */

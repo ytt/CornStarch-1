@@ -150,9 +150,6 @@ void CFilterDialog::init(wxWindow* parent, const wxString& channelName,
     bSizer9->Add(buttonSizer, 0, wxALIGN_RIGHT, 0);
 
     this->SetSizer(bSizer9);
-//
-//    this->Fit();
-//    this->SetSize(DoGetBestSize());
     this->Layout();
 
     this->Centre(wxBOTH);

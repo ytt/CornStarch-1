@@ -140,7 +140,8 @@ private:
 
     // 投稿ペインでEnterキーを押下
     void onEnter(wxCommandEvent& event);
-
+    // 検索ダイアログでEnterキーを押下
+    void onEnterFind(wxCommandEvent& event);
     //　キーを押された時。
     void onTextUpdated(wxCommandEvent& event);
 

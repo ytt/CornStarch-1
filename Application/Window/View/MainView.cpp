@@ -52,7 +52,11 @@ wxWindowID CMainView::getPostPaneID(void) const
 {
     return m_panel->getPostPaneID();
 }
-
+// 投稿ペインのIDを取得する
+wxWindowID CMainView::getFindPaneID(void) const
+{
+    return m_findDialog->getFindPaneID();
+}
 // チャンネルペインのIDを取得する
 wxWindowID CMainView::getCnPaneID(void) const
 {
@@ -161,6 +165,7 @@ CMainMenuBar* CMainView::getMenuBar(void) const
 // 検索ダイアログを表示
 void CMainView::showFindDialog()
 {
+    m_findDialog->Raise();
     m_findDialog->Show();
 }
 

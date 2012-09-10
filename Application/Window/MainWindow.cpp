@@ -65,10 +65,10 @@ void CMainWindow::onShowed()
 // 画面操作に関するイベントハンドラを設定する
 void CMainWindow::initHandle(void)
 {
+
     // エンターキー押下時
     this->Connect(m_view->getPostPaneID(), wxEVT_COMMAND_TEXT_ENTER,
             wxCommandEventHandler(CMainWindow::onEnter));
-
     // テキスト入力時
     this->Connect(m_view->getPostPaneID(), wxEVT_COMMAND_TEXT_UPDATED,
             wxCommandEventHandler(CMainWindow::onTextUpdated));
@@ -479,7 +479,10 @@ void CMainWindow::onChangeTopic(wxCommandEvent& event)
 }
 
 //////////////////////////////////////////////////////////////////////
-
+// 検索ダイアログでEnterキーを押下
+void CMainWindow::onEnterFind(wxCommandEvent& event)
+{
+}
 // 投稿ペインでEnterキーを押下
 void CMainWindow::onEnter(wxCommandEvent& event)
 {
@@ -530,7 +533,8 @@ void CMainWindow::onMessageControlDoubleClicked(
 {
     int index = event.getIndex();
     CMessage* message = m_logHolder->getLogs()[index];
-    m_view->setSelectedChannel(message->getServiceId(), message->getChannelName());
+    m_view->setSelectedChannel(message->getServiceId(),
+            message->getChannelName());
 }
 
 // チャンネル選択時
