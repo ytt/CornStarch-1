@@ -51,12 +51,16 @@ void CPaneMessage::displayMessages(const std::vector<CMessage*>& messages,
     }
     this->Freeze();
     m_messagePanels.clear();
+    // 全てページの再セット
     m_messagePanels.push_back(m_allLogCtrl);
     m_allLogCtrl->Clear();
     m_allLogCtrl->setConfiguration(configuration);
+
+    // 現在のページを全て削除。
     while (this->GetPageCount() != 1){
         this->DeletePage(1);
     }
+    // ページの作成
     vector<IFilter*>::iterator itFilter = filters->begin();
     while (itFilter != filters->end()){
         CPaneMsg* msgPanel = createTab(*itFilter, configuration);
@@ -72,6 +76,8 @@ void CPaneMessage::displayMessages(const std::vector<CMessage*>& messages,
         pushLog(log);
     }
     this->Thaw();
+
+    // 一番したまでスクロール
     vector<CPaneMsg*>::iterator it = m_messagePanels.begin();
     while (it != m_messagePanels.end()){
         (*it)->ShowPosition((*it)->GetLastPosition());
@@ -109,6 +115,7 @@ void CPaneMessage::find(const wxString& words, int type)
 
 void CPaneMessage::pushLog(const CMessage* log)
 {
+    // すべての小ペインに要素を追加
     vector<CPaneMsg*>::iterator it = m_messagePanels.begin();
     while (it != m_messagePanels.end()){
         (*it)->pushLog(log);
@@ -117,6 +124,7 @@ void CPaneMessage::pushLog(const CMessage* log)
 }
 void CPaneMessage::clearUnreadBackgroundColor()
 {
+    // すべての子ペインの背景をクリア
     vector<CPaneMsg*>::iterator it = m_messagePanels.begin();
     while (it != m_messagePanels.end()){
         (*it)->clearUnreadBackgroundColor();

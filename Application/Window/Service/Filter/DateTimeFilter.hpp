@@ -6,7 +6,7 @@
 
 namespace CornStarch
 {
-
+// 日付フィルター
 class CDateTimeFilter:public CFilterBase
 {
     wxDateTime m_date;

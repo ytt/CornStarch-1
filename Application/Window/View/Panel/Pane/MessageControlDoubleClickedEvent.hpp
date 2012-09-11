@@ -5,9 +5,10 @@
 #include "wx/treebase.h"
 namespace CornStarch
 {
-
+// メッセージがダブルクリックされたときのイベント
 class CMessageControlDoubleClickedEvent : public wxNotifyEvent
 {
+    // メッセージの位置
     int m_index;
 public:
     CMessageControlDoubleClickedEvent();

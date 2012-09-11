@@ -7,6 +7,7 @@ namespace CornStarch
 // メッセージタイプでのフィルタ
 class CMessageTypeFilter:public CFilterBase
 {
+    // メッセージのタイプインフォ名
     wxString m_typeInfoName;
 public:
     CMessageTypeFilter();
