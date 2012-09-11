@@ -86,6 +86,11 @@ void CMainView::selectNextChannel()
     m_panel->selectNextChannel();
 }
 
+// 文字列を検索
+void CMainView::find(const wxString& words, int type)
+{
+    m_panel->find(words,type);
+}
 // 一つ前のチャンネルを選択します。
 void CMainView::selectPreviousChannel()
 {
@@ -167,6 +172,7 @@ void CMainView::showFindDialog()
 {
     m_findDialog->Raise();
     m_findDialog->Show();
+    m_findDialog->SetFocus();
 }
 
 // メッセージボックスを表示する

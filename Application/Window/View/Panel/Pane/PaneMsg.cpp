@@ -56,7 +56,7 @@ void CPaneMsg::OnScroll(wxScrollWinEvent &event)
     }
     event.Skip(true);
 }
-
+// 背景の初期化
 void CPaneMsg::clearUnreadBackgroundColor()
 {
     int index = this->GetLastPosition();
@@ -67,13 +67,15 @@ void CPaneMsg::clearUnreadBackgroundColor()
 }
 void CPaneMsg::pushLog(const CMessage* messageLog)
 {
+    // フィルターに適していれば追加
     if (m_filter->isValid(messageLog)){
-        GetCaret()->Hide();
         this->MoveEnd();
         CLogTextCtrl::pushLog(messageLog);
         if (m_isScrollingBack == false){
             this->ShowPosition(this->GetLastPosition());
         }
+        // キャレットの非表示
+        GetCaret()->Hide();
     }
 }
 void CPaneMsg::pushLog(const CChatMessage* messageLog)

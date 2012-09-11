@@ -14,7 +14,7 @@ CFindDialog::~CFindDialog()
 void CFindDialog::init(wxWindow* parent)
 {
     wxDialog::Create(parent, wxID_ANY, "検索");
-    this->SetSize(400, 100);
+    this->SetSize(300, 110);
     this->SetSizeHints(wxDefaultSize, wxDefaultSize);
 
     wxBoxSizer* bSizer9;
@@ -42,7 +42,7 @@ void CFindDialog::init(wxWindow* parent)
     m_staticText2->Wrap(-1);
     bSizer12->Add(m_staticText2, 0, wxALIGN_CENTER, 5);
 
-    wxString m_choiceTypeChoices[] = { wxT("現在のチャンネル"), wxT("すべてのチャンネル") };
+    wxString m_choiceTypeChoices[] = { wxT("現在のチャンネル")};//, wxT("すべてのチャンネル") };
     int m_choiceTypeNChoices = sizeof(m_choiceTypeChoices) / sizeof(wxString);
     m_choiceType = new wxChoice(this, wxID_ANY, wxDefaultPosition,
             wxDefaultSize, m_choiceTypeNChoices, m_choiceTypeChoices, 0);
@@ -68,7 +68,7 @@ void CFindDialog::init(wxWindow* parent)
 //    bSizer9->Add(bSizer171, 1, wxEXPAND, 5);
     // パネル上のボタン
     wxButton* ok = new wxButton(this, wxID_ANY, "検索", wxPoint(250, 150));
-    bSizer9->Add(ok, 1, 0, 5);
+    bSizer9->Add(ok, 1, wxALIGN_RIGHT, 5);
     this->SetSizer(bSizer9);
     this->Layout();
 
@@ -89,6 +89,7 @@ void CFindDialog::onFind(wxCommandEvent& event)
 {
     wxCommandEvent* findEvent = new wxCommandEvent();
     findEvent->SetEventType(myEVT_FIND_REQUEST);
+    findEvent->SetString(m_searchCtrl1->GetValue());
     wxQueueEvent(
             GetParent()->GetEventHandler(),
             findEvent);

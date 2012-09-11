@@ -48,6 +48,8 @@ public:
     // メンバーペインにメンバーを表示
     void displayMembers(const std::vector<CMemberData*>& members);
 
+    // 文字列を検索
+    void find(const wxString& words,int type);
     // チャンネルペインにチャンネルを表示
     void displayChannels(const std::map<int, CChatServiceBase*>& services);
 

@@ -19,7 +19,7 @@ void CMenuView::init(void)
     Append(MENU_VIEW_ZOOM, wxT("拡大\tCtrl++"));
     Append(MENU_VIEW_SHRINK, wxT("縮小\tCtrl+-"));
     AppendSeparator();
-    Append(MENU_VIEW_SELECT_NEXT_TAB, wxT("次のタブを選択"));
-    Append(MENU_VIEW_SELECT_PREVOUS_TAB, wxT("前のタブを選択"));
+    Append(MENU_VIEW_SELECT_NEXT_TAB, wxT("次のタブを選択\tCTRL+Tab"));
+    Append(MENU_VIEW_SELECT_PREVOUS_TAB, wxT("前のタブを選択\tCTRL+Shift+Tab"));
 }
 } /* namespace CornStarch */

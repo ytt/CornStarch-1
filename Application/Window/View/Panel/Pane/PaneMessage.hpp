@@ -39,6 +39,8 @@ public:
     void pushLog(const CMessage* message);
     // 背景のクリア
     void clearUnreadBackgroundColor();
+    // 文字の検索
+    void find(const wxString& words,int type);
 };
 
 } /* namespace CornStarch */

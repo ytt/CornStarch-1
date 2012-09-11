@@ -102,11 +102,15 @@ void CMainPanel::displayChannels(
 
 }
 
+// 文字列を検索
+void CMainPanel::find(const wxString& words, int type)
+{
+    m_messagePane->find(words, type);
+}
 // メッセージペインをクリアする。
 void CMainPanel::clearMessages(void)
 {
     m_messagePane->clear();
-    //m_msgPane->Clear();
 }
 
 // メンバーペインをクリアする

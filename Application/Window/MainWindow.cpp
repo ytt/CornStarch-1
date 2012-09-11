@@ -482,6 +482,7 @@ void CMainWindow::onChangeTopic(wxCommandEvent& event)
 // 検索ダイアログでEnterキーを押下
 void CMainWindow::onEnterFind(wxCommandEvent& event)
 {
+    m_view->find(event.GetString(),event.GetInt());
 }
 // 投稿ペインでEnterキーを押下
 void CMainWindow::onEnter(wxCommandEvent& event)

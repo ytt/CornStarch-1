@@ -61,6 +61,9 @@ public:
     // チャンネル一覧を表示する
     void displayChannels(const std::map<int, CChatServiceBase*>& services);
 
+    // 文字列を検索
+    void find(const wxString& words,int type);
+
     // メッセージ一覧をクリアする。
     void clearMessages(void);
 

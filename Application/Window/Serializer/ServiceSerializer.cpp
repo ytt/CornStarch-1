@@ -6,17 +6,22 @@
 #include "../Service/Filter/UserNameFilter.hpp"
 #include "../Service/Filter/MessageTypeFilter.hpp"
 #include "../Service/Filter/DateTimeFilter.hpp"
-#ifndef _WIN32
+
 
 using namespace std;
 
 namespace CornStarch
 {
 ;
-
+#ifdef _WIN32
+const wxString CServiceSerializer::PATH = wxString(getenv("USERPROFILE"))
+        + "/.CornStarch";
+#endif
+#ifndef _WIN32
 const wxString CServiceSerializer::PATH = wxString(getenv("HOME"))
         + "/.CornStarch";
 
+#endif
 CServiceSerializer::CServiceSerializer(void) :
         m_doc(NULL)
 {
@@ -51,7 +56,10 @@ void CServiceSerializer::saveService(
     m_doc->SetRoot(root);
     if (path == ""){
         m_doc->Save(PATH);
-        chmod(PATH, S_IRUSR | S_IWUSR);
+
+#ifndef _WIN32
+chmod(PATH, S_IRUSR | S_IWUSR);
+#endif
     } else{
         m_doc->Save(path);
     }
@@ -353,4 +361,3 @@ void CServiceSerializer::serializeConfiguration(wxXmlNode* root,
 
 }
 }
-#endif

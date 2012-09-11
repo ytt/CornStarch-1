@@ -78,6 +78,34 @@ void CPaneMessage::displayMessages(const std::vector<CMessage*>& messages,
         it++;
     }
 }
+// 選択する
+void CPaneMessage::find(const wxString& words, int type)
+{
+    this->SetSelection(0);
+    wxString text = m_allLogCtrl->GetValue();
+    long selectionFrom;
+    long selectionTo;
+    // 選択があれば、そこから探す。
+    m_allLogCtrl->GetSelection(&selectionFrom, &selectionTo);
+    if (selectionFrom == selectionTo){
+        selectionTo = 0;
+    }
+    // 見つかれば選択する
+    int index = text.find(words, selectionTo);
+    if (index != wxString::npos){
+        m_allLogCtrl->SetSelection(index, index + words.Len());
+        m_allLogCtrl->ShowPosition(index + words.Len());
+        return;
+    }
+    // 途中からの検索で見つからなければ、先頭から改めて探す
+    if (selectionTo != 0){
+         index = text.find(words);
+         if (index != wxString::npos){
+             m_allLogCtrl->SetSelection(index, index + words.Len());
+             m_allLogCtrl->ShowPosition(index + words.Len());
+         }
+    }
+}
 
 void CPaneMessage::pushLog(const CMessage* log)
 {
@@ -95,6 +123,7 @@ void CPaneMessage::clearUnreadBackgroundColor()
         it++;
     }
 }
+// すべてのテキストボックスをクリア。
 void CPaneMessage::clear()
 {
     vector<CPaneMsg*>::iterator it = m_messagePanels.begin();
