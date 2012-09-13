@@ -1,5 +1,4 @@
 ﻿#pragma once
-#ifndef _WIN32
 #include <wx/xml/xml.h>
 #include <map>
 #include "../Service/IRCService/IRCService.hpp"
@@ -46,4 +45,3 @@ private:
 };
 
 }
-#endif

@@ -1,4 +1,4 @@
-#include "MenuView.hpp"
+﻿#include "MenuView.hpp"
 #include  <wx/sysopt.h>
 namespace CornStarch
 {

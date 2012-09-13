@@ -9,8 +9,8 @@ class CMainApplication : public wxApp
 {
 private:
     // フレームのサイズ
-    static const int WIDTH = 700;
-    static const int HEIGHT = 750;
+    static const int WIDTH = 600;
+    static const int HEIGHT = 650;
     static const wxString TITLE;
 
     CMainWindow *m_window; // メインとなるウィンドウ

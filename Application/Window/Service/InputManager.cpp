@@ -156,4 +156,8 @@ void CInputManager::setCurrentInput(wxString value)
 {
     m_currentInput = value;
 }
+wxString CInputManager::getCurrentInput() const
+{
+	return m_currentInput;
+}
 } /* namespace CornStarch */

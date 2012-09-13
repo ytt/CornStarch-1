@@ -1,4 +1,4 @@
-#include "LogTextCtrl.hpp"
+﻿#include "LogTextCtrl.hpp"
 
 namespace CornStarch
 {
@@ -16,7 +16,7 @@ CLogTextCtrl::~CLogTextCtrl()
 {
 }
 
-// 単色で文字列を追加する
+// 単色で文字列を 追加する
 void CLogTextCtrl::writeColoredText(const wxString& str, const wxColour& colour)
 {
     // 文字列の挿入
@@ -58,9 +58,9 @@ void CLogTextCtrl::pushLog(const CChatMessage* messageLog)
     writeColoredText(time + " ", COLOR_GRAY); // 時間を灰で表示
     wxString nick = messageLog->getTempNick();
     if (nick != ""){
-        writeColoredText("(" + nick + ") : ", COLOR_RED); // テンポラリー名を赤で表示
+        writeColoredText("(" + nick + ")  ", COLOR_RED); // テンポラリー名を赤で表示
     } else{
-        writeColoredText("(" + name + ") : ", COLOR_BLUE); // 名前を青で表示
+        writeColoredText("(" + name + ")  ", COLOR_BLUE); // 名前を青で表示
     }
     writeColoredText(body, COLOR_BLACK); // 本文を黒で表示
 }

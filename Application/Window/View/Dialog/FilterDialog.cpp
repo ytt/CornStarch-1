@@ -1,4 +1,4 @@
-#include "FilterDialog.hpp"
+﻿#include "FilterDialog.hpp"
 #include "../../Service/Filter/UserNameFilter.hpp"
 #include "../../Service/Filter/MessageTypeFilter.hpp"
 #include "../../Service/Filter/DateTimeFilter.hpp"
@@ -14,6 +14,7 @@ namespace CornStarch
 BEGIN_EVENT_TABLE(CFilterDialog, wxDialog) // Event宣言
 EVT_CHOICE(CHOICE_ID, CFilterDialog::onChoiceChanged)
 END_EVENT_TABLE()
+
 CFilterDialog::CFilterDialog()
 {
 }
@@ -33,8 +34,8 @@ void CFilterDialog::init(wxWindow* parent, const wxString& channelName,
     wxBoxSizer* bSizer;
     bSizer = new wxBoxSizer(wxHORIZONTAL);
 
-    wxStaticText* m_staticText1 = new wxStaticText(this, wxID_ANY,
-            wxT("チャンネル："), wxPoint(-1, -1), wxSize(100, -1), wxALIGN_RIGHT);
+
+    wxStaticText* m_staticText1 = new wxStaticText(this, wxID_ANY,   "チャンネル：", wxPoint(-1, -1), wxSize(100, -1), wxALIGN_RIGHT);
     m_staticText1->Wrap(-1);
     bSizer->Add(m_staticText1, 0, wxALIGN_CENTER, 5);
 

@@ -94,9 +94,9 @@ void CPaneMsg::pushLog(const CChatMessage* messageLog)
     this->EndAllStyles();
     wxString nick = messageLog->getTempNick();
     if (nick != ""){
-        writeColoredText("(" + nick + ") : ", COLOR_RED); // テンポラリー名を赤で表示
+        writeColoredText("(" + nick + ")  ", COLOR_RED); // テンポラリー名を赤で表示
     } else{
-        writeColoredText("(" + name + ") : ", COLOR_BLUE); // 名前を青で表示
+        writeColoredText("(" + name + ")  ", COLOR_BLUE); // 名前を青で表示
     }
     writeColoredText(body, *wxBLACK);
 

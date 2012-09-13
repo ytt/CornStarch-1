@@ -20,7 +20,7 @@ CChannelDialog::~CChannelDialog(void)
 void CChannelDialog::init(wxWindow* parent, const wxString& title,const wxString& serverName)
 {
     wxDialog::Create(parent, wxID_ANY, title);
-    this->SetSize(400, 120);
+    this->SetSize(400,140);
 
     wxBoxSizer* bSizer1;
     bSizer1 = new wxBoxSizer( wxVERTICAL );

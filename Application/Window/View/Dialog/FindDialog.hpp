@@ -11,6 +11,7 @@
 namespace CornStarch
 {
 
+
 wxDECLARE_EVENT(myEVT_FIND_REQUEST, wxCommandEvent);
 class CFindDialog: public wxDialog
 {

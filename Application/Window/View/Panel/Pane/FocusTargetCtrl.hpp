@@ -6,7 +6,7 @@
 namespace CornStarch
 {
 
-wxDECLARE_EVENT(myEVT_FOCUSE_NEXT_INPUT_TEXT, wxThreadEvent);
+wxDECLARE_EVENT(myEVT_FOCUSE_NEXT_INPUT_TEXT, wxCommandEvent);
 // タブを受け取って、コントロールのフォーカスが移動したことを通知させるためのコントロール
 // (MacではProcess_Tabで落ち、KeyDown、Menuからでは飲み込んでしまう)
 class CFocusTargetCtrl: public wxTextCtrl

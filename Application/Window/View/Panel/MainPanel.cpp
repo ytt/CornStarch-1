@@ -36,21 +36,23 @@ void CMainPanel::init(wxWindow* parent)
         m_channelPane->init(getCnPane());
     }
 
-    // メッセージ投稿ペインの初期化
-    if (m_postPane == NULL){
-        m_postPane = new CPanePost();
-        m_postPane->init(getPostPane());
-    }
+
 
     // メッセージ一覧表示ペインの初期化
     if (m_recordPane == NULL){
         m_recordPane = new CPaneRecord();
         m_recordPane->init(getRecordPane());
     }
+
     // タブ受取り用ペイン
     if (m_msgTabTargetPane == NULL){
         m_msgTabTargetPane = new CFocusTargetCtrl();
         m_msgTabTargetPane->init(getTabTargetPane());
+    }
+		    // メッセージ投稿ペインの初期化
+    if (m_postPane == NULL){
+        m_postPane = new CPanePost();
+        m_postPane->init(getPostPane());
     }
     // メッセージ用ペイン
     if (m_messagePane == NULL){

@@ -62,7 +62,7 @@ void CPaneCn::selectNextChannel()
         wxTreeItemId root = GetRootItem();
         wxTreeItemId server = GetFirstChild(root, cookie);
         wxTreeItemId firstFoundId;
-        bool isFound;
+        bool isFound = false;
         while (server.IsOk()) // サーバーノードを探索
         {
             // 選択しているサーバーを見つけた。

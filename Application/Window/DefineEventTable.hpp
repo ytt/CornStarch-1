@@ -48,7 +48,7 @@ wxDEFINE_EVENT(myEVT_SELECT_TREE_NODE, CChannelSelectEvent);
 wxDEFINE_EVENT(myEVT_SELECT_TREE_NODE_RIGHT, CChannelSelectEvent);
 
 wxDEFINE_EVENT(myEVT_MESSAGE_CONTROL_DOUBLECLICKED, CMessageControlDoubleClickedEvent);
-wxDEFINE_EVENT(myEVT_FOCUSE_NEXT_INPUT_TEXT, wxThreadEvent);
+wxDEFINE_EVENT(myEVT_FOCUSE_NEXT_INPUT_TEXT, wxCommandEvent);
 wxDEFINE_EVENT(myEVT_KEYDDOWN_ON_POSTPANE, wxKeyEvent);
 
 // イベントハンドラ
@@ -88,7 +88,7 @@ wxDEFINE_EVENT(myEVT_KEYDDOWN_ON_POSTPANE, wxKeyEvent);
 
 #define EVT_MESSAGE_CONTROL_DOUBLECLICKED(evt, id, func) wx__DECLARE_EVT1(evt, id, messageControlDoubleClickedEventHandler(func))
 #define EVT_KEYDDOWN_ON_POSTPANE(evt, id, func) wx__DECLARE_EVT1(evt, id, wxKeyEventHandler(func))
-#define EVT_FOCUSE_NEXT_INPUT_TEXT(evt, id, func) wx__DECLARE_EVT1(evt, id, wxThreadEventHandler(func))
+#define EVT_FOCUSE_NEXT_INPUT_TEXT(evt, id, func) wx__DECLARE_EVT1(evt, id, wxCommandEventHandler(func))
 #define EVT_FIND_REQUEST(evt, id, func) wx__DECLARE_EVT1(evt, id, wxCommandEventHandler(func))
 #define EVT_INVITE(evt, id, func) wx__DECLARE_EVT1(evt, id, inviteEventHandler(func))
 #define EVT_KICK(evt, id, func) wx__DECLARE_EVT1(evt, id, kickEventHandler(func))
@@ -98,18 +98,19 @@ BEGIN_EVENT_TABLE(CMainWindow, wxFrame)
 
     // メニューバー
     EVT_MENU(wxID_EXIT, CMainWindow::onQuit) // 終了
-    EVT_MENU(CMenuPart::MENU_FILE_SAVE, CMainWindow::onSave) // 終了
-    EVT_MENU(CMenuPart::MENU_FILE_LOAD, CMainWindow::onLoad) // 終了
+    EVT_MENU(CMenuPart::MENU_FILE_SAVE, CMainWindow::onSave) // 設定の保存
+    EVT_MENU(CMenuPart::MENU_FILE_LOAD, CMainWindow::onLoad) // 設定の読み込み
     EVT_MENU(wxID_COPY, CMainWindow::onCopy) // コピー
     EVT_MENU(wxID_SELECTALL, CMainWindow::onSelectAll) // 全てを選択
     EVT_MENU(CMenuPart::MENU_EDIT_FIND, CMainWindow::onFind) // 検索
+	EVT_MENU(CMenuPart::MENU_EDIT_AUTOCOMPLETE, CMainWindow::onFocusNextText) // 入力補助
 
     EVT_MENU(CMenuPart::MENU_SERVER_ADD, CMainWindow::onServiceRegister) // サーバの登録
     EVT_MENU(CMenuPart::MENU_SERVER_DELETE, CMainWindow::onDeleteService) // サーバの削除
     EVT_MENU(CMenuPart::MENU_SERVER_NICK_CHANGE, CMainWindow::onNickChange) // ニックネーム変更
 
-    EVT_MENU(CMenuPart::MENU_VIEW_ZOOM, CMainWindow::onZoom) // チャンネルに参加
-    EVT_MENU(CMenuPart::MENU_VIEW_SHRINK, CMainWindow::onShrink) // チャンネルから離脱
+    EVT_MENU(CMenuPart::MENU_VIEW_ZOOM, CMainWindow::onZoom) // 拡大
+    EVT_MENU(CMenuPart::MENU_VIEW_SHRINK, CMainWindow::onShrink) //　縮小
 
     EVT_MENU(CMenuPart::MENU_CHANNEL_JOIN, CMainWindow::onJoin) // チャンネルに参加
     EVT_MENU(CMenuPart::MENU_CHANNEL_PART, CMainWindow::onPart) // チャンネルから離脱

@@ -11,6 +11,8 @@ const wxString CMainApplication::TITLE = "CornStarch"; // ウィンドウタイ�
 // アプリケーションの初期化を行う
 bool CMainApplication::OnInit()
 {
+	
+	wxInitAllImageHandlers();
     // 通信の準備
     wxSocketBase::Initialize();
 

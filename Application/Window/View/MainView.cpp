@@ -13,7 +13,6 @@ CMainView::CMainView(void) :
 
 CMainView::~CMainView(void)
 {
-//    delete m_dialog;
     delete m_notifier;
 }
 

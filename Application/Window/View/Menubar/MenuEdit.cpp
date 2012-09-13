@@ -1,4 +1,4 @@
-#include "MenuEdit.hpp"
+﻿#include "MenuEdit.hpp"
 
 namespace CornStarch
 {
@@ -28,6 +28,11 @@ void CMenuEdit::init(void)
 
     AppendSeparator();
     Append(CMenuPart::MENU_EDIT_FIND, wxT("検索\tCtrl+F"));
+	
+#ifdef _WIN32
+    Append(CMenuPart::MENU_EDIT_AUTOCOMPLETE, wxT("入力補助\tTAB"));
+#endif
 }
 
 } /* namespace CornStarch */
+

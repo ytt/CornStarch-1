@@ -159,7 +159,7 @@ private:
     void onFocusedNextTextBox(wxFocusEvent& event);
 
     // 入力テキストでTabを押されて次のコントロールにフォーカスが来た時
-    void onFocusNextText(wxThreadEvent& event);
+    void onFocusNextText(wxCommandEvent& event);
 
     // ポストペインでキーを押した時
     void onKeyDownOnPostPane(wxKeyEvent& event);

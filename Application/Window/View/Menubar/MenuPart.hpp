@@ -15,6 +15,7 @@ public:
         MENU_FILE_LOAD,
         MENU_EDIT_SELECT_ALL,
         MENU_EDIT_FIND,
+        MENU_EDIT_AUTOCOMPLETE,
 
         MENU_SERVER_ADD,
         MENU_SERVER_DELETE,

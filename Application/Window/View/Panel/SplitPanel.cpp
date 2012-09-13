@@ -40,9 +40,9 @@ void CSplitPanel::init(wxWindow* parent)
             wxSize(-1,1), wxSP_NOSASH);
     // (メッセージ表示)と(投稿画面)に分割
     m_spMsg = new wxSplitterWindow(m_spMsgTabTarget, MSG_WINDOW_ID, wxDefaultPosition,
-        wxDefaultSize, wxSP_NOSASH);
+		wxSize(-1,30), wxSP_NOSASH);
 
-
+	
     // 右を(メンバ表示)と(チャンネル表示)に分割
     m_spHorR = new wxSplitterWindow(this, RIGHT_WINDOW_ID, wxDefaultPosition,
             wxDefaultSize,wxSP_3D| wxSP_LIVE_UPDATE);
@@ -50,6 +50,10 @@ void CSplitPanel::init(wxWindow* parent)
 
     // 各領域の設定
     setSplitParam();
+	this->Update();
+	this->Layout();
+	int position = m_spHorL->GetSashPosition();
+	//
 }
 
 

@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{1E4E4A6A-9CF0-4E97-BDCB-39B236CBFC68}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;__WXMSW__;__WXDEBUG__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>C:\Users\yasuo_tanaka\Desktop\wxWidgets-2.9.4\lib\vc_lib\mswud;C:\Users\yasuo_tanaka\Desktop\wxWidgets-2.9.4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalLibraryDirectories>C:\Users\yasuo_tanaka\Desktop\wxWidgets-2.9.4\lib\vc_lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>wxmsw29ud_core.lib;wxmsw29ud_richtext.lib;wxbase29ud.lib;wxmsw29ud_html.lib;wxtiffd.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;wxregexud.lib;wxexpatd.lib;winmm.lib;comctl32.lib;rpcrt4.lib;wsock32.lib;odbc32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="MainApplication.cpp" />
+    <ClCompile Include="window\MainWindow.cpp" />
+    <ClCompile Include="window\serializer\ServiceSerializer.cpp" />
+    <ClCompile Include="window\service\BasicCommandInvoker.cpp" />
+    <ClCompile Include="window\service\ChannelHolder.cpp" />
+    <ClCompile Include="window\service\ChannelStatus.cpp" />
+    <ClCompile Include="window\service\ChatServiceBase.cpp" />
+    <ClCompile Include="window\service\ClientCommandInvoker.cpp" />
+    <ClCompile Include="window\service\ConnectionStatusChecker.cpp" />
+    <ClCompile Include="window\service\event\AuthEvent.cpp" />
+    <ClCompile Include="window\service\event\ConnectionEventBase.cpp" />
+    <ClCompile Include="window\service\event\DisconnectEvent.cpp" />
+    <ClCompile Include="window\service\event\GetChannelEvent.cpp" />
+    <ClCompile Include="window\service\event\GetMemberEvent.cpp" />
+    <ClCompile Include="window\service\event\GetMemberInfoEvent.cpp" />
+    <ClCompile Include="window\service\event\GetMessageEvent.cpp" />
+    <ClCompile Include="window\service\event\JoinEvent.cpp" />
+    <ClCompile Include="window\service\event\PartEvent.cpp" />
+    <ClCompile Include="window\service\filter\AllFilter.cpp" />
+    <ClCompile Include="window\service\filter\DateTimeFilter.cpp" />
+    <ClCompile Include="window\service\filter\FilterBase.cpp" />
+    <ClCompile Include="window\service\filter\MessageTypeFilter.cpp" />
+    <ClCompile Include="window\service\filter\UserNameFilter.cpp" />
+    <ClCompile Include="window\service\InputManager.cpp" />
+    <ClCompile Include="window\service\ircservice\IRCClient.cpp" />
+    <ClCompile Include="window\service\ircservice\IRCCommand.cpp" />
+    <ClCompile Include="window\service\ircservice\IRCCommandInvoker.cpp" />
+    <ClCompile Include="window\service\ircservice\IRCConnection.cpp" />
+    <ClCompile Include="window\service\ircservice\IRCEventFactory.cpp" />
+    <ClCompile Include="window\service\ircservice\IRCParser.cpp" />
+    <ClCompile Include="window\service\ircservice\IRCResponseData.cpp" />
+    <ClCompile Include="window\service\ircservice\IRCService.cpp" />
+    <ClCompile Include="window\service\ircservice\IRCUser.cpp" />
+    <ClCompile Include="window\service\ircservice\task\IRCReceiveTask.cpp" />
+    <ClCompile Include="window\service\ircservice\task\IRCSendTask.cpp" />
+    <ClCompile Include="window\service\ircservice\task\IRCStartTask.cpp" />
+    <ClCompile Include="window\service\ircservice\task\IRCTask.cpp" />
+    <ClCompile Include="window\service\MemberVec.cpp" />
+    <ClCompile Include="window\service\message\ChatMessage.cpp" />
+    <ClCompile Include="window\service\message\InviteMessage.cpp" />
+    <ClCompile Include="window\service\message\JoinMessage.cpp" />
+    <ClCompile Include="window\service\message\KickMessage.cpp" />
+    <ClCompile Include="window\service\message\MemberMessage.cpp" />
+    <ClCompile Include="window\service\message\Message.cpp" />
+    <ClCompile Include="window\service\message\MessageHolder.cpp" />
+    <ClCompile Include="window\service\message\PartMessage.cpp" />
+    <ClCompile Include="window\service\message\TopicMessage.cpp" />
+    <ClCompile Include="window\service\NickTable.cpp" />
+    <ClCompile Include="window\service\scservice\HttpClient.cpp" />
+    <ClCompile Include="window\service\scservice\SCClient.cpp" />
+    <ClCompile Include="window\service\scservice\SCConnection.cpp" />
+    <ClCompile Include="window\service\scservice\SCEventFactory.cpp" />
+    <ClCompile Include="window\service\scservice\SCJsonParser.cpp" />
+    <ClCompile Include="window\service\scservice\SCResponseData.cpp" />
+    <ClCompile Include="window\service\scservice\SCService.cpp" />
+    <ClCompile Include="window\service\scservice\SCUser.cpp" />
+    <ClCompile Include="window\service\scservice\task\SCAuthTask.cpp" />
+    <ClCompile Include="window\service\scservice\task\SCGetChannelTask.cpp" />
+    <ClCompile Include="window\service\scservice\task\SCGetMemberInfoTask.cpp" />
+    <ClCompile Include="window\service\scservice\task\SCGetMemberTask.cpp" />
+    <ClCompile Include="window\service\scservice\task\SCGetMessageTask.cpp" />
+    <ClCompile Include="window\service\scservice\task\SCGetStreamTask.cpp" />
+    <ClCompile Include="window\service\scservice\task\SCJoinChannelTask.cpp" />
+    <ClCompile Include="window\service\scservice\task\SCNickChangeTask.cpp" />
+    <ClCompile Include="window\service\scservice\task\SCPartChannelTask.cpp" />
+    <ClCompile Include="window\service\scservice\task\SCPostMessageTask.cpp" />
+    <ClCompile Include="window\service\scservice\task\SCTask.cpp" />
+    <ClCompile Include="window\service\scservice\task\SCTopicChangeTask.cpp" />
+    <ClCompile Include="window\service\ServiceConfiguration.cpp" />
+    <ClCompile Include="window\service\ServiceHolder.cpp" />
+    <ClCompile Include="window\service\SocketClient.cpp" />
+    <ClCompile Include="window\service\StringUtility.cpp" />
+    <ClCompile Include="window\view\dialog\AuthDialog.cpp" />
+    <ClCompile Include="window\view\dialog\ChangeTopicDialog.cpp" />
+    <ClCompile Include="window\view\dialog\ChannelDialog.cpp" />
+    <ClCompile Include="window\view\dialog\FilterDialog.cpp" />
+    <ClCompile Include="window\view\dialog\FindDialog.cpp" />
+    <ClCompile Include="window\view\dialog\NickChangeDialog.cpp" />
+    <ClCompile Include="window\view\dialog\SelectionDialog.cpp" />
+    <ClCompile Include="window\view\MainNotifier.cpp" />
+    <ClCompile Include="window\view\MainView.cpp" />
+    <ClCompile Include="window\view\menubar\MainMenuBar.cpp" />
+    <ClCompile Include="window\view\menubar\MenuChannel.cpp" />
+    <ClCompile Include="window\view\menubar\MenuEdit.cpp" />
+    <ClCompile Include="window\view\menubar\MenuFile.cpp" />
+    <ClCompile Include="window\view\menubar\MenuPart.cpp" />
+    <ClCompile Include="window\view\menubar\MenuServer.cpp" />
+    <ClCompile Include="window\view\menubar\MenuView.cpp" />
+    <ClCompile Include="window\view\panel\MainPanel.cpp" />
+    <ClCompile Include="window\view\panel\pane\ChannelSelectEvent.cpp" />
+    <ClCompile Include="window\view\panel\pane\FocusTargetCtrl.cpp" />
+    <ClCompile Include="window\view\panel\pane\LinkableRichTextCtrl.cpp" />
+    <ClCompile Include="window\view\panel\pane\LogTextCtrl.cpp" />
+    <ClCompile Include="window\view\panel\pane\MessageControlDoubleClickedEvent.cpp" />
+    <ClCompile Include="window\view\panel\pane\PaneCn.cpp" />
+    <ClCompile Include="window\view\panel\pane\PaneMember.cpp" />
+    <ClCompile Include="window\view\panel\pane\PaneMessage.cpp" />
+    <ClCompile Include="window\view\panel\pane\PaneMsg.cpp" />
+    <ClCompile Include="window\view\panel\pane\PanePost.cpp" />
+    <ClCompile Include="window\view\panel\pane\PaneRecord.cpp" />
+    <ClCompile Include="window\view\panel\pane\TreeChannelItem.cpp" />
+    <ClCompile Include="window\view\panel\pane\TreeServerItem.cpp" />
+    <ClCompile Include="window\view\panel\SplitPanel.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="datastruct\ChannelData.hpp" />
+    <ClInclude Include="datastruct\MemberData.hpp" />
+    <ClInclude Include="datastruct\ResponseData.hpp" />
+    <ClInclude Include="header.hpp" />
+    <ClInclude Include="MainApplication.hpp" />
+    <ClInclude Include="window\DefineEventTable.hpp" />
+    <ClInclude Include="window\MainWindow.hpp" />
+    <ClInclude Include="window\serializer\ServiceSerializer.hpp" />
+    <ClInclude Include="window\service\BasicCommandInvoker.hpp" />
+    <ClInclude Include="window\service\ChannelHolder.hpp" />
+    <ClInclude Include="window\service\ChannelStatus.hpp" />
+    <ClInclude Include="window\service\ChatServiceBase.hpp" />
+    <ClInclude Include="window\service\ClientCommandInvoker.hpp" />
+    <ClInclude Include="window\service\ConnectionStatusChecker.h" />
+    <ClInclude Include="window\service\event\AuthEvent.hpp" />
+    <ClInclude Include="window\service\event\ConnectionEventBase.hpp" />
+    <ClInclude Include="window\service\event\DisconnectEvent.hpp" />
+    <ClInclude Include="window\service\event\GetChannelEvent.hpp" />
+    <ClInclude Include="window\service\event\GetMemberEvent.hpp" />
+    <ClInclude Include="window\service\event\GetMemberInfoEvent.hpp" />
+    <ClInclude Include="window\service\event\GetMessageEvent.hpp" />
+    <ClInclude Include="window\service\event\JoinEvent.hpp" />
+    <ClInclude Include="window\service\event\PartEvent.hpp" />
+    <ClInclude Include="window\service\event\StreamEvent.hpp" />
+    <ClInclude Include="window\service\filter\AllFilter.hpp" />
+    <ClInclude Include="window\service\filter\DateTimeFilter.hpp" />
+    <ClInclude Include="window\service\filter\FilterBase.hpp" />
+    <ClInclude Include="window\service\filter\IFilter.hpp" />
+    <ClInclude Include="window\service\filter\MessageTypeFilter.hpp" />
+    <ClInclude Include="window\service\filter\UserNameFilter.hpp" />
+    <ClInclude Include="window\service\ICommandInvoker.hpp" />
+    <ClInclude Include="window\service\IConnection.hpp" />
+    <ClInclude Include="window\service\IMessageConnectionObserver.hpp" />
+    <ClInclude Include="window\service\inputManager.hpp" />
+    <ClInclude Include="window\service\ircservice\IRCClient.hpp" />
+    <ClInclude Include="window\service\ircservice\IRCCommand.hpp" />
+    <ClInclude Include="window\service\ircservice\IRCCommandInvoker.hpp" />
+    <ClInclude Include="window\service\ircservice\IRCConnection.hpp" />
+    <ClInclude Include="window\service\ircservice\IRCEventFactory.hpp" />
+    <ClInclude Include="window\service\ircservice\IRCParser.hpp" />
+    <ClInclude Include="window\service\ircservice\IRCResponseData.hpp" />
+    <ClInclude Include="window\service\ircservice\IRCService.hpp" />
+    <ClInclude Include="window\service\ircservice\IRCUser.hpp" />
+    <ClInclude Include="window\service\ircservice\task\IRCReceiveTask.hpp" />
+    <ClInclude Include="window\service\ircservice\task\IRCSendTask.hpp" />
+    <ClInclude Include="window\service\ircservice\task\IRCStartTask.hpp" />
+    <ClInclude Include="window\service\ircservice\task\IRCTask.hpp" />
+    <ClInclude Include="window\service\IUser.hpp" />
+    <ClInclude Include="window\service\MemberVec.hpp" />
+    <ClInclude Include="window\service\message\ChatMessage.hpp" />
+    <ClInclude Include="window\service\message\InviteMessage.hpp" />
+    <ClInclude Include="window\service\message\JoinMessage.hpp" />
+    <ClInclude Include="window\service\message\KickMessage.hpp" />
+    <ClInclude Include="window\service\message\MemberMessage.hpp" />
+    <ClInclude Include="window\service\message\Message.hpp" />
+    <ClInclude Include="window\service\message\MessageHolder.hpp" />
+    <ClInclude Include="window\service\message\PartMessage.hpp" />
+    <ClInclude Include="window\service\message\TopicMessage.hpp" />
+    <ClInclude Include="window\service\NickTable.hpp" />
+    <ClInclude Include="window\service\scservice\HttpClient.hpp" />
+    <ClInclude Include="window\service\scservice\picojson.hpp" />
+    <ClInclude Include="window\service\scservice\SCClient.hpp" />
+    <ClInclude Include="window\service\scservice\SCConnection.hpp" />
+    <ClInclude Include="window\service\scservice\SCEventFactory.hpp" />
+    <ClInclude Include="window\service\scservice\SCJsonParser.hpp" />
+    <ClInclude Include="window\service\scservice\SCResponseData.hpp" />
+    <ClInclude Include="window\service\scservice\SCService.hpp" />
+    <ClInclude Include="window\service\scservice\SCUser.hpp" />
+    <ClInclude Include="window\service\scservice\task\SCAuthTask.hpp" />
+    <ClInclude Include="window\service\scservice\task\SCGetChannelTask.hpp" />
+    <ClInclude Include="window\service\scservice\task\SCGetMemberInfoTask.hpp" />
+    <ClInclude Include="window\service\scservice\task\SCGetMemberTask.hpp" />
+    <ClInclude Include="window\service\scservice\task\SCGetMessageTask.hpp" />
+    <ClInclude Include="window\service\scservice\task\SCGetStreamTask.hpp" />
+    <ClInclude Include="window\service\scservice\task\SCJoinChannelTask.hpp" />
+    <ClInclude Include="window\service\scservice\task\SCNickChangeTask.hpp" />
+    <ClInclude Include="window\service\scservice\task\SCPartChannelTask.hpp" />
+    <ClInclude Include="window\service\scservice\task\SCPostMessageTask.hpp" />
+    <ClInclude Include="window\service\scservice\task\SCTask.hpp" />
+    <ClInclude Include="window\service\scservice\task\SCTopicChangeTask.hpp" />
+    <ClInclude Include="window\service\ServiceConfiguration.hpp" />
+    <ClInclude Include="window\service\ServiceHolder.hpp" />
+    <ClInclude Include="window\service\SocketClient.hpp" />
+    <ClInclude Include="window\service\StringUtility.hpp" />
+    <ClInclude Include="window\view\dialog\AuthDialog.hpp" />
+    <ClInclude Include="window\view\dialog\ChangeTopicDialog.hpp" />
+    <ClInclude Include="window\view\dialog\ChannelDialog.hpp" />
+    <ClInclude Include="window\view\dialog\FilterDialog.hpp" />
+    <ClInclude Include="window\view\dialog\FindDialog.hpp" />
+    <ClInclude Include="window\view\dialog\NickChangeDialog.hpp" />
+    <ClInclude Include="window\view\dialog\SelectionDialog.hpp" />
+    <ClInclude Include="window\view\MainNotifier.hpp" />
+    <ClInclude Include="window\view\MainView.hpp" />
+    <ClInclude Include="window\view\menubar\MainMenuBar.hpp" />
+    <ClInclude Include="window\view\menubar\MenuChannel.hpp" />
+    <ClInclude Include="window\view\menubar\MenuEdit.hpp" />
+    <ClInclude Include="window\view\menubar\MenuFile.hpp" />
+    <ClInclude Include="window\view\menubar\MenuPart.hpp" />
+    <ClInclude Include="window\view\menubar\MenuServer.hpp" />
+    <ClInclude Include="window\view\menubar\MenuView.hpp" />
+    <ClInclude Include="window\view\panel\MainPanel.hpp" />
+    <ClInclude Include="window\view\panel\pane\ChannelSelectEvent.hpp" />
+    <ClInclude Include="window\view\panel\pane\FocusTargetCtrl.hpp" />
+    <ClInclude Include="window\view\panel\pane\LinkableRichTextCtrl.hpp" />
+    <ClInclude Include="window\view\panel\pane\LogTextCtrl.hpp" />
+    <ClInclude Include="window\view\panel\pane\MessageControlDoubleClickedEvent.hpp" />
+    <ClInclude Include="window\view\panel\pane\PaneCn.hpp" />
+    <ClInclude Include="window\view\panel\pane\PaneMember.hpp" />
+    <ClInclude Include="window\view\panel\pane\PaneMessage.hpp" />
+    <ClInclude Include="window\view\panel\pane\PaneMsg.hpp" />
+    <ClInclude Include="window\view\panel\pane\PanePost.hpp" />
+    <ClInclude Include="window\view\panel\pane\PaneRecord.hpp" />
+    <ClInclude Include="window\view\panel\pane\TreeChannelItem.hpp" />
+    <ClInclude Include="window\view\panel\pane\TreeServerItem.hpp" />
+    <ClInclude Include="window\view\panel\SplitPanel.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Window\Resource\icon.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -47,7 +47,8 @@ public:
     void resetIndex();
     // 現在の入力文字の設定
     void setCurrentInput(wxString value);
-
+	// 現在の入力文字の取得
+	wxString getCurrentInput() const;
     bool isChangingText() const
     {
         return m_isChangingText;

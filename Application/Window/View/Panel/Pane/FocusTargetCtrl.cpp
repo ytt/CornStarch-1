@@ -27,7 +27,7 @@ void CFocusTargetCtrl::init(wxWindow* parent)
 }
 void CFocusTargetCtrl::onFocused(wxFocusEvent& event)
 {
-    wxThreadEvent* focusEvent = new wxThreadEvent();
+    wxCommandEvent* focusEvent = new wxCommandEvent();
     focusEvent->SetEventType(myEVT_FOCUSE_NEXT_INPUT_TEXT);
     wxQueueEvent(GetParent()->GetParent()->GetParent()->GetParent()->GetEventHandler(),
             focusEvent);

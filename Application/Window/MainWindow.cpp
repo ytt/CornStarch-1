@@ -3,6 +3,7 @@
 #include <wx/defs.h>
 #include <wx/filedlg.h>
 #include <wx/wfstream.h>
+#include <wx/stdpaths.h>
 #include "View/Dialog/ChangeTopicDialog.hpp"
 #include "View/Dialog/AuthDialog.hpp"
 #include "View/Dialog/NickChangeDialog.hpp"
@@ -41,6 +42,16 @@ void CMainWindow::init(void)
     // viewの初期化
     m_view = new CMainView();
     m_view->init(this);
+	
+#ifdef _WIN32
+	wxStandardPathsBase& stdp = wxStandardPaths::Get();
+	wxString exepath = stdp.GetExecutablePath()+"icon.ico";
+	exepath.Replace("CornStarch.exe","");
+	wxIcon icon;
+	wxImage image(exepath);
+	icon.CopyFromBitmap(wxBitmap(image));
+	SetIcon(icon);
+#endif
     this->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW));
 
     SetMenuBar(m_view->getMenuBar()); // メニューバー
@@ -65,10 +76,9 @@ void CMainWindow::onShowed()
 // 画面操作に関するイベントハンドラを設定する
 void CMainWindow::initHandle(void)
 {
-
     // エンターキー押下時
     this->Connect(m_view->getPostPaneID(), wxEVT_COMMAND_TEXT_ENTER,
-            wxCommandEventHandler(CMainWindow::onEnter));
+		wxCommandEventHandler(CMainWindow::onEnter));
     // テキスト入力時
     this->Connect(m_view->getPostPaneID(), wxEVT_COMMAND_TEXT_UPDATED,
             wxCommandEventHandler(CMainWindow::onTextUpdated));
@@ -235,7 +245,7 @@ bool CMainWindow::invoke(const wxString& text)
     if (text.StartsWith(CClientCommandInvoker::CONNECT)){
         service->reconnect();
         return true;
-    } else if (text.StartsWith(CClientCommandInvoker::DELETE)){
+    } else if (text.StartsWith(CClientCommandInvoker::_DELETE)){
         deleteService(service->getId());
         return true;
     } else if (text.StartsWith(CClientCommandInvoker::DISCONNECT)){
@@ -324,13 +334,14 @@ void CMainWindow::updateService(int serviceId)
     }
 }
 // 入力テキストでTabを押されて次のコントロールにフォーカスが来た時
-void CMainWindow::onFocusNextText(wxThreadEvent& event)
+void CMainWindow::onFocusNextText(wxCommandEvent& event)
 {
     CChatServiceBase * service = m_serviceHolder->getService(
             m_serviceHolder->getCurrentServiceId());
     m_view->setTextPostPane(
             m_inputManager->getAutoCompletionText(m_view->getTextPostPane(),
                     service, getCommandList()));
+	m_view->setFocusPostPane();
 }
 // タブの追加
 void CMainWindow::onAddTab(wxCommandEvent& event)
@@ -646,27 +657,36 @@ void CMainWindow::onShrink(wxCommandEvent& event)
 // ポストペインでキーを押した時
 void CMainWindow::onKeyDownOnPostPane(wxKeyEvent& event)
 {
+#ifdef _WIN32
+	if (event.GetModifiers() == wxMOD_CONTROL){
+    #else
     if (event.GetModifiers() == wxMOD_ALT){
+    #endif
         if (event.GetKeyCode() == WXK_SPACE){
             moveToUnread();
         }
     }
-    if (event.GetKeyCode() == WXK_UP){
-        if (event.GetModifiers() == wxMOD_ALT | wxMOD_CMD){
-            m_view->selectPreviousChannel();
-        } else{
-            m_inputManager->setChangingText(true);
-            m_view->setTextPostPane(m_inputManager->getHistory());
-        }
-    }
-    if (event.GetKeyCode() == WXK_DOWN){
-        if (event.GetModifiers() == wxMOD_ALT | wxMOD_CMD){
-            m_view->selectNextChannel();
-        } else{
-            m_inputManager->setChangingText(true);
-            m_view->setTextPostPane(m_inputManager->getHistoryBefore());
-        }
-    }
+	#ifdef _WIN32
+	if (event.GetModifiers() == wxMOD_CONTROL){
+    #else
+	if (event.GetModifiers() == wxMOD_ALT & wxMOD_CMD){
+    #endif
+		if (event.GetKeyCode() == WXK_UP){
+			m_view->selectPreviousChannel();
+		} else if (event.GetKeyCode() == WXK_DOWN){
+			m_view->selectNextChannel();
+		}
+	}
+	else
+	{ 
+		m_inputManager->setChangingText(true);
+		if (event.GetKeyCode() == WXK_UP)
+		{
+			m_view->setTextPostPane(m_inputManager->getHistory());}
+		else if (event.GetKeyCode() == WXK_DOWN){
+			m_view->setTextPostPane(m_inputManager->getHistoryBefore());
+		}
+	}
 }
 // チャンネルペインを右クリック時
 void CMainWindow::onChannelRightClicked(CChannelSelectEvent& event)

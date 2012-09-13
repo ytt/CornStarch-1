@@ -4,7 +4,7 @@ using namespace std;
 namespace CornStarch
 {
 const wxString CClientCommandInvoker::JUMP = "/jump";
-const wxString CClientCommandInvoker::DELETE = "/delete";
+const wxString CClientCommandInvoker::_DELETE = "/delete";
 const wxString CClientCommandInvoker::NEW = "/new";
 const wxString CClientCommandInvoker::DISCONNECT = "/disconnect";
 const wxString CClientCommandInvoker::CONNECT = "/connect";
@@ -26,7 +26,7 @@ vector<wxString> CClientCommandInvoker::getCommandList()
     vector.push_back(CClientCommandInvoker::CONNECT);
     vector.push_back(CClientCommandInvoker::DISCONNECT);
     vector.push_back(CClientCommandInvoker::NEW);
-    vector.push_back(CClientCommandInvoker::DELETE);
+    vector.push_back(CClientCommandInvoker::_DELETE);
     vector.push_back(CClientCommandInvoker::QUIT);
     return vector;
 }

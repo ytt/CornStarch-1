@@ -10,7 +10,7 @@ class CClientCommandInvoker: public ICommandInvoker
 {
 protected:
     const static wxString JUMP;
-    const static wxString DELETE;
+    const static wxString _DELETE;
     const static wxString NEW;
     const static wxString QUIT;
     const static wxString CONNECT;

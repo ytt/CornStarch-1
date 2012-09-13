@@ -1,4 +1,4 @@
-#include "FindDialog.hpp"
+﻿#include "FindDialog.hpp"
 #include <iostream>
 namespace CornStarch
 {
@@ -14,7 +14,7 @@ CFindDialog::~CFindDialog()
 void CFindDialog::init(wxWindow* parent)
 {
     wxDialog::Create(parent, wxID_ANY, "検索");
-    this->SetSize(300, 110);
+    this->SetSize(300, 140);
     this->SetSizeHints(wxDefaultSize, wxDefaultSize);
 
     wxBoxSizer* bSizer9;
@@ -33,6 +33,7 @@ void CFindDialog::init(wxWindow* parent)
     bSizer->Add(m_searchCtrl1, 0, wxALL, 5);
 
     bSizer9->Add(bSizer, 1, wxEXPAND, 5);
+
 
     wxBoxSizer* bSizer12;
     bSizer12 = new wxBoxSizer(wxHORIZONTAL);
